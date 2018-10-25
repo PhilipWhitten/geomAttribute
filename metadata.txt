@@ -1,0 +1,35 @@
+# This file contains metadata for this plugin.
+
+# This file should be included when you package your plugin.# Mandatory items:
+
+[general]
+name=Geometry Attribute Table
+qgisMinimumVersion=3.0
+description=An attribute table with geometry descriptions
+version=0.1
+author=Philip Whitten
+email=philipwhitten@wollondilly.nsw.gov.au
+
+about=Adds geometry information to the attribute table.
+
+homepage=http://homepage
+tracker=http://bugs
+repository=http://repo
+# End of mandatory metadata
+
+# Recommended items:
+
+# Uncomment the following line and add your changelog:
+# changelog=
+
+# Tags are comma separated with spaces allowed
+tags=python, attribute, table, geometry, vector
+
+category=Vector
+icon=attribute_table.png
+# experimental flag
+experimental=True
+
+# deprecated flag (applies to the whole plugin, not just a single version)
+deprecated=False
+

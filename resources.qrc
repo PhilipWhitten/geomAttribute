@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/plugins/geomAttribute" >
+        <file>icons/attribute_table.png</file>	
+		<file>icons/line_1x.png</file>
+		<file>icons/line_2x.png</file>
+		<file>icons/point_1x.png</file>
+		<file>icons/point_2x.png</file>
+		<file>icons/polygon_1x.png</file>
+		<file>icons/polygon_2x.png</file>	
+		<file>icons/Z.png</file>
+		<file>icons/help.png</file>
+		<file>icons/model_data.png</file>
+        <file>help/build/html/index.html</file>		
+    </qresource>
+</RCC>
