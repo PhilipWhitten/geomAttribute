@@ -46,21 +46,5 @@ class geomAttributeWindow(QtWidgets.QMainWindow, FORM_CLASS):
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
 
-    def helpScreen(self):
-        resource_path = ":/plugins/geomAttribute/help/build/html/index.html"
-
-        resource_file = QFile(resource_path)
-        if resource_file.open(QIODevice.ReadOnly):
-            tmp_file = QTemporaryFile(self)
-            tmp_file.setFileTemplate("XXXXXX.html")
-            if tmp_file.open():
-                tmp_file.write(resource_file.readAll())
-                resource_file.close()
-                tmp_file.flush()
-            url = QUrl.fromLocalFile(tmp_file.fileName())
-            if QDesktopServices.openUrl(url):
-                return
-        QtWidgets.QMessageBox.warning(None, 'Warning', 'Unable to locate help file')
-
 
 

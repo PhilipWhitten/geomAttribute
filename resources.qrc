@@ -10,6 +10,5 @@
 		<file>icons/Z.png</file>
 		<file>icons/help.png</file>
 		<file>icons/model_data.png</file>
-        <file>help/build/html/index.html</file>		
     </qresource>
 </RCC>

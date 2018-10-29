@@ -208,7 +208,7 @@ class geomAttribute:
         self.window = geomAttributeWindow()
 
         #look for help icon clicks
-        self.window.actionHelp.triggered.connect(self.window.helpScreen)
+        self.window.actionHelp.triggered.connect(self.helpPage)
 
 
         ## Add virtual field to layer
@@ -246,6 +246,12 @@ class geomAttribute:
 
         except AttributeError:
             QMessageBox.warning(None, 'Warning', 'This tool will only work on vector layers')
+
+    def helpPage(self):
+        """Opens the help html file in a web browser.  This requires an internet connection"""
+        url = QUrl('https://philipwhitten.github.io/geomAttribute/')
+        if not QDesktopServices.openUrl(url):
+            QMessageBox.warning(self, 'Open Help Page', 'Could not open Help Page.  The help page requires an internet connection.')
 
 ########################################################################################################################
 class MyDelegate(QItemDelegate):
