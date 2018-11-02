@@ -1,6 +1,8 @@
 # geomAttribute
-A QGIS 3 plugin that shows an attribute table with a column that describes geometry.  This plugin was started by Philip Whitten as a component of his MGIS Capstone Project at Penn State University in 2018.  The capstone project is supervised by James Obrien.  The intent of this Capstone Project is make QGIS more efficient and productive with databases that contain null or empty geometries.
+A QGIS 3 plugin that shows an attribute table with a column that describes geometry.  The geometry containing column shows for each feature a feature specific icon that indicates whether the geometry is in descending precedence: unknown (null); empty; point; multi-part point; line; multi-part line; polygon; and, multi-part polygon. The triggers for this plugin development are: many enterprise databases may contain null or empty geometries depending on their design and constraints; and, for some database providers, QGIS by default creates geometry collections of single and multi-part geometries (e.g. line and multi-part line in the same dataset) and this flexibility can cause problems to other GIS systems.
+
+This plugin was started by Philip Whitten as a component of his [MGIS Capstone Project at Penn State University](https://www.worldcampus.psu.edu/degrees-and-certificates/geographic-information-systems-gis-masters/overview) in 2018.  The capstone project is supervised by [James Obrien](https://www.linkedin.com/in/james-o-brien-17bab514/).  The intent of this Capstone Project is make QGIS more efficient and productive with databases that contain null or empty geometries.  Philip has experianced many problems with null and empty geometries within MicroSoft SQL Server databases where the null or empty geometry was created unintentionaly by QGIS.
 
 This plugin will not work with any version of QGIS earlier than Version 3.
 
-[The plugin's html help files](https://philipwhitten.github.io/geomAttribute/)
+The [plugin's html help files](https://philipwhitten.github.io/geomAttribute/) describe the use of the plugin and the options that are avaliable.
