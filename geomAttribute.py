@@ -27,7 +27,7 @@ from PyQt5.QtWidgets import *
 from qgis.core import *
 from qgis.utils import *
 from qgis.gui import QgsAttributeTableModel, QgsAttributeTableFilterModel
-from .model_data import modelMultiLines
+from .modelVectorLayers import createMultiLines
 
 
 # Initialize Qt resources from file resources.py
@@ -186,7 +186,7 @@ class geomAttribute:
     def addModelData(self):
         #Add Dialog box for multi_lines##################################################################################
         QMessageBox.warning(None, "Message", "found addModelData")
-        QgsProject.instance().addMapLayer(modelMultiLines())
+        QgsProject.instance().addMapLayer(createMultiLines())
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""

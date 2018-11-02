@@ -1,8 +1,7 @@
-"""14/06/2018
-# this script runs in the python console of qgis 3
-# creates a model line dataset with empty and null geometries
-In the future: make a class with subclasses for different geometries
 """
+Creates vector layers as QGIS memory layers.  A description of the layers are included with each method
+"""
+# update 03/11/2018
 
 
 from qgis.core import *
@@ -121,14 +120,15 @@ def ModelMultiPoints(lay_name='Multi-Points'):
     layer.updateExtents()
     return layer
 
-def modelMultiLines(lay_name='Model Multi-Lines'):
+def createMultiLines(layerName='Multi-part Lines'):
+    """
+    A geometery collection of multi-part lines and lines (single part constrained).  The collection includes the
+    features with the following geometries: 2 part multi-line; 3 part multi-line, 1 part- multi-line, line,
+    Empty multi-line, and, NullCreates a model single line dataset that also contains empty lines and null lines.
+    """
 
-    """Creates a model single line dataset that also contains empty lines and null lines.  Constructed by function as
-     it does not require methods not provided by QGSVectorLayer"""
-
-    """The constructor is one of: 'Point', 'LineString', 'Polygon', 'MultiPoint', 'MultiLineString',
-     or 'MultiPolygon'."""
-    layer=QgsVectorLayer('MultiLineString?crs=epsg:4326&field=id:string&field=type:string', lay_name, "memory")
+    #The constructor is one of: 'Point', 'LineString', 'Polygon', 'MultiPoint', 'MultiLineString', or 'MultiPolygon'."""
+    layer=QgsVectorLayer('MultiLineString?crs=epsg:4326&field=id:string&field=type:string', layerName, "memory")
 
     pr=layer.dataProvider()
     prefix = 'MultiLine'
