@@ -11,11 +11,22 @@ from qgis.utils import iface
 from PyQt5.QtCore import QVariant
 import PyQt5
 
-"""
-Creates a virtual field that identifies if a column value is null, empty or it's type.
-"""
+
 @qgsfunction(args='auto', group='Custom', usesGeometry=False)
 def geometryField(feature, parent):
+    """
+    THIS DOCUMENTATION DOES NOT SHOW UP IN SPHINX
+
+    Creates a QGIS expression called geometryField.  This expression returns a string that represents the geometry in
+    the following order of decreasing precedence:
+
+       * Null
+       * Empty
+       * Well known binary type string
+
+    Returns:
+       A string that represents the geometry.
+    """
     geom = feature.geometry()
     if geom.isNull():
         return 'Null'
@@ -27,27 +38,35 @@ def geometryField(feature, parent):
         return QgsWkbTypes.displayString(geom.wkbType())
 
 
-def layerAddVirtualGeometryField(layer):
-    """Adds virtual field to the vector layer"""
+def layerAddVirtualGeometryField(vectorLayer):
+    """
+    Uses the *geometryField* expression to provide string values that represent the feature's geometry.  These string
+    values are appended to the input *vectorLayer* as a virtual field.
+
+    Args:
+        vectorLayer (QgsVectorLayer):  A QGIS vector layer.
+    """
 
     #type can be QVariant.Sring, QVariant.int and QVariant.double
     field = QgsField( name='Geometry', type = QVariant.String, len=40)
 
     QgsExpression.registerFunction(geometryField)
 
-    layer.addExpressionField('geometryField()', field)
-    layer.geometryIndex = layer.fields().lookupField('Geometry')
-    print(layer.geometryIndex)
+    vectorLayer.addExpressionField('geometryField()', field)
+    vectorLayer.geometryIndex = vectorLayer.fields().lookupField('Geometry')
+    print(vectorLayer.geometryIndex)
 
 
 
 def layer_review(layer):
-    """Adds attributes to a QgsVectorLayer.  The attributes are for empty or null geometries
-    Takes an existing vector layer and performs methods on it.  Constructed as a function and
-    not a class as it is used on layers after they have been created"""
+    """
+    **IN PROGRESS**
+
+    Reviews any vector layer for the presence of null or empty geometries.  Provides a summary of a layer by geometry
+    type.
+
+    """
     # what happens if there are no features?  Need to test for features!!
-
-
 
     layer.geometry_empty = 0
     layer.geometry_null = 0
@@ -88,8 +107,6 @@ def layer_review(layer):
         # self.shape_type = ... multi-line line ....
 
 
-
-
     layer.summary_list = [
             [f'{layer.attribute_no} columns without shape',''],
             [f'{layer.record_no} records',''],
@@ -115,15 +132,6 @@ def layer_review(layer):
             var_null = geom.isNull()
             output = 'Feature has geometry: %s | Geometry is empty: %s | Geometry is null: %s \n' % (var_has_geom, var_empty, var_null)
             print(output)
-
-"""This bit paints the virtual geometry field column"""
-class geometryDelegate(PyQt5.QtWidgets.QStyledItemDelegate):
-
-    def __init__(self, parent=None):
-        super(geometryDelegate, self).__init__(parent)
-        self.BackgroundRole(red)
-
-
 
 
 if __name__ == '__main__':

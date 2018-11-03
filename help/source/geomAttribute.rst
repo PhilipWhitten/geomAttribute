@@ -1,3 +1,5 @@
+.. _geometryAttributeTable-page:
+
 ************************
 Geometry Attribute Table
 ************************
@@ -7,9 +9,10 @@ Description
 ###########
 An attribute table window which includes a geometry column for any vector layer.
 
-
 The geometry column uses the icons shown in the table below to indicate the feature's geometry type in descending
 precedence: unknown (null); empty; point; multi-part point; line; multi-part line; polygon; and, multi-part polygon.
+
+.. _geometryIcon-table:
 
 .. list-table:: Icons used to represent various geometries.
    :widths: 15 35
@@ -51,8 +54,12 @@ not work on a raster layer.
 Click on the vector layer in the *Layers Panel* then click on the *Geometry Attribute Table* icon |att_table| or select
 *Geometry Attribute Table* from the *Plugins* menu.
 
-Definitions
-###########
+Theory
+######
+TO BE DONE: A LINK TO THE EXPRESSION
+
+Glossary
+########
 Geometry
    The shape that is associated with a feature.  In many GIS systems the a feature can only have a single geometry type,
    where the type is constrained to being the same for the entire dataset.

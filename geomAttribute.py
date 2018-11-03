@@ -27,7 +27,7 @@ from PyQt5.QtWidgets import *
 from qgis.core import *
 from qgis.utils import *
 from qgis.gui import QgsAttributeTableModel, QgsAttributeTableFilterModel
-from .modelVectorLayers import createMultiLines
+from .modelVectorLayers import *
 
 
 # Initialize Qt resources from file resources.py
@@ -35,7 +35,7 @@ from .resources import *
 # Import the code for the dialog
 from .geomAttribute_window import geomAttributeWindow
 import os.path
-__version__ = '1.0'
+__version__ = '1.0.0'
 
 class geomAttribute:
     """QGIS Plugin Implementation."""
@@ -187,6 +187,7 @@ class geomAttribute:
         #Add Dialog box for multi_lines##################################################################################
         QMessageBox.warning(None, "Message", "found addModelData")
         QgsProject.instance().addMapLayer(createMultiLines())
+        QgsProject.instance().addMapLayer(createMultiPoints())
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -213,7 +214,7 @@ class geomAttribute:
 
         ## Add virtual field to layer
 
-        from .vector_geometry_3 import layerAddVirtualGeometryField
+        from .parseQGISGeometry import layerAddVirtualGeometryField
 
         #the try/except tests that the layer is a vector layer.
         try:
@@ -239,7 +240,7 @@ class geomAttribute:
 
             self.attribute_table_view.setModel(self.attribute_table_filter_model)
             # MyDelegate class below is used to put symbols and colors into the geometry column.
-            self.attribute_table_view.setItemDelegateForColumn(self.layer.geometryIndex, MyDelegate(self.attribute_table_view))
+            self.attribute_table_view.setItemDelegateForColumn(self.layer.geometryIndex, myDelegate(self.attribute_table_view))
 
             # show the dialog
             self.window.show()
@@ -254,7 +255,7 @@ class geomAttribute:
             QMessageBox.warning(self, 'Open Help Page', 'Could not open Help Page.  The help page requires an internet connection.')
 
 ########################################################################################################################
-class MyDelegate(QItemDelegate):
+class myDelegate(QItemDelegate):
     def __init__(self, parent=None, *args):
         QItemDelegate.__init__(self, parent, *args)
 
