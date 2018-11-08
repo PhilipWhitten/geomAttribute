@@ -2,7 +2,7 @@
 About
 *****
 
-GeomAttribute version 1.0.
+GeomAttribute version 0.1.0.
 
 A QGIS 3 plugin created by Philip Whitten that is licensed under the GNU General Public License v3.0.
 

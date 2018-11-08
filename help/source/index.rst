@@ -15,6 +15,7 @@ This plugin has the following tools:
    loadData
    about
    API
+   changelog
 
 .. |att_table|  image:: ../../icons/attribute_table.png
 
