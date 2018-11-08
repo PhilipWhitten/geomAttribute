@@ -1,9 +1,7 @@
+# Update 08/11/2018
+
 """
-29/08/2018
-# this script runs from the python IDE
-# this script assumes that the active layer is a vector layer
-# this script prints the attributes, geometries and a statement stating whether the feature
-# has a geometry and whether the geometry is empty or null
+The QGIS Expression and methods in this module parse a vector's geometry for a vector layer loaded into QGIS.
 """
 
 from qgis.core import *
