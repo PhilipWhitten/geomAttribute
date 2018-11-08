@@ -20,7 +20,7 @@ repository=https://github.com/PhilipWhitten/geomAttribute
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=
+changelog=https://philipwhitten.github.io/geomAttribute/html/changelog.html
 
 # Tags are comma separated with spaces allowed
 tags=python, attribute, table, geometry, vector
