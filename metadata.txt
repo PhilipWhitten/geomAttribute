@@ -5,16 +5,16 @@
 [general]
 name=Geometry Attribute Table
 qgisMinimumVersion=3.0
-description=An attribute table with geometry descriptions
-version=0.1
+description=A vector attribute table with geometry descriptions
+version=0.1.0
 author=Philip Whitten
 email=philipwhitten@wollondilly.nsw.gov.au
 
 about=Adds geometry information to the attribute table.
 
-homepage=http://homepage
-tracker=http://bugs
-repository=http://repo
+homepage=https://philipwhitten.github.io/geomAttribute/html/index.html
+tracker=https://github.com/PhilipWhitten/geomAttribute/issues
+repository=https://github.com/PhilipWhitten/geomAttribute
 # End of mandatory metadata
 
 # Recommended items:
