@@ -2,8 +2,6 @@
 API
 ***
 
-GeomAttribute version 1.0.
-
 The following modules are included within this plugin.  The plugin's repository is
 on `GitHub <https://github.com/PhilipWhitten/geomAttribute>`_.
 
