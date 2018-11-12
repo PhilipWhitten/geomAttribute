@@ -1,4 +1,6 @@
 |att_table|
+
+============================================================
 GeomAttribute: A QGIS Attribute Table with a Geometry Column
 ============================================================
 
@@ -20,6 +22,7 @@ This plugin has the following tools:
 
 .. |att_table|  image:: ../../icons/attribute_table.png
 
+==================
 Indices and tables
 ==================
 

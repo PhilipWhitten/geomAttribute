@@ -25,15 +25,15 @@ precedence: unknown (null); empty; point; multi-part point; line; multi-part lin
    * - |Null|
      - Unknown geometry
    * - |poin_1x|
-     - Point (single)
+     - Point
    * - |poin_2x|
      - Multi-Part Point
    * - |line_1x|
-     - Line (single)
+     - Line
    * - |line_2x|
-     - Multi-part Line
+     - Multi-Part Line
    * - |poly_1x|
-     - Polygon (single)
+     - Polygon
    * - |poly_2x|
      - Multi-Part Polygon
 

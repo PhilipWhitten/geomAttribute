@@ -27,12 +27,14 @@ def geometryField(feature, parent):
        A string that represents the geometry.
     """
     geom = feature.geometry()
+    emptyPoint = QgsPoint()
     if geom.isNull():
         return 'Null'
-    elif geom.isEmpty(): #-----------------------REQUIRE TEST FOR EMPTY POINT-----------------
+    elif geom.isEmpty():
         return 'Empty'
-    elif geom.type() ==  0 and geom.vertexAt(0) == QgsPoint():
-            return 'Empty'
+    #Specific test for empty points.
+    elif geom.type().__eq__(0) and geom.vertexAt(0).__eq__(emptyPoint):
+        return 'Empty'
     else:
         return QgsWkbTypes.displayString(geom.wkbType())
 

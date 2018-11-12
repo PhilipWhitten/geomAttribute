@@ -6,7 +6,7 @@
 name=Geometry Attribute Table
 qgisMinimumVersion=3.0
 description=A vector attribute table with geometry descriptions
-version=0.1.0
+version=0.1.1
 author=Philip Whitten
 email=philipwhitten@wollondilly.nsw.gov.au
 
