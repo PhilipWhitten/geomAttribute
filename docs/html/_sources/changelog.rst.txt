@@ -12,3 +12,9 @@ Version 0.1.0
    * First release
    * Shows attribute table for vector layers in QGIS v3.x with icons that represent the geometry.
    * Has the option to create demonstration vector datasets.
+   
+=============
+Version 0.1.1
+=============
+
+   * Removes the virtual field called 'Geometry' when the geomAttribute Attribute table is closed.

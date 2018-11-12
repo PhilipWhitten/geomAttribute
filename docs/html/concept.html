@@ -1,0 +1,853 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>A QGIS attribute table plugin to show empty and null shapes &mdash; GeomAttribute  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Changelog" href="changelog.html" />
+    <link rel="prev" title="API" href="API.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> GeomAttribute
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="geomAttribute.html">Geometry Attribute Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loadData.html">Load Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">A QGIS attribute table plugin to show empty and null shapes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background">Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vector-datasets-in-gis">Vector Datasets in GIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#null-values-empty-values-and-databases">Null Values, Empty Values and Databases</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#set-theory-and-empty-sets">Set theory and empty sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#empty-and-null-shape-values-are-not-universal">Empty and null shape values are not universal</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#qgis">QGIS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#qgis-history">QGIS history</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vector-datasets-within-qgis">Vector datasets within QGIS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#problem-definition">PROBLEM DEFINITION</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsing-of-null-and-empty-shapes-to-and-from-external-databases-by-qgis">PARSING OF NULL AND EMPTY SHAPES TO AND FROM EXTERNAL DATABASES BY QGIS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#qgis-data-providers">QGIS Data Providers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#exposure-of-null-and-empty-shape-values-in-qgis">EXPOSURE OF NULL AND EMPTY SHAPE VALUES IN QGIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gis-professional-awareness">GIS PROFESSIONAL AWARENESS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#set-operations-in-microsoft-sql-or-postgis-can-produce-empty-geometry-values">Set operations in Microsoft SQL or PostGIS can produce empty geometry values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inadvertently-creating-empty-geometries-within-qgis">Inadvertently Creating Empty Geometries within QGIS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#retrospective-incorporation-of-empty-and-null-values-into-software">Retrospective incorporation of empty and null values into Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-definition-of-null-and-empty-values-depends-on-context">The definition of Null and Empty Values depends on context</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GeomAttribute</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>A QGIS attribute table plugin to show empty and null shapes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/concept.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="a-qgis-attribute-table-plugin-to-show-empty-and-null-shapes">
+<span id="concept-page"></span><h1>A QGIS attribute table plugin to show empty and null shapes<a class="headerlink" href="#a-qgis-attribute-table-plugin-to-show-empty-and-null-shapes" title="Permalink to this headline">¶</a></h1>
+<p><strong>DRAFT</strong></p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>A dataset is a collection of records, where each record has a defined number of elements and the data type of each
+element is also defined.  The elements are commonly referred to as attributes.  For example, a dataset of street names
+may consist of records have the attribute heading <em>“Name”</em> of type variable character and the character heading
+<em>“Street Type”</em> of type street type.  In this example, street types may consist of the values
+<em>(‘Lane’, ‘Road’, ‘Street’, ‘’)</em>.  The first three of the values <em>‘Lane’</em>, <em>‘Road’</em> and <em>‘Street’</em> are obvious – but what about
+the last value of <em>‘’</em>?  <strong>‘’ is a deliberate empty set of character values!</strong>  In our world there are many streets that
+have no type, and, indeed there are many that have no name.  Here, the use of an empty set of characters, or ‘’,
+indicates that the Street Type attribute has no type, not that the type is unknown (null).</p>
+<p>Geospatial datasets contain one or more values that refer to a location on earth.  For the majority of geospatial
+datasets, the location consists of one or more points, lines and/or polygons that are referenced to a coordinate system
+that is a projection of the earth’s surface.</p>
+<p>For the purposes of this project, any dataset element type that stores the geospatial shape with respect to a referenced
+coordinate system is referred to as a geometry.  Any empty geometry element is simply a geometry that doesn’t
+have a shape.</p>
+<p>QGIS <a class="reference internal" href="#id30" id="id1">[3]</a> is a computer program that among other things is used to view,
+create and edit the geometry elements within geospatial datasets.   QGIS does not: Pass null and empty geometry elements
+equivalently for different data storage formats; does not show directly show which records within a dataset have null
+or empty geometry elements; and, does not always process null and empty geometry elements as specified by standards.</p>
+<p>This project aims to create a QGIS plugin that illuminates null and empty geometry elements in geospatial datasets.</p>
+</div>
+<div class="section" id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="vector-datasets-in-gis">
+<h3>Vector Datasets in GIS<a class="headerlink" href="#vector-datasets-in-gis" title="Permalink to this headline">¶</a></h3>
+<p>GIS refers to all of the components that are required to construct a Geographic Information System.  Every GIS system
+needs components to store and retrieve spatial information and components to view and edit spatial information.</p>
+<p>Spatial information is normally classified by whether it is a set of shapes referred to as a vector dataset or a
+rectangular grid of values referred to as a raster dataset.  Here we are only concerned with vector datasets.</p>
+<p>To facilitate storage and retrieval, an individual vector dataset is restricted to shapes and their attributes for a
+specific subject.  To achieve utility, it is essential that the data type and range of valid values for each attribute
+is defined.  The prescription of data types and value ranges is referred to as schema.   For example, many GIS systems
+impose that a vector dataset may only contain one type of shape (e.g. point, line or polygon) and one shape object per
+record.  A dataset that has a defined schema is by definition a database.</p>
+<p>In many organisations, the geospatial vector datasets are located within enterprise databases that have one or more
+data types that are specific to storing geospatial shapes.  An enterprise database refers to any database where
+multiple users may query or edit the same dataset at the same time.  Consequently, the set of shape values available
+needs to be consistent with the database design, and, these often include null and empty values.</p>
+</div>
+<div class="section" id="null-values-empty-values-and-databases">
+<h3>Null Values, Empty Values and Databases<a class="headerlink" href="#null-values-empty-values-and-databases" title="Permalink to this headline">¶</a></h3>
+<p>Datasets store values, and, sometimes these values are unknown.  The generic term for an unknown value is <em>null</em>.
+Whether a dataset allows <em>null</em> values or not directly affects the type of logic used on the dataset.
+The logic complication introduced by using null values is demonstrated by the example road name dataset shown
+in <a class="reference internal" href="#tablei"><span class="std std-numref">Table 2</span></a>.  In <a class="reference internal" href="#tablei"><span class="std std-numref">Table 2</span></a> the roads ‘Rd1’ and ‘Rd4’ have the names ‘Picton’ and ‘Appin’ respectively.  The
+road ‘Rd2’ doesn’t have a name which is typical of minor roads.  The name of ‘Rd3’ is unknown.</p>
+<span id="tablei"></span><table border="1" class="colwidths-auto docutils" id="id31">
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">Road name dataset example</span><a class="headerlink" href="#id31" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Road Id</th>
+<th class="head">Road</th>
+<th class="head">Name Road Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Rd1</td>
+<td>Picton</td>
+<td>Road</td>
+</tr>
+<tr class="row-odd"><td>Rd2</td>
+<td>Lane</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>Rd3</td>
+<td><em>null</em></td>
+<td>Lane</td>
+</tr>
+<tr class="row-odd"><td>Rd4</td>
+<td>Appin</td>
+<td><em>null</em></td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="24%" />
+<col width="24%" />
+<col width="34%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Road Id</th>
+<th class="head">Road Name</th>
+<th class="head">Road Type</th>
+<th class="head">Line</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Rd1</td>
+<td>Picton</td>
+<td>Road</td>
+<td><em>null</em></td>
+</tr>
+<tr class="row-odd"><td>Rd2</td>
+<td>Lane</td>
+<td>&#160;</td>
+<td>{(2,0),(2,2)}</td>
+</tr>
+<tr class="row-even"><td>Rd3</td>
+<td><em>null</em></td>
+<td>Lane</td>
+<td>{(1,1),(1,3)}</td>
+</tr>
+<tr class="row-odd"><td>Rd4</td>
+<td>Appin</td>
+<td><em>null</em></td>
+<td>{(0,2),(3,2)}</td>
+</tr>
+</tbody>
+</table>
+<p>The answer to the question “Does the road have a name?” is shown in <a class="reference internal" href="#tableii"><span class="std std-numref">Table 3</span></a>.  As already described, roads
+‘Rd1’ and ‘Rd4’ do have names, road ‘Rd2’ does not have a name and it is unknown whether road ‘Rd3’ has a name or not.</p>
+<span id="tableii"></span><table border="1" class="colwidths-auto docutils" id="id32">
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">Does the road have a name query of <a class="reference internal" href="#tablei"><span class="std std-numref">Table 2</span></a>.</span><a class="headerlink" href="#id32" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Road Id</th>
+<th class="head">Road Name</th>
+<th class="head" colspan="2">Has a road name?</th>
+</tr>
+<tr class="row-even"><th class="head">&#160;</th>
+<th class="head">&#160;</th>
+<th class="head">(simple text)</th>
+<th class="head">(boolean)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td>Rd1</td>
+<td>Picton</td>
+<td>Yes</td>
+<td>True</td>
+</tr>
+<tr class="row-even"><td>Rd2</td>
+<td>&#160;</td>
+<td>No</td>
+<td>False</td>
+</tr>
+<tr class="row-odd"><td>Rd3</td>
+<td><em>null</em></td>
+<td>Unknown</td>
+<td><em>null</em></td>
+</tr>
+<tr class="row-even"><td>Rd4</td>
+<td>Appin</td>
+<td>Yes</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+<p>Boolean logic, also referred to as two value logic allows only for True or False.  Boolean logic has no value when the answer is unknown.  When null values are permitted, three value logic is required whenever one of the answers is unknown.  Although beyond the scope of this project, it is noted that although Boolean logic is applied the same in the majority of relational databases there is known diversity in the application for three value logic.
+In the described road name example, it was noted that the road ‘Rd2’ has no name.  If the ‘Road Name’ attribute is
+considered to be a set of characters, then, the set of characters for Rd2’s ‘Road Name’ is empty.  By definition, an
+empty set is a set that has no members.  By deduction, an empty set or an empty value is not a <em>null</em> value.  Hence, it
+is <strong>known</strong> that road ‘Rd2’ does not have a name, but, it is <strong>unknown</strong> whether road ‘Rd3’ has a name or not.</p>
+<p><a class="reference internal" href="#figurei"><span class="std std-numref">Fig. 1</span></a> illuminates the application of empty values to geometry data types.  <a class="reference internal" href="#figurei"><span class="std std-numref">Fig. 1</span></a> shows the location of two
+different point types (blue crosses and red circles) with respect to two squares referred to as “Left square” and
+“Right square”.  Note that each point type consists of a set of points that may contain multiple points.  In reality,
+the blue crosses may represent catholic churches, the red circles protestant churches and the squares may represent
+suburbs.  <a class="reference internal" href="#tableiii"><span class="std std-numref">Table 4</span></a> shows the sets of individual points when categorized by Point type and Square.  The Left square
+contains the set of Blue Crosses ‘P1’ and ‘P2’, plus the set of Red Circles containing ‘P3’.  The Right square contains
+the set of Blue Crosses ‘P4’ and the empty set of Red circles.  An empty set of Red circles shows that it is known that
+there are no Red circles in the Right square.</p>
+<div class="figure align-center" id="id33">
+<span id="figurei"></span><img alt="_images/FigureI.png" src="_images/FigureI.png" />
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">The location of blue crosses and red circles in the “Left Square” and the “Right Square”.</span></p>
+</div>
+<span id="tableiii"></span><table border="1" class="colwidths-auto docutils" id="id34">
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">A table showing individual points organised by Point type and Square.</span><a class="headerlink" href="#id34" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Point type</th>
+<th class="head" colspan="2">Square</th>
+</tr>
+<tr class="row-even"><th class="head">&#160;</th>
+<th class="head">Left square</th>
+<th class="head">Right square</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td>Blue crosses</td>
+<td>P1, P2</td>
+<td>P4</td>
+</tr>
+<tr class="row-even"><td rowspan="2">Red circles</td>
+<td rowspan="2">P3</td>
+<td rowspan="2">&#160;</td>
+</tr>
+<tr class="row-odd"></tr>
+</tbody>
+</table>
+<p>By way of definition, an empty geometry is a geometry data type that has no members <a class="reference internal" href="#ogc2010" id="id2">[16]</a>.  The empty geometry
+value is a placeholder that illuminates that it is known that no geometry exists.  An empty geometry is a known value,
+whereas a null geometry is an unknown value that may or may not be empty.</p>
+<p>Introducing an additional point type (e.g. Green stars) to <a class="reference internal" href="#figurei"><span class="std std-numref">Fig. 1</span></a> consisting of a set of null points greatly
+complicates a relationship table like <a class="reference internal" href="#tableiii"><span class="std std-numref">Table 4</span></a>.  A null point exists whenever it is known that a point exists, but,
+the location of the point is unknown.  Similarly, a null geometry exists whenever it is known that the geometry exists,
+but, the actual geometry is unknown.  There is much variation with the logic applied to selecting and processing null
+geometry values in different GIS systems, except when essential, these variations will not be explored here .</p>
+<div class="section" id="set-theory-and-empty-sets">
+<h4>Set theory and empty sets<a class="headerlink" href="#set-theory-and-empty-sets" title="Permalink to this headline">¶</a></h4>
+<p>A set is a collection of objects, referred to as elements of the set.  An empty set is a set that has no elements, and,
+is designated by <span class="math notranslate nohighlight">\(\{\ \}\)</span>.
+One way of representing a geometry is by text representation of vertices.  For example, the point geometry A with a
+point located at the vertex <span class="math notranslate nohighlight">\((1,1)\)</span> is a one element set <span class="math notranslate nohighlight">\(\{(1,1)\}\)</span>, whilst, the multiple point geometry B with points
+located at the <span class="math notranslate nohighlight">\((1,1)\)</span> and <span class="math notranslate nohighlight">\((2,2)\)</span> is a two element set <span class="math notranslate nohighlight">\(\{(1,1),(2,2)\}\)</span>.  The intersection of geometry A and geometry B is
+also the one element set <span class="math notranslate nohighlight">\(\{(1,1)\}\)</span>.  Hence:</p>
+<div class="math notranslate nohighlight">
+\[geometry\ A\ ∩\ geometry\ B= point\{(1,1)\}\ ∩\ point \{ (1,1),(2,2)\}= point \{(1,1)\}\]</div>
+<p>Similarly, consider the intersection of squares with the vertices <span class="math notranslate nohighlight">\(\{(0,0),(0,2),(2,2),(2,0),(0,0)\}\)</span> and
+<span class="math notranslate nohighlight">\(\{(1,1),(1,3),(3,3),(3,1),(1,1)\}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[square\{(0,0),(0,2),(2,2),(2,0),(0,0)\}∩square\{(1,1),(1,3),(3,3),(3,1),(1,1)\}=square\{(1,1),(1,2),(2,2),(2,1),(1,1)\}\]</div>
+<p>Now, consider the intersection of the squares with the vertices <span class="math notranslate nohighlight">\(\{(0,0),(0,2),(2,2),(2,0),(0,0)\}\)</span> and
+<span class="math notranslate nohighlight">\(\{(3,0),(5,0),(5,2),(3,2),(3,0)\}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[square\{(0,0),(0,2),(2,2),(2,0),(0,0)\}∩square\{(3,0),(5,0),(5,2),(3,2),(3,0)\}=square\{\ \}\]</div>
+<p>These squares are disjoint as they have no area in common.  Their intersection produces an empty set of vertices.</p>
+<p><strong>*NEED TO ADD FIGURES*</strong></p>
+</div>
+<div class="section" id="empty-and-null-shape-values-are-not-universal">
+<h4>Empty and null shape values are not universal<a class="headerlink" href="#empty-and-null-shape-values-are-not-universal" title="Permalink to this headline">¶</a></h4>
+<p>There are many organisations that have geospatial datasets that have schema that prohibit null and empty shape values.
+Null values are most commonly avoided by using a lookup table that contains only those values that are known.  For
+example, the same road dataset presented in <a class="reference internal" href="#tablei"><span class="std std-numref">Table 2</span></a> can also be described with two look up tables for Road
+Name and Road Type that no longer contain null values as shown in <a class="reference internal" href="#figureii"><span class="std std-numref">Fig. 2</span></a>.  Both <a class="reference internal" href="#tablei"><span class="std std-numref">Table 2</span></a> and
+<a class="reference internal" href="#figureii"><span class="std std-numref">Fig. 2</span></a> are equivalent.  Using the same approach, lookup tables can be used to store geometry data
+values.  By design, a geometry lookup table does not contain a record when a geometry value is unknown (null).   Using
+the lookup table approach, those records that are missing geometry data sets are identified by constructing an
+appropriate join to the geometry containing lookup table.</p>
+<div class="figure align-center" id="id35">
+<span id="figureii"></span><img alt="_images/tableIV.png" src="_images/tableIV.png" />
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">Road name dataset example using lookup tables to avoid null values.</span></p>
+</div>
+<p>The use of a lookup table to contain geometry datasets in comparison to storing the geometry datasets in a single table with other relevant attributes requires an additional table to be created and a lookup key to be maintained.  A major advantage of the lookup table approach is that one can maintain the main non-geometry dataset in one enterprise database system that is not geospatially enabled, and, the ancillary geometry dataset in a geospatially enabled database.  Another advantage is that an organisation can use a single piece of geospatial software to maintain the geometry data that is associated with data in several different enterprise databases.  In this way, geospatial capability can be retrofitted to an enterprise database.  A major disadvantage of the lookup table approach is the requirement for the documentation of database schema for users to maintain the lookup key and to perform database queries that include spatial and non-spatial attributes.</p>
+<p>Empty values and their use are much more complicated to resolve relative to null values.  Prohibiting empty values has
+two major software design ramifications: Datasets are unable to contain multiple shape attributes; and, false set operations have to be removed by a selection.</p>
+<div class="section" id="records-with-multiple-geometry-attributes">
+<h5>Records with multiple geometry attributes<a class="headerlink" href="#records-with-multiple-geometry-attributes" title="Permalink to this headline">¶</a></h5>
+<p>Much of the GIS community work with the schema  restriction of a single geometry attribute data set.  It is difficult
+to have multiple geometry attributes without also allowing empty geometry attributes.  Next, I will examine the
+advantages and disadvantages of multiple geometry attributes.</p>
+<p>The fundamental advantage of multiple geometry attributes is they facilitate topology. Topology refers to how the
+constituent parts of a system are interrelated or arranged.  The location of points within squares shown schematically
+in <a class="reference internal" href="#figurei"><span class="std std-numref">Fig. 1</span></a> is an example of topology as it shows how the points are related to squares.  <a class="reference internal" href="#tableiii"><span class="std std-numref">Table 4</span></a> shows the topological
+association of point type by square type, but, uses two geometry columns to do so.  <a class="reference internal" href="#tablev"><span class="std std-numref">Table 5</span></a> shows the same data as
+<a class="reference internal" href="#tableiii"><span class="std std-numref">Table 4</span></a> using only one geometry column.  Examination of <a class="reference internal" href="#tablev"><span class="std std-numref">Table 5</span></a> reveals that the relationship between a type of point (e.g. Blue Crosses) and the Square type (e.g. Left Square or Right Square) has to be reported as two separate
+relationships (two separate records) and a user is left with the task of mentally connecting these two relationships.  Clearly, without using multiple geometry columns showing topological relationships is less intuitive.</p>
+<span id="tablev"></span><table border="1" class="colwidths-auto docutils" id="id36">
+<caption><span class="caption-number">Table 5 </span><span class="caption-text">Another way to represent the data in <a class="reference internal" href="#tableiii"><span class="std std-numref">Table 4</span></a> that uses only one geometry column.</span><a class="headerlink" href="#id36" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Square</th>
+<th class="head">Point type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Left square</td>
+<td>Blue crosses <span class="math notranslate nohighlight">\(\{P1,\ P2\}\)</span></td>
+</tr>
+<tr class="row-odd"><td rowspan="2">Left square</td>
+<td rowspan="2">Red circles <span class="math notranslate nohighlight">\(\{P3\}\)</span></td>
+</tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"><td>Right square</td>
+<td>Blue crosses <span class="math notranslate nohighlight">\(\{P4\}\)</span></td>
+</tr>
+<tr class="row-even"><td rowspan="2">Red circles</td>
+<td rowspan="2">red circles <span class="math notranslate nohighlight">\(\{empty\}\)</span></td>
+</tr>
+<tr class="row-odd"></tr>
+</tbody>
+</table>
+<p>The major disadvantage of multiple geometry columns is that they are not supported by many pieces of GIS software or GIS file formats.  For example, ArcGIS does not support multiple geometry columns in any capacity, QGIS treats each geometry column as an unrelated dataset, and, the ubiquitous shapefile can only contain one geometry column.  So, by adopting multiple geometry columns you are isolating yourself from a large portion of the GIS community.</p>
+</div>
+<div class="section" id="records-with-false-boolean-logic">
+<h5>Records with false Boolean logic<a class="headerlink" href="#records-with-false-boolean-logic" title="Permalink to this headline">¶</a></h5>
+<p>Many GIS software packages force the user to perform a selection whenever they perform a set operation like a union,
+intersection or difference.  The results of an intersection without a selection of the points and squares shown in
+<a class="reference internal" href="#figurei"><span class="std std-numref">Fig. 1</span></a> includes those records that don’t intersect (<a class="reference internal" href="#tablev"><span class="std std-numref">Table 5</span></a>).  To achieve the more common output shown in
+<a class="reference internal" href="#tablevi"><span class="std std-numref">Table 6</span></a> a selection must be performed on the data to include only those records that do intersect.  Hence, the logic
+performed by most GIS software packages including ArcGIS and QGIS is: 1. Select those records where intersect is True; 2. Perform intersection.</p>
+<span id="tablevi"></span><table border="1" class="colwidths-auto docutils" id="id37">
+<caption><span class="caption-number">Table 6 </span><span class="caption-text">Another way to represent the data in 5 where records where no intersection occurs are also shown.</span><a class="headerlink" href="#id37" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Square</th>
+<th class="head">Point type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Left square</td>
+<td>Blue crosses <span class="math notranslate nohighlight">\(\{P1,\ P2\}\)</span></td>
+</tr>
+<tr class="row-odd"><td rowspan="2">Left square</td>
+<td rowspan="2">Red circles <span class="math notranslate nohighlight">\(\{P3\}\)</span></td>
+</tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"><td>Right square</td>
+<td>Blue crosses <span class="math notranslate nohighlight">\(\{P4\}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Being forced to do a selection in addition to an intersection is an algorithmic solution that eliminates the need for empty geometry values.  Forcing a selection as part of a set operation introduces the assumption that records missing from the results are empty (e.g. do not intersect) and hence prohibits the ability to also record unknown (<em>null</em>) set operations.  Another problem of forced selection is that problem solving of erroneous set operations is hindered as one needs to undertake additional steps to confirm those records that were explicitly excluded by the forced selection.  For logic and critical thinking analysing the negative results can be more fruitful than analysing the positive results!</p>
+</div>
+</div>
+</div>
+<div class="section" id="qgis">
+<h3>QGIS<a class="headerlink" href="#qgis" title="Permalink to this headline">¶</a></h3>
+<p>QGIS is self-promoted as an “Open Source Geographic Information System” <a class="reference internal" href="#id30" id="id3">[3]</a>.  QGIS is used for creating, manipulating and publishing spatial data sets by many organisations.  Some organisations use QGIS to edit or create geometries for geospatial datasets within enterprise databases in their native format as no commercial software has this capability.  For example, <a class="reference external" href="http://www.smec.com/en_au/what-we-do/sectors/transport/pavement-management-systems">SMEC Pavement Management Software</a> uses a Microsoft SQL database to contain it’s pavement datasets.  QGIS can browse and edit the geometries contained within this dataset without importing or exporting any dataset.   In comparison, software like ArcMap requires a user to import, edit, then export the data to the SMEC Pavement Management Software even though both installation could have their data respective datasets within the same Microsoft SQL Server installation, and, both datasets are using the same datatype for the geometry values.
+By intentional design and function, the majority of QGIS users use other software packages or software formats developed by other organisations to store geospatial datasets.  For example, the PostGIS, MS SQL and SpatiaLite databases, and, the esri shapefile format are all processed in their native format by QGIS.</p>
+<div class="section" id="qgis-history">
+<h4>QGIS history<a class="headerlink" href="#qgis-history" title="Permalink to this headline">¶</a></h4>
+<p>QGIS was created by Gary Sherman in 2002 <a class="reference internal" href="#qgiscontributors" id="id4">[13]</a><a class="reference internal" href="#garysherman2011" id="id5">[19]</a>.  In 2007 it became a project of the Open Source Geospatial Foundation with version 1 being released in January 2009 <a class="reference internal" href="#qgiscontributors" id="id6">[13]</a>.  The version of QGIS used in this project, Version 3, was released in February 2018 <a class="reference internal" href="#qgiscontributors" id="id7">[13]</a>.  Version 2 of QGIS employed Python 2 for scripting and PyQT4 for the graphical user interface (GUI).  Version 3 of QGIS employs Python 3 for scripting and PyQT5 for the GUI.  QGIS version 3 is self-described as a “huge overhaul and cleanup” of QGIS version 2 <a class="reference internal" href="#qgischangelogv3" id="id8">[8]</a>.  Many of the python scripts configured for version 2 no longer work with version 3 with much of the legacy sub-version support dropped.</p>
+</div>
+<div class="section" id="vector-datasets-within-qgis">
+<h4>Vector datasets within QGIS<a class="headerlink" href="#vector-datasets-within-qgis" title="Permalink to this headline">¶</a></h4>
+<p>Within QGIS, the geometries for each record are contained within instances of QgsAbstractGeometry subclasses <a class="reference internal" href="#qgsgeometryclass" id="id9">[6]</a>.  The manner in which QGIS stores empty geometries is not inherited from the QgsAbstractGeometry superclass, but rather is determined for each subclass separately.  Although QGIS is capable to parse empty geometries for the majority of the QgsAbstractGeometry subclass there may be some that are unable to do so.</p>
+<p>The variations in how QgsAbstractGeometry subclasses contain empty geometries is demonstrated in the following section by example.  Using the QGIS API, empty geometries for several geometry types can be instantiated by instantiating the relevant QgsAbstractGeometry subclass without a set of vertices.  For example, to test that a <code class="docutils literal notranslate"><span class="pre">QgsLineString()</span></code> is empty:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="n">QgsLineString</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">QgsLineString</span><span class="p">()</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Although empty geometries can be created for most geometry types with the QGIS API by instantiation without a set of vertices, it is not currently possible to instantiate an empty point geometry (<a class="reference internal" href="#tablevii"><span class="std std-numref">Table 7</span></a>). As demonstated below, the well known text representation of the call to instantiate an empty point reveals that QGIS is wrongly adding a vertex with the coordinates of <span class="math notranslate nohighlight">\((0\ 0)\)</span> <a class="reference internal" href="#qgspointbugreport2018" id="id10">[7]</a> <a class="footnote-reference" href="#f1" id="id11">[1]</a>.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="n">QgsLineString</span><span class="p">,</span><span class="n">QgsPoint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">QgsLineString</span><span class="p">()</span><span class="o">.</span><span class="n">asWkt</span><span class="p">())</span>
+<span class="go">LineString ()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">QgsPoint</span><span class="p">()</span><span class="o">.</span><span class="n">asWkt</span><span class="p">())</span>
+<span class="go">Point (0 0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">QgsPoint</span><span class="p">()</span><span class="o">.</span><span class="n">createEmptyWithSameType</span><span class="p">()</span><span class="o">.</span><span class="n">asWkt</span><span class="p">())</span>
+<span class="go">Point (nan nan)</span>
+</pre></div>
+</div>
+<span id="tablevii"></span><table border="1" class="colwidths-auto docutils" id="id38">
+<caption><span class="caption-number">Table 7 </span><span class="caption-text">Testing whether an empty geometry has been created by the instantiation of various types of QgsAbstractGeometry subclasses using the python Console in QGIS 3.0.3.</span><a class="headerlink" href="#id38" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Input</th>
+<th class="head">Output</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">QgsPoint().isEmpty()</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">False</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">QgsLineString().isEmpty()</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">True</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">QgsPolygon().isEmpty()</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">True</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">QgsGeometryCollection().isEmpty()</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">True</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section" id="problem-definition">
+<h2>PROBLEM DEFINITION<a class="headerlink" href="#problem-definition" title="Permalink to this headline">¶</a></h2>
+<p>The problems that this project intends to address are:</p>
+<ol class="arabic simple">
+<li>Null and empty shapes are parsed differently by different data providers in QGIS.</li>
+<li>Within QGIS, there is no published plugin or output that shows records within a dataset that have null or empty geometry values.</li>
+<li>Many GIS professionals do not anticipate or are aware of datasets that have null or empty geometries.</li>
+<li>Empty geometry values were not included in the set of valid values in the original QGIS or GDAL specifications.</li>
+</ol>
+<div class="section" id="parsing-of-null-and-empty-shapes-to-and-from-external-databases-by-qgis">
+<h3>PARSING OF NULL AND EMPTY SHAPES TO AND FROM EXTERNAL DATABASES BY QGIS<a class="headerlink" href="#parsing-of-null-and-empty-shapes-to-and-from-external-databases-by-qgis" title="Permalink to this headline">¶</a></h3>
+<p>Using source specific data providers, QGIS processes data to and from third party databases without requiring constraints or additional tables in the third-party database.  Each data provider has been created independently and these do treat the same data values differently.  For example, as expected QGIS parses empty linestrings from PostGis databases as not null but it incorrectly parses empty linestrings from Microsoft SQL Server as null <a class="reference internal" href="#parseemptyfromsql" id="id12">[20]</a>.</p>
+<div class="section" id="qgis-data-providers">
+<h4>QGIS Data Providers<a class="headerlink" href="#qgis-data-providers" title="Permalink to this headline">¶</a></h4>
+<p>A component of software that allows it to directly read data without conversion to a different data type, and, to write updates or new records to a dataset without exporting is called a data provider.   QGIS contains data providers for 18 different formats for which it can read from or write to in their native format <a class="reference internal" href="#qgsproviders2018" id="id13">[11]</a>.  Being open source, each of the data QGIS providers were created at different times for different purposes, are founded on different philosophies and have different levels of development.  Consequently, even when different database packages follow the same geospatial standards, equivalent shapes from those different database packages may be read as different shapes due to variations or errors between data providers.</p>
+<p>Within this project it is anticipated that errors passing empty or null values from Microsoft SQL Server or PostGIS will be found.  Unfortunately, the C++ classes employed in the data type specific data providers <a class="reference internal" href="#qgsproviders2018" id="id14">[11]</a> are not exposed in the QGIS API which means that their function is not easily modified.</p>
+<p>QGIS’s data providers that allow it to read or write in native format without need for additional constraints or data tables is a key feature that makes it popular in large organisations. By reading and writing in the native format, QGIS can edit or create geospatial data within an enterprise database that is configured for another piece of software and without importing and exporting.  In doing so QGIS has removed one of the barriers to integration of geospatial data within enterprise datasets.</p>
+<p>In comparison to QGIS’s approach of editing the data in it’s native format, ESRI’s ArcMap requires a user to import into a geodatabase and undertake the editing there– even though the enterprise database and the geodatabase may be using the same database server <a class="reference internal" href="#arcgistutorialforempty" id="id15">[12]</a>.  ESRI’s approach often leads to a lookup table being used for geospatial data and then scripts run on those lookup tables to publish an integrated dataset.</p>
+</div>
+</div>
+<div class="section" id="exposure-of-null-and-empty-shape-values-in-qgis">
+<h3>EXPOSURE OF NULL AND EMPTY SHAPE VALUES IN QGIS<a class="headerlink" href="#exposure-of-null-and-empty-shape-values-in-qgis" title="Permalink to this headline">¶</a></h3>
+<p>Within QGIS, without using custom expressions or scripts there is only limited exposure to null shapes, and, empty shapes.  Two locations within QGIS where you may find descriptive information of each record are the <em>“Attribute Table”</em> and the <em>“DB Manager”</em> plugin.</p>
+<p>Without using expressions and creating new attributes, the “Attribute Table” does not contain any information about the record’s shapes.  The only component of the “Attribute Table” that exposes empty or null geometries is when a user selects “Zoom to Feature” for a specific record.  In QGIS version 3.x, a warning message is shown on the map canvas that the shape is empty or doesn’t exist depending on whether the shape is empty or <em>null</em> (<a class="reference internal" href="#figureiii"><span class="std std-numref">Fig. 3</span></a>).</p>
+<div class="figure align-center" id="id39">
+<span id="figureiii"></span><img alt="_images/FigureII.png" src="_images/FigureII.png" />
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">A warning message is displayed in QGIS when a user attempts to zoom to a record with an empty geometry.</span></p>
+</div>
+<p>The DB Manager in QGIS 3.x is a core plugin (it can’t be uninstalled).  The DB Manager plugin provides database specific information for data from a limited number of databases that includes PostGIS, but, excludes Microsoft SQL Server.  The Table view within DB Manager shows all of the columns within the table including the geometry attribute.  For the geometry column it gives the geometry type and exposes null shapes as <em>“NULL”</em> (<a class="reference internal" href="#figureiv"><span class="std std-numref">Fig. 4</span></a>).</p>
+<div class="figure align-center" id="id40">
+<span id="figureiv"></span><img alt="_images/FigureIII.png" src="_images/FigureIII.png" />
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">The output from the DB Manager plugin in QGIS 3.x for a dataset that contains both empty geometry values and null geometry values.</span></p>
+</div>
+</div>
+<div class="section" id="gis-professional-awareness">
+<h3>GIS PROFESSIONAL AWARENESS<a class="headerlink" href="#gis-professional-awareness" title="Permalink to this headline">¶</a></h3>
+<p>Many GIS professionals are educated and work within GIS dataset schema where both null and empty geometries are excluded.  It is plausible that GIS professionals that are not familiar with null and empty shapes are ignorant of them when using a GIS where they are permitted.  This is a situation that confronted the proponent of this project.  Examples of wrong understanding of null and empty geometry values are widespread on the world wide web.  For example, an article published by esri incorrectly states that an empty geometry exists for any geometry where the coordinates are unknown <a class="reference internal" href="#esrinulloracle" id="id16">[2]</a>.</p>
+<p>Micosoft SQL and PostGis both permit null and empty geometry values unless explicitly excluded by constraints or third party software.  Even when a primary dataset contains no null or empty geometry values, processing of that dataset may produce empty null or empty geometry values.  Performing set operations like intersections within the database, and, editing geometry of specific records within QGIS are two ways empty geometry values can be created.</p>
+<div class="section" id="set-operations-in-microsoft-sql-or-postgis-can-produce-empty-geometry-values">
+<h4>Set operations in Microsoft SQL or PostGIS can produce empty geometry values<a class="headerlink" href="#set-operations-in-microsoft-sql-or-postgis-can-produce-empty-geometry-values" title="Permalink to this headline">¶</a></h4>
+<p>There are several fundamental set operations that are used to construct new sets from existing sets regardless to what it is a set of <a class="reference internal" href="#settheoryoverall" id="id17">[14]</a>.  Within a database, a set operation needs to be consistent for all data types.  As introduced in section <a class="reference internal" href="#records-with-false-boolean-logic"><span class="std std-ref">Records with false Boolean logic</span></a> some databases generate empty geometry values for set operations.  Microsoft SQL Server and PostGis are examples of databases that can generate empty geometry values for set operations.  Both of these databases developed from SQL conventions and their generation of empty values for geometries is consistent with set operations for other data types.</p>
+<p>Intersection of two sets is an example of a set operation.  Intersect refers to those locations where two or more objects meet, cross or cover each other <a class="reference internal" href="#intersectdefinition" id="id18">[9]</a>.  Many different fields that employ set theory, Intersect of two datasets returns all records that exist in both datasets (<a class="reference internal" href="#figurev"><span class="std std-numref">Fig. 5</span></a>).  The intersect concept can be applied to many datatypes including characters, numbers, dates, and, geometries.</p>
+<div class="figure align-center" id="id41">
+<span id="figurev"></span><img alt="_images/FigureIV.png" src="_images/FigureIV.png" />
+<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">The schematic intersection of Set 1 and Set 2 is purple.</span></p>
+</div>
+<p>Consider the intersection of the points ‘Pt1’ and ‘Pt2’ with the circle shown in <a class="reference internal" href="#figurevi"><span class="std std-numref">Fig. 6</span></a> which is an example of an intersection between two geometry datasets.  ‘Pt 1’ lies within the circle, and, hence intersects the circle.  ‘Pt2’ lies outside the circle and does not.  In both QGIS v3.x and ArcGIS desktop, the intersection of a points dataset containing ‘Pt1’ and ‘Pt2’ and a dataset containing the circle will return only those records that intersect, hence, only ‘Pt1’ is returned.  In contrast, in Microsoft SQL Server, the intersection returns both the records that do and don’t intersect with a dataset containing both ‘Pt1’ and ‘Pt2’.</p>
+<div class="figure align-center" id="id42">
+<span id="figurevi"></span><img alt="_images/FigureV.png" src="_images/FigureV.png" />
+<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">A schematic of the intersection of points ‘Pt1’ and ‘Pt2’ with a circle.</span></p>
+</div>
+<p>There is no error with either the approach to intersection taken by QGIS 3.x and Microsoft SQL Server.  As described in the section <a class="reference internal" href="#records-with-false-boolean-logic"><span class="std std-ref">Records with false Boolean logic</span></a> QGIS 3.x includes an addition selection logic step that removes those records that don’t intersect.  For ‘Pt2’, Microsoft SQL server is returning an empty geometry confirming that no intersection exists, as shown by the following Transact-SQL script <a class="footnote-reference" href="#f2" id="id19">[2]</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DECLARE</span> <span class="nd">@circle</span> <span class="n">geometry</span> <span class="o">=</span> <span class="s1">&#39;CURVEPOLYGON (CIRCULARSTRING (0 1, 1 2, 2 1, 1 0, 0 1))&#39;</span><span class="p">;</span>
+<span class="n">DECLARE</span> <span class="nd">@Pt2</span> <span class="n">geometry</span> <span class="o">=</span> <span class="s1">&#39;POINT (3 1)&#39;</span><span class="p">;</span>
+<span class="n">SELECT</span> <span class="nd">@Pt2</span><span class="o">.</span><span class="n">STIntersection</span><span class="p">(</span><span class="nd">@circle</span><span class="p">)</span><span class="o">.</span><span class="n">ToString</span><span class="p">();</span>
+<span class="n">GEOMETRYCOLLECTION</span> <span class="n">EMPTY</span>
+</pre></div>
+</div>
+<p>This intersection example shows the ease with which one can inadvertently generate empty geometry values in Microsoft SQL Server, and, these empty geometry values will be passed to QGIS.</p>
+</div>
+<div class="section" id="inadvertently-creating-empty-geometries-within-qgis">
+<h4>Inadvertently Creating Empty Geometries within QGIS<a class="headerlink" href="#inadvertently-creating-empty-geometries-within-qgis" title="Permalink to this headline">¶</a></h4>
+<p>Within QGIS, an empty geometry is created by using the “Vertex Tool” to delete all vertices of an existing shape.  A user unfamiliar with QGIS may incorrectly assume that deleting all the vertices of a shape also deletes the record.  Hence, when editing a shape, a QGIS user may unintentionally create an empty shape when they are attempting to delete the shape.</p>
+</div>
+</div>
+<div class="section" id="retrospective-incorporation-of-empty-and-null-values-into-software">
+<h3>Retrospective incorporation of empty and null values into Software<a class="headerlink" href="#retrospective-incorporation-of-empty-and-null-values-into-software" title="Permalink to this headline">¶</a></h3>
+<p>The Geospatial Data Abstraction Library (GDAL) is ubiquitous within most GIS Software to translate and process geospatial data.  Handles for empty shapes were not part of the original GDAL specification, with empty shapes being treated as null.   The retrospective incorporation of empty handles into GDAL has not been picked up by many applications that employ GDAL, and, even within GDAL there are many processing tools that do not allow for empty shapes.</p>
+<p>Many of the current GDAL set operators continue to convert empty geometry values to null geometry values even when the set being operated on has successfully implemented the empty shape handle on passing to GDAL.  For example, for the Intersection operation the output is <em>“a new geometry representing the intersection or NULL if there is no intersection or an error occurs”</em> <a class="reference internal" href="#gdalintersection" id="id20">[4]</a>.  Curiously, the same GDAL geometry class has a handle to assign an empty geometry, or, to test for an empty geometry <a class="reference internal" href="#gdalempty" id="id21">[1]</a>.  On another GDAL ticket register it is stated <em>“GML/WFS: by default does not advertise NOT NULL fields since we treat empty strings as being null for historical reasons. By setting the open option EMPTY_AS_NULL=NO, empty strings will be reported as such and NOT NULL fields might be advertised”</em> <a class="reference internal" href="#rouault2015" id="id22">[18]</a>, it is clear that GDAL is not originally intended to distinguish between null and empty.</p>
+<p>The retrospective addition of handles for empty geometry values in GDAL was mimicked by QGIS.  Consequently, within QGIS there are likely to many set operators that convert empty values to null values as part of the set operation.</p>
+<div class="section" id="the-definition-of-null-and-empty-values-depends-on-context">
+<h4>The definition of Null and Empty Values depends on context<a class="headerlink" href="#the-definition-of-null-and-empty-values-depends-on-context" title="Permalink to this headline">¶</a></h4>
+<p>The definition of Empty geometry values introduced in section 2.2 it was articulated that an Empty geometry is just one valid value in the set of valid values for the geometry data type.  In contrast, null indicates that the geometry value is unknown and that the value can be any value from the set of valid values. Hence, an empty geometry values is one of many possible values for a null geometry (or, empty is a subclass of null).  For example, for a point, the vertices of an empty point are <span class="math notranslate nohighlight">\(\{\ \ \}\)</span> as it has no coordinates, and, the vertices of a null point are <span class="math notranslate nohighlight">\(\{x,y\}\)</span> where <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are both variables designating unknown coordinates. These definitions are consistent with SQL relational databases.  Unfortunately, the definition of null used by SQL relational databases is different to that used by both mathematics for set theory, and, but most computer programming languages <a class="reference internal" href="#whatisnull" id="id23">[5]</a>.</p>
+<p>Let’s consider the definition of null for set theory and computer programming using a common example.  If one has a box of apples and a box of bananas, then the intersection of the two boxes of fruit is an empty box. For set theory, <em>null</em> – nothing is what you have when you take away the box.</p>
+<p>Similar to set theory, for most object-oriented computer programming languages, an object that has not been instantiated is <em>null</em>.  Hence, a pointer to something that doesn’t exist is null. An empty object is an object that has been instantiated but not populated, for example, a list with no members, or, a box with no fruit.</p>
+<p>So, from the perspective of an object-oriented computer programming language, null means no value.  Hence, a null object is an object that does not exist, or, occupies no space in a computer’s memory.  Indeed, SQL relational databases implement null as an object that doesn’t exist, so, the context difference between unknown and nothing does not have to create conflict.</p>
+<p>The underlying conflict is based on logical deduction.  It has been proved that an empty set is a subset of any set.  It is argued that on object that doesn’t exist can’t contain anything, so, it must be empty <a class="footnote-reference" href="#f3" id="id24">[3]</a>.  Hence, <em>null</em> is a subclass of empty.  However, an empty set is a still a set, a container that is empty.  In contrast, null states that no container exists.  So, by arguing that a <em>null</em> object is empty you have just created an object.  A <em>null</em> object neither contains anything nor has a container.</p>
+<p>Unfortunately, QGIS employs the logic that a null geometry is also an empty geometry <a class="reference internal" href="#qgsgeometrysource2018" id="id25">[10]</a>.    The QGIS test for null simply asks where there the object point points to anything <a class="reference internal" href="#qgsgeometrysource2018" id="id26">[10]</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>144 bool QgsGeometry::isNull() const
+145 {
+146  return !d-&gt;geometry;
+147 }
+</pre></div>
+</div>
+<p>Now, the QGIS test for empty performs the same test as for null, and, returns true if the test for null returns true <a class="reference internal" href="#qgsgeometrysource2018" id="id27">[10]</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>329 bool QgsGeometry::isEmpty() const
+330 {
+331  if ( !d-&gt;geometry )
+332  {
+333  return true;
+334  }
+335
+336  return d-&gt;geometry-&gt;isEmpty();
+337 }
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id11">[1]</a></td><td>a <code class="docutils literal notranslate"><span class="pre">Point</span> <span class="pre">(nan</span> <span class="pre">nan)</span></code> is also reported when an empty PostGis point is parsed by QGIS.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id19">[2]</a></td><td>In both Microsoft SQL and PostGis the geometry type that is empty is recorded <a class="reference internal" href="#loskot2010" id="id28">[15]</a><a class="reference internal" href="#ramsey2010" id="id29">[17]</a>).  Sometimes the geometry type gets changed to the generic ‘GEOMETRYCOLLECTION’ by set operations.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id24">[3]</a></td><td>Unable to find a high quality reference for this argument.  Several private conversations with C++ programers reveal that this logic is common and is frequently used to test for empty in C++.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-concept-0"><table class="docutils citation" frame="void" id="gdalempty" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id21">[1]</a></td><td>Empty(self, *args). URL: <a class="reference external" href="http://gdal.org/python/osgeo.ogr.Geometry-class.html#Empty">http://gdal.org/python/osgeo.ogr.Geometry-class.html#Empty</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="esrinulloracle" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id16">[2]</a></td><td>How To : Insert a NULL or empty st _ geometry attribute in Oracle. URL: <a class="reference external" href="https://support.esri.com/en/technical-article/000010466">https://support.esri.com/en/technical-article/000010466</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="id30" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> QGIS - The Leading Open Source Desktop GIS. URL: <a class="reference external" href="https://www.qgis.org/en/site/about/index.html#">https://www.qgis.org/en/site/about/index.html#</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="gdalintersection" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id20">[4]</a></td><td>def Intersection(self, *args):. URL: <a class="reference external" href="http://gdal.org/python/osgeo.ogr-pysrc.html#Geometry.Intersection">http://gdal.org/python/osgeo.ogr-pysrc.html#Geometry.Intersection</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="whatisnull" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>What Is Null. 2010. URL: <a class="reference external" href="http://wiki.c2.com/?WhatIsNull">http://wiki.c2.com/?WhatIsNull</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgsgeometryclass" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[6]</a></td><td>QgsGeometry Class Reference. 2017. URL: <a class="reference external" href="https://qgis.org/api/2.18/classQgsGeometry.html#details">https://qgis.org/api/2.18/classQgsGeometry.html#details</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgspointbugreport2018" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id10">[7]</a></td><td>Bug report #19190: QgsPoint class does not store empty point geometries - QGIS Application - QGIS Issue Tracking. 2018. URL: <a class="reference external" href="https://issues.qgis.org/issues/19190">https://issues.qgis.org/issues/19190</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgischangelogv3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td>Changelog for QGIS 3.0. 2018. URL: <a class="reference external" href="https://www.qgis.org/en/site/forusers/visualchangelog30/">https://www.qgis.org/en/site/forusers/visualchangelog30/</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="intersectdefinition" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id18">[9]</a></td><td>INTERSECT | meaning in the Cambridge English Dictionary. 2018. URL: <a class="reference external" href="https://dictionary.cambridge.org/dictionary/english/intersect">https://dictionary.cambridge.org/dictionary/english/intersect</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgsgeometrysource2018" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[10]</td><td><em>(<a class="fn-backref" href="#id25">1</a>, <a class="fn-backref" href="#id26">2</a>, <a class="fn-backref" href="#id27">3</a>)</em> QGIS API Documentation: /tmp/buildd/qgis-3.3.0+git20180710+2688a9d+15buster/src/core/geometry/qgsgeometry.cpp Source File. 2018. URL: <a class="reference external" href="https://qgis.org/api/qgsgeometry_8cpp_source.html">https://qgis.org/api/qgsgeometry_8cpp_source.html</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgsproviders2018" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[11]</td><td><em>(<a class="fn-backref" href="#id13">1</a>, <a class="fn-backref" href="#id14">2</a>)</em> QGIS/src/providers/. 2018. URL: <a class="reference external" href="https://github.com/qgis/QGIS/tree/master/src/providers">https://github.com/qgis/QGIS/tree/master/src/providers</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="arcgistutorialforempty" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id15">[12]</a></td><td>Tutorial: Perform web editing using data from a database—Documentation | ArcGIS Enterprise. 2018. URL: <a class="reference external" href="http://enterprise.arcgis.com/en/server/latest/get-started/windows/tutorial-performing-web-editing-using-data-from-a-database.htm">http://enterprise.arcgis.com/en/server/latest/get-started/windows/tutorial-performing-web-editing-using-data-from-a-database.htm</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgiscontributors" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[13]</td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id6">2</a>, <a class="fn-backref" href="#id7">3</a>)</em> Wikipeday Contributors. QGIS. URL: <a class="reference external" href="https://en.wikipedia.org/wiki/QGIS">https://en.wikipedia.org/wiki/QGIS</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="settheoryoverall" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id17">[14]</a></td><td>Wikipedia Contributors. Set (mathematics). 2018. URL: <a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Set_(mathematics)&amp;oldid=866126059">https://en.wikipedia.org/w/index.php?title=Set_(mathematics)&amp;oldid=866126059</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="loskot2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id28">[15]</a></td><td>Mateusz Loskot. SqlGeometry and POINT EMPTY in WKB. 2010. URL: <a class="reference external" href="http://mateusz.loskot.net/post/2010/02/26/sqlgeometry-and-point-empty-in-wkb/">http://mateusz.loskot.net/post/2010/02/26/sqlgeometry-and-point-empty-in-wkb/</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ogc2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[16]</a></td><td>OGC. OpenGIS\textregistered  Implementation Standard for Geographic information - Simple feature access - Part 1: Common architecture. <em>Open Geospatial Consortium, Inc</em>, pages 93, 2010. URL: <a class="reference external" href="http://portal.opengeospatial.org/files/?artifact_id=25355E+Implementation+Standard+for+Geographic+information+-+Simple+feature+access#1">http://portal.opengeospatial.org/files/?artifact_id=25355E+Implementation+Standard+for+Geographic+information+-+Simple+feature+access#1</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ramsey2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id29">[17]</a></td><td>Paul Ramsey. Nothing, Nada, Zip, Bupkus. 2010. URL: <a class="reference external" href="http://blog.cleverelephant.ca/2010/03/nothing-nada-zip-bupkus.html">http://blog.cleverelephant.ca/2010/03/nothing-nada-zip-bupkus.html</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="rouault2015" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id22">[18]</a></td><td>Even Rouault. Empty elements in GML : empty or NULL. 2015. URL: <a class="reference external" href="https://trac.osgeo.org/gdal/ticket/5968">https://trac.osgeo.org/gdal/ticket/5968</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="garysherman2011" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[19]</a></td><td>Gary Sherman. History of QGIS Committers. 2011. URL: <a class="reference external" href="http://spatialgalaxy.net/2011/09/23/history-of-qgis-committers/">http://spatialgalaxy.net/2011/09/23/history-of-qgis-committers/</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="parseemptyfromsql" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id12">[20]</a></td><td>Philip Whitten. Bug report #19397: Parssing of empty geometry values from MicroSoft SQL Server - QGIS Application - QGIS Issue Tracking. 2018. URL: <a class="reference external" href="https://issues.qgis.org/issues/19397">https://issues.qgis.org/issues/19397</a>.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="API.html" class="btn btn-neutral" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Philip Whitten
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

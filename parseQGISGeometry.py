@@ -1,4 +1,4 @@
-# Update 08/11/2018
+# Update 09/11/2018
 
 """
 The QGIS Expression and methods in this module parse a vector's geometry for a vector layer loaded into QGIS.
@@ -8,6 +8,7 @@ from qgis.core import *
 from qgis.utils import iface
 from PyQt5.QtCore import QVariant
 import PyQt5
+from PyQt5 import QtWidgets
 
 
 @qgsfunction(args='auto', group='Custom', usesGeometry=False)
@@ -54,7 +55,21 @@ def layerAddVirtualGeometryField(vectorLayer):
     vectorLayer.geometryIndex = vectorLayer.fields().lookupField('Geometry')
     print(vectorLayer.geometryIndex)
 
+def layerRemoveVirtualGeometryField(vectorLayer):
+    """
+    Removes the virtual field called Geometry from a vector layer if it exists.
 
+    Args:
+        vectorLayer (QgsVectorLayer):  A QGIS vector layer.
+    """
+    #determines the index of the field called 'Geometry'
+    fieldIndex = vectorLayer.fields().indexFromName('Geometry')
+
+    #Removes the field called 'Geometry' by reference to the field index.
+    if fieldIndex == -1:
+        pass
+    else:
+        vectorLayer.removeExpressionField(fieldIndex)
 
 def layer_review(layer):
     """

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API &mdash; GeomAttribute 0.1.0 documentation</title>
+  <title>API &mdash; GeomAttribute  documentation</title>
   
 
   
@@ -29,7 +29,7 @@
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Changelog" href="changelog.html" />
+    <link rel="next" title="A QGIS attribute table plugin to show empty and null shapes" href="concept.html" />
     <link rel="prev" title="About" href="about.html" /> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.1.1
               </div>
             
           
@@ -91,8 +91,10 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-modelVectorLayers">modelVectorLayers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#parseqgisgeometry-module">parseQGISGeometry module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zipGeomAttribute">zipGeomAttribute</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="concept.html">A QGIS attribute table plugin to show empty and null shapes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 
@@ -229,6 +231,16 @@ values are appended to the input <em>vectorLayer</em> as a virtual field.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="parseQGISGeometry.layerRemoveVirtualGeometryField">
+<code class="descclassname">parseQGISGeometry.</code><code class="descname">layerRemoveVirtualGeometryField</code><span class="sig-paren">(</span><em>vectorLayer</em><span class="sig-paren">)</span><a class="headerlink" href="#parseQGISGeometry.layerRemoveVirtualGeometryField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the virtual field called Geometry from a vector layer if it exists.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>vectorLayer (QgsVectorLayer):  A QGIS vector layer.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="parseQGISGeometry.layer_review">
 <code class="descclassname">parseQGISGeometry.</code><code class="descname">layer_review</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#parseQGISGeometry.layer_review" title="Permalink to this definition">¶</a></dt>
 <dd><p><strong>IN PROGRESS</strong></p>
@@ -237,6 +249,28 @@ type.</p>
 </dd></dl>
 
 </div></blockquote>
+<p>The following modules are included in the plugin’s repository and are useful to construct the plugin from the source
+scripts.</p>
+</div>
+<div class="section" id="module-zipGeomAttribute">
+<span id="zipgeomattribute"></span><h2>zipGeomAttribute<a class="headerlink" href="#module-zipGeomAttribute" title="Permalink to this headline">¶</a></h2>
+<p>Contains the methods for zipping the source scripts needed for this plugin to function.</p>
+<dl class="function">
+<dt id="zipGeomAttribute.installGeomAttributeFromZip">
+<code class="descclassname">zipGeomAttribute.</code><code class="descname">installGeomAttributeFromZip</code><span class="sig-paren">(</span><em>pluginPath</em><span class="sig-paren">)</span><a class="headerlink" href="#zipGeomAttribute.installGeomAttributeFromZip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unzips the zipped folder.  An automation used for testing.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>pluginPath (str): The path of the plugin folder in the user’s installation of QGIS.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="zipGeomAttribute.zipGeomAttribute">
+<code class="descclassname">zipGeomAttribute.</code><code class="descname">zipGeomAttribute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipGeomAttribute.zipGeomAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Zips the files needed for the plugin to be installed into QGIS</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -248,7 +282,7 @@ type.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="concept.html" class="btn btn-neutral float-right" title="A QGIS attribute table plugin to show empty and null shapes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="about.html" class="btn btn-neutral" title="About" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -1,6 +1,6 @@
 """
 
-Contains the methods for zipping the resources needed for a functioning plugin
+Contains the methods for zipping the source scripts needed for this plugin to function.
 
 """
 
@@ -22,6 +22,7 @@ def zipGeomAttribute():
         for item in fileList:
             zipWrite.write(item, 'geomAttribute/' + item)
 
+
         for folder in folderList:
             for file in os.listdir(os.path.join(os.path.dirname(__file__), folder)):
                 file = folder + '/' + file
@@ -31,13 +32,19 @@ def zipGeomAttribute():
         print('closing')
         #zipWrite.close()
 
-def installGeomAttributeFromZip():
-    """Unzips the zipped folder.  An automation used for testing."""
+def installGeomAttributeFromZip(pluginPath):
+    """
+    Unzips the zipped folder.  An automation used for testing.
+
+    Args:
+        pluginPath (str): The path of the plugin folder in the user's installation of QGIS.
+    """
     zipRead = zipfile.ZipFile('geomAttribute.zip', mode='r')
-    zipRead.extractall('C:/Users/pippi/AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/')
+    zipRead.extractall(pluginPath)
     zipRead.close()
 
 
 if __name__ == '__main__':
+    userPluginPath = 'C:/Users/pippi/AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/'
     zipGeomAttribute()
-    installGeomAttributeFromZip()
+    installGeomAttributeFromZip(userPluginPath)

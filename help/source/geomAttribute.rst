@@ -54,10 +54,6 @@ not work on a raster layer.
 Click on the vector layer in the *Layers Panel* then click on the *Geometry Attribute Table* icon |att_table| or select
 *Geometry Attribute Table* from the *Plugins* menu.
 
-Theory
-######
-TO BE DONE: A LINK TO THE EXPRESSION
-
 Glossary
 ########
 Geometry

@@ -35,7 +35,7 @@ from .resources import *
 # Import the code for the dialog
 from .geomAttribute_window import geomAttributeWindow
 import os.path
-__version__ = '1.0.0'
+__version__ = '0.1.1'
 
 class geomAttribute:
     """QGIS Plugin Implementation."""
@@ -184,10 +184,20 @@ class geomAttribute:
         # self.addModelData_action.triggered.connect(self.addModelData)
 
     def addModelData(self):
-        #Add Dialog box for multi_lines##################################################################################
-        QMessageBox.warning(None, "Message", "found addModelData")
-        QgsProject.instance().addMapLayer(createMultiLines())
-        QgsProject.instance().addMapLayer(createMultiPoints())
+        """
+        Dialog for loading demonstration data.  Yes triggers the creation of demonstration vector layers within the
+        current QGIS workspace. No escapes the dialog and returns to QGIS without doing anything.
+        """
+        loadModelData = QMessageBox.question(None, "Load Model Data",
+                                             "Do you want to load demonstration vector layers?",
+                                             QMessageBox.Yes | QMessageBox.No)
+
+        if loadModelData == QMessageBox.Yes:
+            QgsProject.instance().addMapLayer(createMultiLines())
+            QgsProject.instance().addMapLayer(createMultiPoints())
+
+        else:
+            pass
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -201,16 +211,21 @@ class geomAttribute:
 
 
     def run(self):
-        """Run method that performs all the real work"""
+        """
+        Run method that performs all the real work
+        """
         self.layer = self.iface.activeLayer()
         self.canvas = self.iface.mapCanvas()
 
         # Create the dialog window (after translation) and keep reference
         self.window = geomAttributeWindow()
 
+        #set the window to delete on close so that the virtual field can be deleted
+        self.window.setAttribute(QtCore.Qt.WA_DeleteOnClose, True)
+        self.window.destroyed.connect(self.cleanupWhenWindowClosed)
+
         #look for help icon clicks
         self.window.actionHelp.triggered.connect(self.helpPage)
-
 
         ## Add virtual field to layer
 
@@ -220,8 +235,6 @@ class geomAttribute:
         try:
             layerAddVirtualGeometryField(self.layer)
 
-            #######################################################self.setWindowTitle('First Attribute Table')
-
             # create a cache of the vector layer data of size 10000
             self.vector_layer_cache = QgsVectorLayerCache(self.layer, 10000)
             # cache geometry is true by default (print(self.vector_layer_cache.cacheGeometry()))
@@ -230,6 +243,8 @@ class geomAttribute:
             self.attribute_table_model = QgsAttributeTableModel(self.vector_layer_cache)
 
             self.attribute_table_model.loadLayer()
+
+            #######################################################self.setWindowTitle('First Attribute Table')
 
             self.attribute_table_filter_model = QgsAttributeTableFilterModel(
             self.iface.mapCanvas(), self.attribute_table_model)
@@ -249,19 +264,29 @@ class geomAttribute:
             QMessageBox.warning(None, 'Warning', 'This tool will only work on vector layers')
 
     def helpPage(self):
-        """Opens the help html file in a web browser.  This requires an internet connection"""
+        """
+        Opens the help files in the default web browser.  This requires an internet connection
+        """
         url = QUrl('https://philipwhitten.github.io/geomAttribute/')
         if not QDesktopServices.openUrl(url):
-            QMessageBox.warning(self, 'Open Help Page', 'Could not open Help Page.  The help page requires an internet connection.')
+            QMessageBox.warning(None, 'Open Help Page',
+                                'Could not open Help Page.  The help page requires an internet connection.')
+
+    def cleanupWhenWindowClosed(self):
+        from .parseQGISGeometry import layerRemoveVirtualGeometryField
+        layerRemoveVirtualGeometryField(self.layer)
 
 ########################################################################################################################
 class myDelegate(QItemDelegate):
+    """
+    This class formats the strings for the geometry column field, or, it shows icons instead of strings.
+    """
     def __init__(self, parent=None, *args):
         QItemDelegate.__init__(self, parent, *args)
 
     # class method for painting geometry row attributes.  Where is this method called?
     def paint(self, painter, option, index):
-        '''option is a QStyleOptionViewItem, painter is a QPainter object'''
+        """option is a QStyleOptionViewItem, painter is a QPainter object"""
 
         value = index.data(Qt.DisplayRole)
 

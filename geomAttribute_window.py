@@ -26,9 +26,6 @@ from os import path as osPath
 from sys import path as sysPath
 from PyQt5 import uic
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import QFile, QUrl, QTemporaryFile, QIODevice
-from PyQt5.QtGui import QDesktopServices
-from qgis.gui import QgsAttributeTableView as geomTableView
 
 
 sysPath.append(osPath.dirname(__file__))
@@ -45,6 +42,7 @@ class geomAttributeWindow(QtWidgets.QMainWindow, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+
 
 
 

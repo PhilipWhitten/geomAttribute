@@ -35,6 +35,16 @@ parseQGISGeometry module
        Returns:
           A string that represents the geometry.
 
+The following modules are included in the plugin's repository and are useful to construct the plugin from the source
+scripts.
+
+================
+zipGeomAttribute
+================
+
+.. automodule:: zipGeomAttribute
+   :members:
+
 
 
 
