@@ -1,7 +1,7 @@
 # Update 09/11/2018
 
 """
-The QGIS Expression and methods in this module parse a vector's geometry for a vector layer loaded into QGIS.
+The QGIS Expression and methods in this module parse a vector's geometry for a QGIS vector layer.
 """
 
 from qgis.core import *
@@ -41,7 +41,7 @@ def geometryField(feature, parent):
 
 def layerAddVirtualGeometryField(vectorLayer):
     """
-    Uses the *geometryField* expression to provide string values that represent the feature's geometry.  These string
+    Uses the *'geometryField'* expression to provide string values that represent the feature's geometry.  These string
     values are appended to the input *vectorLayer* as a virtual field.
 
     Args:
@@ -59,7 +59,7 @@ def layerAddVirtualGeometryField(vectorLayer):
 
 def layerRemoveVirtualGeometryField(vectorLayer):
     """
-    Removes the virtual field called Geometry from a vector layer if it exists.
+    Removes the virtual field called *'Geometry'* from a vector layer if it exists.
 
     Args:
         vectorLayer (QgsVectorLayer):  A QGIS vector layer.
@@ -75,10 +75,13 @@ def layerRemoveVirtualGeometryField(vectorLayer):
 
 def layer_review(layer):
     """
-    **IN PROGRESS**
+    **IN PROGRESS - NOT CURRENTLY USED BY PLUGIN**
 
     Reviews any vector layer for the presence of null or empty geometries.  Provides a summary of a layer by geometry
     type.
+
+    Args:
+        vectorLayer (QgsVectorLayer):  A QGIS vector layer.
 
     """
     # what happens if there are no features?  Need to test for features!!

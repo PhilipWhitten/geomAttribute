@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.1.2a
               </div>
             
           
@@ -89,9 +89,9 @@
 <li class="toctree-l1"><a class="reference internal" href="loadData.html">Load Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-modelVectorLayers">modelVectorLayers module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#parseqgisgeometry-module">parseQGISGeometry module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-zipGeomAttribute">zipGeomAttribute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modelvectorlayers-module">modelVectorLayers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-parseQGISGeometry">parseQGISGeometry module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-zipGeomAttribute">zipGeomAttribute module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="concept.html">A QGIS attribute table plugin to show empty and null shapes</a></li>
@@ -164,43 +164,12 @@
 <h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
 <p>The following modules are included within this plugin.  The plugin’s repository is
 on <a class="reference external" href="https://github.com/PhilipWhitten/geomAttribute">GitHub</a>.</p>
-<div class="section" id="module-modelVectorLayers">
-<span id="modelvectorlayers-module"></span><span id="modelvectorlayers-api"></span><h2>modelVectorLayers module<a class="headerlink" href="#module-modelVectorLayers" title="Permalink to this headline">¶</a></h2>
-<p>Creates vector layers as QGIS memory layers.  These layers are intended to demonstrate how the Geometry Attribute Table
-renders datasets that have: multi-part, single part, empty, and, null geometries.  A description of the created
-layer is included with each method.</p>
-<dl class="function">
-<dt id="modelVectorLayers.createMultiLines">
-<code class="descclassname">modelVectorLayers.</code><code class="descname">createMultiLines</code><span class="sig-paren">(</span><em>layerName='Multi-Part Lines'</em><span class="sig-paren">)</span><a class="headerlink" href="#modelVectorLayers.createMultiLines" title="Permalink to this definition">¶</a></dt>
-<dd><p>A geometry collection of multi-part lines and lines (single part constrained).</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>layerName (str): The name of the layer that is loaded into QGIS.</dd>
-<dt>Returns:</dt>
-<dd>A memory vector layer containing features with the following geometries: 2 part multi-line; 3 part multi-line,
-1 part multi-line, line, Empty multi-line, and, Null.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="modelVectorLayers.createMultiPoints">
-<code class="descclassname">modelVectorLayers.</code><code class="descname">createMultiPoints</code><span class="sig-paren">(</span><em>layerName='Multi-Part Points'</em><span class="sig-paren">)</span><a class="headerlink" href="#modelVectorLayers.createMultiPoints" title="Permalink to this definition">¶</a></dt>
-<dd><p>A geometry collection of multi-part points and points (single part constrained).</p>
-<p>For an empty point, QGIS creates erroneously creates a point with the coordinates (0 0).</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>layerName (str): The name of the layer that is loaded into QGIS.</dd>
-<dt>Returns:</dt>
-<dd>A memory vector layer containing features with the following geometries: 2 point multi-point; 4 point multi-point,
-1 point multi-point, line, Empty multi-line, and, Null.</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="modelvectorlayers-module">
+<span id="modelvectorlayers-api"></span><h2>modelVectorLayers module<a class="headerlink" href="#modelvectorlayers-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="parseqgisgeometry-module">
-<span id="parseqgisgeometry-api"></span><h2>parseQGISGeometry module<a class="headerlink" href="#parseqgisgeometry-module" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><span class="target" id="module-parseQGISGeometry"></span><p>The QGIS Expression and methods in this module parse a vector’s geometry for a vector layer loaded into QGIS.</p>
+<div class="section" id="module-parseQGISGeometry">
+<span id="parseqgisgeometry-module"></span><span id="parseqgisgeometry-api"></span><h2>parseQGISGeometry module<a class="headerlink" href="#module-parseQGISGeometry" title="Permalink to this headline">¶</a></h2>
+<p>The QGIS Expression and methods in this module parse a vector’s geometry for a QGIS vector layer.</p>
 <dl class="function">
 <dt id="parseQGISGeometry.geometryField">
 <code class="descclassname">parseQGISGeometry.</code><code class="descname">geometryField</code><span class="sig-paren">(</span><em>feature</em>, <em>parent</em><span class="sig-paren">)</span><a class="headerlink" href="#parseQGISGeometry.geometryField" title="Permalink to this definition">¶</a></dt>
@@ -214,15 +183,17 @@ the following order of decreasing precedence:</p>
 </ul>
 </div></blockquote>
 <dl class="docutils">
+<dt>Args:</dt>
+<dd>QgsFeature</dd>
 <dt>Returns:</dt>
-<dd>A string that represents the geometry.</dd>
+<dd>A string that represents the QgsFeature’s geometry.</dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="parseQGISGeometry.layerAddVirtualGeometryField">
 <code class="descclassname">parseQGISGeometry.</code><code class="descname">layerAddVirtualGeometryField</code><span class="sig-paren">(</span><em>vectorLayer</em><span class="sig-paren">)</span><a class="headerlink" href="#parseQGISGeometry.layerAddVirtualGeometryField" title="Permalink to this definition">¶</a></dt>
-<dd><p>Uses the <em>geometryField</em> expression to provide string values that represent the feature’s geometry.  These string
+<dd><p>Uses the <em>‘geometryField’</em> expression to provide string values that represent the feature’s geometry.  These string
 values are appended to the input <em>vectorLayer</em> as a virtual field.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -233,7 +204,7 @@ values are appended to the input <em>vectorLayer</em> as a virtual field.</p>
 <dl class="function">
 <dt id="parseQGISGeometry.layerRemoveVirtualGeometryField">
 <code class="descclassname">parseQGISGeometry.</code><code class="descname">layerRemoveVirtualGeometryField</code><span class="sig-paren">(</span><em>vectorLayer</em><span class="sig-paren">)</span><a class="headerlink" href="#parseQGISGeometry.layerRemoveVirtualGeometryField" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes the virtual field called Geometry from a vector layer if it exists.</p>
+<dd><p>Removes the virtual field called <em>‘Geometry’</em> from a vector layer if it exists.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd>vectorLayer (QgsVectorLayer):  A QGIS vector layer.</dd>
@@ -243,22 +214,26 @@ values are appended to the input <em>vectorLayer</em> as a virtual field.</p>
 <dl class="function">
 <dt id="parseQGISGeometry.layer_review">
 <code class="descclassname">parseQGISGeometry.</code><code class="descname">layer_review</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#parseQGISGeometry.layer_review" title="Permalink to this definition">¶</a></dt>
-<dd><p><strong>IN PROGRESS</strong></p>
+<dd><p><strong>IN PROGRESS - NOT CURRENTLY USED BY PLUGIN</strong></p>
 <p>Reviews any vector layer for the presence of null or empty geometries.  Provides a summary of a layer by geometry
 type.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>vectorLayer (QgsVectorLayer):  A QGIS vector layer.</dd>
+</dl>
 </dd></dl>
 
-</div></blockquote>
 <p>The following modules are included in the plugin’s repository and are useful to construct the plugin from the source
 scripts.</p>
 </div>
 <div class="section" id="module-zipGeomAttribute">
-<span id="zipgeomattribute"></span><h2>zipGeomAttribute<a class="headerlink" href="#module-zipGeomAttribute" title="Permalink to this headline">¶</a></h2>
-<p>Contains the methods for zipping the source scripts needed for this plugin to function.</p>
+<span id="zipgeomattribute-module"></span><h2>zipGeomAttribute module<a class="headerlink" href="#module-zipGeomAttribute" title="Permalink to this headline">¶</a></h2>
+<p>Contains methods for zipping the minimum compiled source scripts needed for this plugin to function within QGIS.  These
+methods do not do any of the compilation (e.g. update docs, or, compile the QT Designer interface).</p>
 <dl class="function">
 <dt id="zipGeomAttribute.installGeomAttributeFromZip">
 <code class="descclassname">zipGeomAttribute.</code><code class="descname">installGeomAttributeFromZip</code><span class="sig-paren">(</span><em>pluginPath</em><span class="sig-paren">)</span><a class="headerlink" href="#zipGeomAttribute.installGeomAttributeFromZip" title="Permalink to this definition">¶</a></dt>
-<dd><p>Unzips the zipped folder.  An automation used for testing.</p>
+<dd><p>Unzips the zipped plugin folder.  An automation used for testing.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd>pluginPath (str): The path of the plugin folder in the user’s installation of QGIS.</dd>
@@ -268,7 +243,7 @@ scripts.</p>
 <dl class="function">
 <dt id="zipGeomAttribute.zipGeomAttribute">
 <code class="descclassname">zipGeomAttribute.</code><code class="descname">zipGeomAttribute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#zipGeomAttribute.zipGeomAttribute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Zips the files needed for the plugin to be installed into QGIS</p>
+<dd><p>Zips the minimum number of files needed for the plugin to be installed into QGIS</p>
 </dd></dl>
 
 </div>

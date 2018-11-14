@@ -26,11 +26,11 @@
 
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name
-    """Load geomAttribute class from file geomAttribute.
+    """Load geomAttribute class from file geomAttributeRun.
 
     :param iface: A QGIS interface instance.
     :type iface: QgsInterface
     """
     #
-    from .geomAttribute import geomAttribute
+    from .geomAttributeRun import geomAttribute
     return geomAttribute(iface)

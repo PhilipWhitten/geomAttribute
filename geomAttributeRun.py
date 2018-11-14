@@ -35,7 +35,6 @@ from .resources import *
 # Import the code for the dialog
 from .geomAttribute_window import geomAttributeWindow
 import os.path
-__version__ = '0.1.2.a'
 
 class geomAttribute:
     """QGIS Plugin Implementation."""

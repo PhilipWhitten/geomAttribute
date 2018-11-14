@@ -5,13 +5,16 @@ API
 The following modules are included within this plugin.  The plugin's repository is
 on `GitHub <https://github.com/PhilipWhitten/geomAttribute>`_.
 
+.. automodule:: geomAttributeRun
+  :members:
+
 .. _modelVectorLayers-API:
 
 ========================
 modelVectorLayers module
 ========================
 
-.. automodule:: modelVectorLayers
+.. automodule:: geomAttribute.modelVectorLayers
    :members:
 
 .. _parseQGISGeometry-API:
@@ -20,27 +23,30 @@ modelVectorLayers module
 parseQGISGeometry module
 ========================
 
- .. automodule:: parseQGISGeometry
-    :members:
+.. automodule:: parseQGISGeometry
+  :members:
 
-    .. autofunction:: geometryField(feature, parent)
+  .. autofunction:: geometryField(feature, parent)
 
-       Creates a QGIS expression called geometryField.  This expression returns a string that represents the geometry in
-       the following order of decreasing precedence:
+    Creates a QGIS expression called geometryField.  This expression returns a string that represents the geometry in
+    the following order of decreasing precedence:
 
-          * Null
-          * Empty
-          * Well known binary type string
+      * Null
+      * Empty
+      * Well known binary type string
 
-       Returns:
-          A string that represents the geometry.
+    Args:
+        QgsFeature
+
+    Returns:
+        A string that represents the QgsFeature's geometry.
 
 The following modules are included in the plugin's repository and are useful to construct the plugin from the source
 scripts.
 
-================
-zipGeomAttribute
-================
+=======================
+zipGeomAttribute module
+=======================
 
 .. automodule:: zipGeomAttribute
    :members:

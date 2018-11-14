@@ -490,6 +490,18 @@ Now, the QGIS test for empty performs the same test as for null, and, returns tr
 
 .. [#f3] Unable to find a high quality reference for this argument.  Several private conversations with C++ programers reveal that this logic is common and is frequently used to test for empty in C++.
 
+******************
+Future Development
+******************
+
+Some ideas for improvement:
+
+   1. Add a summary table
+   2. Add a column for number of parts
+   3. Distinguish curved shapes
+   4. Distinguish shapes with elevation information
+
+
 ************
 Bibliography
 ************

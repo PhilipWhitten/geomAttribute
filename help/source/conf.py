@@ -14,8 +14,6 @@
 #
 import os
 import sys
-#sys.path.insert(0, os.path.abspath('../../..'))
-sys.path.insert(0, os.path.abspath('../..'))
 
 
 # -- Project information -----------------------------------------------------
@@ -25,7 +23,7 @@ copyright = '2018, Philip Whitten'
 author = 'Philip Whitten'
 
 # The short X.Y version
-version = '0.1.1'
+version = '0.1.2a'
 
 
 # -- General configuration ---------------------------------------------------

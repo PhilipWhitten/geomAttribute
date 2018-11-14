@@ -1,6 +1,7 @@
 """
 
-Contains the methods for zipping the source scripts needed for this plugin to function.
+Contains methods for zipping the minimum compiled source scripts needed for this plugin to function within QGIS.  These
+methods do not do any of the compilation (e.g. update docs, or, compile the QT Designer interface).
 
 """
 
@@ -8,15 +9,14 @@ import zipfile
 import os
 
 def zipGeomAttribute():
-    """Zips the files needed for the plugin to be installed into QGIS"""
+    """Zips the minimum number of files needed for the plugin to be installed into QGIS"""
     print('creating archive')
     zipWrite = zipfile.ZipFile('geomAttribute.zip', mode='w')
 
-    #what files do I need for QT window to work?
-
-    fileList = ['geomAttribute.py','parseQGISGeometry.py', '__init__.py', 'geomAttribute_window.py',
+    fileList = ['geomAttributeRun.py','parseQGISGeometry.py', '__init__.py', 'geomAttribute_window.py',
             'modelVectorLayers.py', 'metadata.txt', 'resources.py', 'geomAttribute_window_base.ui']
     folderList = ['icons']
+
     try:
         print('Adding files')
         for item in fileList:
@@ -30,11 +30,10 @@ def zipGeomAttribute():
 
     finally:
         print('closing')
-        #zipWrite.close()
 
 def installGeomAttributeFromZip(pluginPath):
     """
-    Unzips the zipped folder.  An automation used for testing.
+    Unzips the zipped plugin folder.  An automation used for testing.
 
     Args:
         pluginPath (str): The path of the plugin folder in the user's installation of QGIS.
