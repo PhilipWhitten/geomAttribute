@@ -14,7 +14,7 @@ on `GitHub <https://github.com/PhilipWhitten/geomAttribute>`_.
 modelVectorLayers module
 ========================
 
-.. automodule:: geomAttribute.modelVectorLayers
+.. automodule:: modelVectorLayers
    :members:
 
 .. _parseQGISGeometry-API:

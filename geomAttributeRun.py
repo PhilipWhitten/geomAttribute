@@ -178,9 +178,6 @@ class geomAttribute:
             add_to_toolbar=False,
             parent=self.iface.mainWindow()
         )
-        # self.addModelData_action = QAction(QIcon(icon_modelData), u"Load Model Data", parent=self.iface.mainWindow())
-        # self.iface.addPluginToMenu("&Geometry Attribute Table", self.addModelData_action)
-        # self.addModelData_action.triggered.connect(self.addModelData)
 
     def addModelData(self):
         """

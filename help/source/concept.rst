@@ -32,20 +32,390 @@ Geospatial datasets contain one or more values that refer to a location on earth
 datasets, the location consists of one or more points, lines and/or polygons that are referenced to a coordinate system
 that is a projection of the earth’s surface.
 
-For the purposes of this project, any dataset element type that stores the geospatial shape with respect to a referenced
-coordinate system is referred to as a geometry.  Any empty geometry element is simply a geometry that doesn’t
-have a shape.
+For the purposes of this project, any dataset element type that stores the geospatial shape with respect to a referenced coordinate system is referred to as a geometry.  Any empty geometry element is simply a geometry that doesn’t have a shape.
 
-QGIS :cite:`QGIS` is a computer program that among other things is used to view,
-create and edit the geometry elements within geospatial datasets.   QGIS does not: Pass null and empty geometry elements
-equivalently for different data storage formats; does not show directly show which records within a dataset have null
-or empty geometry elements; and, does not always process null and empty geometry elements as specified by standards.
+In many enterprises geospatial datasets are contained within enterprise databases where frequently the same brand of enterprise database is used elsewhere within the same enterprise to contain non-spatial datasets.  For example, a local government office may use one or more MicroSoft SQL Server installations (MS SQL) as a dataset repository for: a content management system; a customer relationship management system; a land management system; an asset management system; and, a GIS system.
+
+QGIS :cite:`QGIS` is a computer program that among other things is used to view, create and edit the geometry elements within geospatial datasets.  For many dataformats QGIS  QGIS does not: Pass null and empty geometry elements equivalently for different data storage formats; does not show directly show which records within a dataset have *null* or empty geometry elements; and, does not always process null and empty geometry elements as specified by standards.
 
 This project aims to create a QGIS plugin that illuminates null and empty geometry elements in geospatial datasets.
 
 **********
 Background
 **********
+
+===================
+Relational Datasets
+===================
+---
+Set
+---
+A set is a collection of distinct objects.  For example, a box of apples is a set of apples, and, the set of countries in North America consists of Canada,  United States of America, and, Mexico.  By convention, sets are symbolized by enclosing within curly brackets.  Hence:
+
+.. math::
+
+   North\ American\ Countries = \{Canada, United\ States\ of\ America, Mexico\}
+
+A dataset is any set where each element is restricted to one data type and where each element belongs to the same universal set.
+
+------------------
+Relational Dataset
+------------------
+
+A relational dataset is a collection of sets where:
+  1. The number of objects (elements) in each set is the same.
+  2. A one to one relationship exists between elements of different sets.
+
+An example relational dataset showing the country name, country abbreviation and country population for the countries in North America is shown in :numref:`tableNA_Simple`.  This relational dataset comprises of the three sets: a set of country names; a set of abbreviations; and, a set of country populations.  A one to one relationship exists between the elements for each of these three sets.  Hence, the country with the name of *Canada* has a one to one relationship with the country abbreviation *CAN* and the country population *3563000*.
+
+.. _tableNA_Simple:
+
+.. table:: Example of a dataset of Countries in North America.
+   :widths: auto
+
+   +--------------------------+-----------------------+-------------+
+   || Country Name            || Abbreviation         || Population |
+   || (letters and spaces)    || (upper case letters) || (integer)  |
+   +==========================+=======================+=============+
+   | Canada                   | CAN                   |  3563000    |
+   +--------------------------+-----------------------+-------------+
+   | United States of America | USA                   |  32663000   |
+   +--------------------------+-----------------------+-------------+
+   | Mexico                   | MEX                   |  12458000   |
+   +--------------------------+-----------------------+-------------+
+
+Essential to any set is a definition or description of what type of objects can be a member.  For example, an apple which is a valid type of the set of fruit can't be a member of a set of countries.  For any dataset, both the data type and additional constraints are often used together define the universal set.  For example, the data type for *Country Name* in :numref:`tableNA_Simple` is any combination of letters and spaces, whilst the data type for *Abbreviation* is any combination of 3 upper case letters.
+
+Although a *relational dataset* consists of multiple sets of data where the elements of each set are related, it is ubiquitously referred to as a **dataset**.
+
+------------------
+Geospatial Dataset
+------------------
+A geospatial dataset refers to any dataset where one or more of the composite sets refer to a location on the earth's surface.  This project is only concerned with those geospatial datasets where the location on the earth's surface is represented by one or more points, lines or polygons that are located by coordinates and stored as vectors.  These points, lines and polygons are collectively referred to as shapes or geometries [#f5]_.
+
+A vector geospatial dataset is a subtype of geospatial dataset where the geospatial sets can be located graphically on the earths surface by the application of coordinates.  This project is only concerned with vector geospatial datasets.
+
+-------------------
+Geometry data types
+-------------------
+All datasets contain some restriction on the type of data each constituent set may contain.  From a software perspective, a restriction of type is essential for minimizing both the storage size of the dataset and the response time for a dataset query.  Analagous to specific data types for storage of numbers, text or dates there is one or more data types specifically used for the storage of geospatial geometries.  Similarly, just as there are often specific data types of signed and unsigned integers, float, and, decimal numbers there are also specific data types for different types of geometries, with the type often referring to how the geometry is constructed.
+
+For any dataset software the geometry data types that are availabe for use can be shown schematically as a hierarchy like the one shown in :numref:`figureGeomTypeI`.  Within this hierarchy, the possible data types are described by the labels in the boxes.  Essential to all such hierarchy's, a set of data of a declared type may consist of any type below it on the hierarchy.  Hence, if a set of data has a declared type of *Geometry Collection* then any data element within it may consist of *Geometry Collection*, *Multi-Point*, "Multi-Curve*, *Multi-Line*, *Multi-Surface*, and, *Multi-Polygon*.  Similarly, if a set of data has a declared type of *Point* than it may not contain a *Polygon* nor a *Line*.
+
+The single part constrained geometry subtypes in the lower part of :numref:`figureGeomTypeI` are referred to as *Primitive Types* and must contain only one single part geometry per set element.  In contrast, the Multiple Part geometries may consist of one *or* many parts per feature.  For example, a feature of the *"Multi-Point"* geometry sub type may have one point, no points or multiple points. Another characteristic of the single part primitive types is that the *Line* and *Polygon* subtypes may only exist of straight line segments between coordinates.
+
+
+.. _figureGeomTypeI:
+
+.. figure:: _static/geomTypeSQL.png
+   :align: center
+
+   GIS Geometry subtype hierarchy.  Adapted from :cite:`ISO19125-2`.  The more conventional term *"LineString"* that is used in the QGIS API and :cite:`ISO19125-2` is replaced here with *"Line"* for clarity.
+
+In reality there may be many more geometry subtypes than the simplified hierarchy shown in :numref:`figureGeomTypeI`.  For example, some common additional subtypes for datasets are created for sets of geometries that incorporate elevation data, or, for lines that are constructed from curves as opposed to straight line segments.
+
+Many GIS data format standards, and, many GIS software have a geometry subtype hierarchy that is **similar** with :numref:`figureGeomTypeI`.  Within a GIS dataset, geometry objects there are several geometry subtypes, with the main ones without elevation are shown in :numref:`figureGeomTypeI`.  Schematically, this hierarchy of geometry subtypes is replicated by the `inheritance diagram for QgsAbstractGeometry <https://qgis.org/api/classQgsAbstractGeometry.html>`_ :cite:`QGSAbstractGeometry`.
+
+--------------------
+Geometry data values
+--------------------
+
+For any data type there exists a universal set of valid values.  For example, a set of birthday dates must be restricted to valid dates.  For example, a birthday on the 30th of February is not valid as the 30th of February is not part of the universal set of dates.  Similarly, a valid geometry needs to be located within the boundaries of the coordinate system that it is referenced to.  **Empty** and **null** are two values that may be part of any set of data and could be fairly described as being:
+
+1. Controversial
+2. Miss-understood
+3. Best avoided
+
+^^^^^
+Empty
+^^^^^
+A box of apples can be described as a set of apples.  A empty Apple box is an empty set of apples.  An empty geometry element is a geometry that has no coordinates.  Whether an empty element is a valid member of a set depends on the context.  For example, if a study of chickens hatching from eggs recorded the date that each chicken hatches for a set of 10 eggs than the hatch date element is of the hatch date set is empty before the chicken hatches.  It is *known* that the chicken has not hatched.
+
+All empty sets including an empty geometry value are place holders for when it is *known* that an element does not exist :cite:`OGC2010`.  For example, consider the intersection of the Blue Crosses and the Red Circles with the two squares shown in :numref:`figureSquarePoint`.  Both of the Blue Crosses B1 and B2 intersect the Left square, and, the Blue Cross B3 intersects the Right square.  The intersections of the Squares and Blue Crosses, and the Squares with Red Circles are summarized by the datasets shown in :numref:`tableIIIA` and :numref:`tableIIIB`.  As shown in  :numref:`tableIIIA` the *Left Square* intersects with the *Blue Crosses* *B1* and *B2* which are represented as a subset *{B1, B2}*.  Similarly, it is reported in :numref:`tableIIIB` that the *Left square* intersects the subset of *Red Circles* *{R1}*.  In contrast, also in :numref:`tableIIIB` it is shown that the *Left square* does not intersect with any *Red Circles* as shown by the empty set *{ }*.  Here the empty set *{ }* shows that it is known that no intersection occurs.  The reporting of those combinations where intersections are known to not occur as shown  :numref:`tableIIIB` follows the convention used by most SQL type relational databases for all set intersections regardless of whether they are geospatial or not.  In contrast, the convention for many GIS desktop software including QGIS and ArcGIS is to only show those combinations where intersections are known to occur (are True), hence, :numref:`tableIIIB` is reported as :numref:`tableIIIC` by QGIS.
+
+
+.. _figureSquarePoint:
+
+.. figure:: _static/squaresAndPoints.png
+   :align: center
+
+   The location of blue crosses and red circles in the “Left Square” and the “Right Square”.
+
+.. _tableIIIA:
+
+.. table:: The intersection of the the *Squares* and the *Blue Crosses*.
+   :widths: auto
+
+   +--------------+--------------+
+   | Square       | Blue Crosses |
+   +==============+==============+
+   | Left square  | {B1, B2}     |
+   +--------------+--------------+
+   | Right square | {B3}         |
+   +--------------+--------------+
+
+
+.. _tableIIIB:
+
+.. table:: The intersection of the the *Squares* and the *Red Circles*.
+   :widths: auto
+
+   +--------------+--------------+
+   | Square       | Red Circles  |
+   +==============+==============+
+   | Left square  | {R1}         |
+   +--------------+--------------+
+   | Right square | {  }         |
+   +--------------+--------------+
+
+.. _tableIIIC:
+
+.. table:: The intersection of the the *Squares* and the *Red Circles* as shown by QGIS.
+   :widths: auto
+
+   +--------------+--------------+
+   | Square       | Red Circles  |
+   +==============+==============+
+   | Left square  | {R1}         |
+   +--------------+--------------+
+
+
+The real utility of empty geometry values is realised when the intersection of all the squares and both types of points (*Red Circles* and *Blue Crosses*) are collated in one dataset as shown in :numref:`tableIII` as opposed to  :numref:`tableIIID`.  By using the empty set *{ }* as a place holder for the known non-intersection of *Red Circles* with the *Right square* the sets of *Blue Crosses* and *Red Circles* are maintained as seperate columns.  Although this approach is efficient and intuitive it is not suitable when there is a large number of point types as the number of columns has a linear relationship to the numbs of points.
+
+
+.. _tableIII:
+
+.. table:: The intersection of all point types and the squares.  Note that the sets each point type are still maintained as individual columns.  This approach is not feasible for a large number of point types as there would be too many columns.
+   :widths: auto
+
+   +--------------+----------------------------+
+   | Square       | Point type                 |
+   +              +--------------+-------------+
+   |              | Blue Crosses | Red Circles |
+   +==============+==============+=============+
+   | Left square  | {B1, B2}     | {R1}        |
+   +--------------+--------------+-------------+
+   | Right square | {B3}         | { }         |
+   +--------------+--------------+-------------+
+
+
+.. _tableIIID:
+
+.. table:: The intersection of all point types and the squares.
+   :widths: auto
+
+   +--------------+--------------+----------+
+   | Square       | Point type   | Geometry |
+   +==============+==============+==========+
+   | Left square  | Blue Crosses | {B1, B2} |
+   +--------------+--------------+----------+
+   | Right square | Blue Crosses | {B3}     |
+   +--------------+--------------+----------+
+   | Left square  | Red Circles  | {R1}     |
+   +--------------+--------------+----------+
+
+^^^^
+null
+^^^^
+**null** is the most common value (element) recorded many disciplines and software formats for *unknown* data values [#f6]_.  For example, if a study of chickens hatching from eggs recorded the hatch date of each chicken hatching for a set of 10 eggs than the hatch date element of the hatch date set is *null* (unknown) if the hatch date was not recorded.  Strictly speaking a *null* hatch date can be any value from the universal set of hath dates including *Empty* allowing for eggs that never hatched.
+
+The most useful feature of *null* values is that they enable incomplete datasets.  For example, consider the Blue Crosses dataset shown in :numref:`tableIIIE` where the coordinates for B4 are unknown. Datasets like :numref:`tableIIIE` can stem from requests to georeference existing datasets where the georeferencing is incomplete.
+
+.. _tableIIIE:
+
+.. table:: The age, size and coordinates for the Blue Crosses.
+   :widths: auto
+
+   +------------+-------------+-------+-------------+
+   | Blue Cross | Age (years) | Size  | Coordinates |
+   +============+=============+=======+=============+
+   | B1         | 2           | Big   | (1, 1)      |
+   +------------+-------------+-------+-------------+
+   | B2         | 2           | Small | (2, 2)      |
+   +------------+-------------+-------+-------------+
+   | B3         | 3           | Small | (4, 2)      |
+   +------------+-------------+-------+-------------+
+   | B4         | 8           | Big   | *null*      |
+   +------------+-------------+-------+-------------+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Using joins to eliminate null
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Many GIS datasets do not allow *null* geometries.  Having a dataset constraint that prevents *null* geometries does not imply that the geometries are all known, it only means that the dataset can't have a *null* geometry.  The prevention of *null* geometries without knowing all of the geometries is achieved by using multiple datasets that include a geometry only dataset that has a relationship with a non-geometry dataset as shown in :numref:`figureJoinedCrosses`.  The relationship is typically achieved by the use of a **key** that is used in all related datasets to distinguish each relationship across the datasets.  Joins refer the process of forming a new dataset from multiple datasets by the use of a relationship.  The dataset shown in :numref:`tableIIIE` can be created from the datasets shown in :numref:`figureJoinedCrosses` by application of an *outer join*.
+
+.. _figureJoinedCrosses:
+
+.. figure:: _static/CrossesWithoutNull.png
+   :align: center
+
+   :numref:`tableIIIE` presented as two separate datasets where *null* *Coordinates* data values are not permitted.  The *Blue Crosses* key is used to register relationships between the two datasets that is symbolised by the grey dashed lines.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Reasons for preventing null geometries
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The reasons for preventing null geometries include: it's keeps GIS feature creation simple: one can't map *null*; they permit the geometry value to be a variable; and, it keeps logic based algorithms simple.
+
+For QGIS and many desktop GIS systems, records are created by drawing the geometry and subsequently entering the other data values.  This geospatial geometry centered approach intuitively keeps the related computer programming simple in comparison to any approach that allows a user to enter any of the data values including the geometry in the sequence that they choose.
+
+There is no accepted universal approach to mapping a *null* geometry.  It is obvious that if a geometry is *null* then using a defined symbol at a single location is a miss-representation.  There is active research into approaches for mapping the unknown.
+
+The use of a geometry specific dataset enables geometry to be a variable.  For example, take the Blue Cross B1.  This Blue Cross may represent a boat in a sea.  Hence, at different points in time, B1 may have different coordinates (:numref:`tableIIIF`).  Most geospatial datasets have geometries that are variable as our technology for recording and knowing location is improving.  For example, an allotment of land may be static as it is relative to reference points, but, the mapped location and hence the recorded geometry for the allotment of land will change as the location of the reference points is refined to a higher accuracy.  Whether a dataset owner should track changes to a geometry is a question that is beyond the scope of this discussion.
+
+.. _tableIIIF:
+
+.. table:: The coordinates of the Blue Crosses for yesterday and today.
+   :widths: auto
+
+   +------------+----------------------+
+   | Blue Cross | Coordinates          |
+   +            +-----------+----------+
+   |            | Yesterday | Today    |
+   +============+===========+==========+
+   | B1         | (1, 1)    | (2, 2)   |
+   +------------+-----------+----------+
+   | B2         | (2, 2)    | (1, 2)   |
+   +------------+-----------+----------+
+   | B3         | (4, 2)    | (4, 1)   |
+   +------------+-----------+----------+
+
+Whether a dataset allows *null* values or not directly affects the type of logic applied to the dataset for set operations.  Boolean logic, also referred to as two value logic, allows only for True or False answers to set operations.  Boolean logic has can't be applied when the answer is unknown.  When *null* values are permitted, three value logic is required for set operations.  The intersection of the squares with the two subsets of blue crosses {B1, B2, B3} and {B1, B2, B3, B4} that are described in :numref:`tableIIIE` is shown in :numref:`tableIIIG`.  For {B1, B2} it is True that they intersect the Left square, whilst it is also True that {B3} does not intersect the same square, however, it is null (unknown) whether {B4} intersects the Left Square.  Compounding the implementation of Three value logic is the fact that different database platforms implement three value logic differently leading to widespread avoidance of three value logic regardless of whether the data type is geometry or something more generic like an integer.  In summary, even when *null* values are permitted in datasets, the records associated with them are typically excluded from set operations.
+
+.. _tableIIIG:
+
+.. table:: The intersection of the squares with the subsets {B1, B2, B3} and {B1, B2, B3, and B4} as shown in :numref:`tableIIIE`.
+   :widths: auto
+
+   +--------------+-----------------------------------+
+   | Square       | Intersection with the subset      |
+   +              +---------------+-------------------+
+   |              | {B1, B2, B3}  | {B1, B2, B3, B4}  |
+   +              +---------------+-------------------+
+   |              | Boolean logic | Three value logic |
+   +==============+===============+===================+
+   | Left square  | {B1, B2}      | {B1, B2, null-B4} |
+   +--------------+---------------+-------------------+
+   | Right square | {B3}          | {B3, null-B4}     |
+   +--------------+---------------+-------------------+
+
+
+
+Although beyond the scope of this project, it is noted that although Boolean logic is applied the same in the majority of relational databases there is known diversity in the application for three value logic.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Reasons for allowing null geometries
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Although the majority of GIS systems do not promote the use of null geometry data values, there are several reasons why they should be adopted: they force the adoption of geospatial datasets by enterprise databases; they illuminate the unknown; and, they facilitate a simpler dataset structure.
+
+The forced adoption of geospatial datasets by enterprise databases is the most compelling reason to adopt null geometry values.  For example, consider a commercial database used for rates at a local government.  The current approach of most databases for rates is to mimic :numref:`figureJoinedCrosses` where the tables for the land registry are maintained within a land registry database, and, the tables for the georeferenced land allotments are in a GIS database and these databases are joined.  This approach facilitates bureaucracies where separate teams of people maintain each database, and, where the land registry database does not adopt spatial functionality as the data is located in a separate database.  Whilst using a separate GIS database allows the local government to develop a custom GIS system, it comes at a cost of minimal inbuilt spatial capability.
+
+Allowing *null* has the potential to expose the unknown.  By exposing the unknown, it it is evident where further data capture is required, and, it is more likely that any spatial analysis will also establish the degree of dataset completeness.
+
+A disadvantage of the lookup table approach is the requirement for the documentation of database schema for users to maintain the lookup key and to perform database queries that include spatial and non-spatial attributes.  Without lookup tables the database structure is simpler leading to fewer errors and fewer joins when constructing queries.
+
+===================================
+Parsing data by QGIS data Providers
+===================================
+QGIS parses data to and from many data formats without requiring importing or exporting to or from a common data format.  The intent of this data parsing is that a user may analyse data stored in different formats with a common user interface.  A key component of any GIS record is a geospatial geometry data type which could be stored in an infinite number of ways.  Fortunately, there are international standards :cite:`ISO19125-2` that describe the geospatial geometry data type and subtypes, and, there is some consistency across most data formats.
+
+
+Although different GIS data formats have **similar** geometry subtype hierarchy's, they are not the same.  For example, many different SQL databases that adopt elements of ISO19125-2 :cite:`ISO19125-2` including PostGis and MS SQL by default have a *Geometry* subtype [#f4]_. Consequently, without further constraints in their native environment one can choose any subtype shown in :numref:`figureGeomTypeI` for any record.  In comparison, the *Geometry* subtype equivalent in the QGIS data type inheritance diagram :cite:`QGSAbstractGeometry` has the title *"QgsAbstractGeometry"* where the *Abstract* keyword tell us that this datatype can't be created by itself, only it's children can be created.  To emphasize, parsing data for different data formats but maintaining a uniform user interface is a Pandora's box when the data types or subtypes have different hierarchy's of data subtypes.
+
+
+
+With the understanding that different data formats have different geometry hierarchy's it is expected that QGIS needs to make adjustments on the fly.
+.the This parsing is silent and without experience errors may be introduced into datasets.
+
+.. _tableMultiLine:
+
+.. table:: Feature geometry changes when exporting a QGIS Multi-Line memory layer.
+   :widths: auto
+
+   ========== ============ ============ ============ ============ ============
+   Original   Geopackage   Shapefile    Spatialite   PostGis      MS SQL
+   ========== ============ ============ ============ ============ ============
+   Multi-Line Multi-Line   Multi-Line   Multi-Line   Multi-Line   Multi-Line
+   Line       *Multi-Line* *Multi-Line* *Multi-Line* Line         Line
+   Empty      Empty        *null*       Empty        Empty        *null*
+   *null*     Empty        *null*       Empty        *null*       *null*
+   ========== ============ ============ ============ ============ ============
+
+
+For several dataproviders including QGIS memory layer, PostGIS and MicroSoft SQL Server QGIS employs a subtype hierarchy shown by :numref:`figureGeomTypeII`.  Hence for some dataproviders, by default, QGIS creates a new one part line in a dataset of the *"Multi-Line"* subtype as a Line and not a *"Multi-Line"*.  The insertion of a *"Line"* geometry subtype into a *"Multi-Line"* geometry subtype dataset is readily demonstrated by python script using the QGIS API:
+
+.. doctest::
+
+   >>> from qgis.core import *
+   >>> layerMulti=QgsVectorLayer('MultiLineString?crs=epsg:4326&field=ID:string', 'a', "memory")
+   >>> providerMulti=layerMulti.dataProvider()
+   >>> recordWrite = QgsFeature()
+   >>> recordWrite.setAttributes(['1'])
+   >>> recordWrite.setGeometry(QgsGeometry.fromWkt('LINESTRING (1 1, 6 1)'))
+   >>> providerMulti.addFeature(recordWrite)
+   True
+   >>> recordRead = layerMulti.getFeature(1)
+   >>> print(QgsWkbTypes.displayString(recordRead.geometry().wkbType()))
+   LineString
+   >>> print(QgsWkbTypes.displayString(layerMulti.dataProvider().wkbType()))
+   MultiLineString
+
+More worringly, as shown in the next python script, the reverse is also possible.  One may add a feature with a *Multi-Line* geometry sub-type to a *Line* dataset.
+
+.. doctest::
+
+   >>> from qgis.core import *
+   >>> layerSingle=QgsVectorLayer('LineString?crs=epsg:4326&field=ID:string', 'b', "memory")
+   >>> providerSingle = layerSingle.dataProvider()
+   >>> recordWrite = QgsFeature()
+   >>> recordWrite.setAttributes(['1'])
+   >>> recordWrite.setGeometry(QgsGeometry.fromWkt('MULTILINESTRING ((1 1, 6 1))'))
+   >>> providerSingle.addFeature(recordWrite)
+   True
+   >>> recordRead = layerSingle.getFeature(1)
+   >>> print(QgsWkbTypes.displayString(recordRead.geometry().wkbType()))
+   MultiLineString
+   >>> print(QgsWkbTypes.displayString(layerSingle.dataProvider().wkbType()))
+   LineString
+
+Fortunately with QGIS you can't insert a *Point* into a *Line* dataset, or, otherwise mix geometry sub-types of different dimensionality.
+
+.. doctest::
+
+   >>> from qgis.core import *
+   >>> layerSingle=QgsVectorLayer('LineString?crs=epsg:4326&field=ID:string', 'b', "memory")
+   >>> providerSingle = layerSingle.dataProvider()
+   >>> recordWrite = QgsFeature()
+   >>> recordWrite.setAttributes(['1'])
+   >>> recordWrite.setGeometry(QgsGeometry.fromWkt('POINT (1 1)'))
+   >>> providerSingle.addFeature(recordWrite)
+   False
+
+.. _figureGeomTypeII:
+
+.. figure:: _static/geomTypeQGIS.png
+   :align: center
+
+   The Geometry subtype hierarchy employed by QGIS by default for several data providers.
+
+
+
+
+
+QGIS mixes the primitive geometry types with the modern geometry types by default.  The data providers typically handle this well, but, the pre-scripted decisions can have consequences.
+
+For example, by default QGIS will permit a user to add a Multline feature to a MicroS
+
+
+---------------
+Empty and nulls
+---------------
+
+
+===================================
+GIS Centric And the Wall of Mystery
+===================================
+
+
 ======================
 Vector Datasets in GIS
 ======================
@@ -56,170 +426,9 @@ Spatial information is normally classified by whether it is a set of shapes refe
 rectangular grid of values referred to as a raster dataset.  Here we are only concerned with vector datasets.
 
 To facilitate storage and retrieval, an individual vector dataset is restricted to shapes and their attributes for a
-specific subject.  To achieve utility, it is essential that the data type and range of valid values for each attribute
-is defined.  The prescription of data types and value ranges is referred to as schema.   For example, many GIS systems
-impose that a vector dataset may only contain one type of shape (e.g. point, line or polygon) and one shape object per
-record.  A dataset that has a defined schema is by definition a database.
+specific subject.  To achieve utility, it is essential that the data type and range of valid values for each attribute is defined.  The prescription of data types and value ranges is referred to as schema.   For example, many GIS systems impose that a vector dataset may only contain one type of shape (e.g. point, line or polygon) and one shape object per record.  A dataset that has a defined schema is by definition a database.
 
-In many organisations, the geospatial vector datasets are located within enterprise databases that have one or more
-data types that are specific to storing geospatial shapes.  An enterprise database refers to any database where
-multiple users may query or edit the same dataset at the same time.  Consequently, the set of shape values available
-needs to be consistent with the database design, and, these often include null and empty values.
-
-=======================================
-Null Values, Empty Values and Databases
-=======================================
-Datasets store values, and, sometimes these values are unknown.  The generic term for an unknown value is *null*.
-Whether a dataset allows *null* values or not directly affects the type of logic used on the dataset.
-The logic complication introduced by using null values is demonstrated by the example road name dataset shown
-in :numref:`tableI`.  In :numref:`tableI` the roads ‘Rd1’ and ‘Rd4’ have the names ‘Picton’ and ‘Appin’ respectively.  The
-road ‘Rd2’ doesn’t have a name which is typical of minor roads.  The name of ‘Rd3’ is unknown.
-
-.. _tableI:
-
-.. table:: Road name dataset example
-   :widths: auto
-
-   ======= ========= =========
-   Road Id	Road Name Road Type
-   ======= ========= =========
-   Rd1     Picton    Road
-   Rd2     Lane
-   Rd3     *null*    Lane
-   Rd4     Appin     *null*
-   ======= ========= =========
-
-======= ========= ========= =============
-Road Id	Road Name Road Type	Line
-======= ========= ========= =============
-Rd1     Picton    Road      *null*
-Rd2     Lane                {(2,0),(2,2)}
-Rd3     *null*    Lane      {(1,1),(1,3)}
-Rd4     Appin     *null*    {(0,2),(3,2)}
-======= ========= ========= =============
-
-The answer to the question “Does the road have a name?” is shown in :numref:`tableII`.  As already described, roads
-‘Rd1’ and ‘Rd4’ do have names, road ‘Rd2’ does not have a name and it is unknown whether road ‘Rd3’ has a name or not.
-
-.. _tableII:
-
-.. table:: Does the road have a name query of :numref:`tableI`.
-   :widths: auto
-
-   +---------+-----------+---------------------------+
-   | Road Id | Road Name |Has a road name?           |
-   +---------+-----------+---------------+-----------+
-   |         |           | (simple text) | (boolean) |
-   +=========+===========+===============+===========+
-   | Rd1     | Picton    | Yes           | True      |
-   +---------+-----------+---------------+-----------+
-   | Rd2     |           | No            | False     |
-   +---------+-----------+---------------+-----------+
-   | Rd3     | *null*    | Unknown       | *null*    |
-   +---------+-----------+---------------+-----------+
-   | Rd4     | Appin     | Yes           | True      |
-   +---------+-----------+---------------+-----------+
-
-Boolean logic, also referred to as two value logic allows only for True or False.  Boolean logic has no value when the answer is unknown.  When null values are permitted, three value logic is required whenever one of the answers is unknown.  Although beyond the scope of this project, it is noted that although Boolean logic is applied the same in the majority of relational databases there is known diversity in the application for three value logic.
-In the described road name example, it was noted that the road ‘Rd2’ has no name.  If the ‘Road Name’ attribute is
-considered to be a set of characters, then, the set of characters for Rd2’s ‘Road Name’ is empty.  By definition, an
-empty set is a set that has no members.  By deduction, an empty set or an empty value is not a *null* value.  Hence, it
-is **known** that road ‘Rd2’ does not have a name, but, it is **unknown** whether road ‘Rd3’ has a name or not.
-
-:numref:`figureI` illuminates the application of empty values to geometry data types.  :numref:`figureI` shows the location of two
-different point types (blue crosses and red circles) with respect to two squares referred to as “Left square” and
-“Right square”.  Note that each point type consists of a set of points that may contain multiple points.  In reality,
-the blue crosses may represent catholic churches, the red circles protestant churches and the squares may represent
-suburbs.  :numref:`tableIII` shows the sets of individual points when categorized by Point type and Square.  The Left square
-contains the set of Blue Crosses ‘P1’ and ‘P2’, plus the set of Red Circles containing ‘P3’.  The Right square contains
-the set of Blue Crosses ‘P4’ and the empty set of Red circles.  An empty set of Red circles shows that it is known that
-there are no Red circles in the Right square.
-
-.. _figureI:
-
-.. figure:: _static/FigureI.png
-   :align: center
-
-   The location of blue crosses and red circles in the “Left Square” and the “Right Square”.
-
-.. _tableIII:
-
-.. table:: A table showing individual points organised by Point type and Square.
-   :widths: auto
-
-   +--------------+----------------------------+
-   | Point type   | Square                     |
-   +--------------+-------------+--------------+
-   |              | Left square | Right square |
-   +==============+=============+==============+
-   | Blue crosses | P1, P2      | P4           |
-   +--------------+-------------+--------------+
-   + Red circles  | P3          |              |
-   +--------------+-------------+--------------+
-
-By way of definition, an empty geometry is a geometry data type that has no members :cite:`OGC2010`.  The empty geometry
-value is a placeholder that illuminates that it is known that no geometry exists.  An empty geometry is a known value,
-whereas a null geometry is an unknown value that may or may not be empty.
-
-Introducing an additional point type (e.g. Green stars) to :numref:`figureI` consisting of a set of null points greatly
-complicates a relationship table like :numref:`tableIII`.  A null point exists whenever it is known that a point exists, but,
-the location of the point is unknown.  Similarly, a null geometry exists whenever it is known that the geometry exists,
-but, the actual geometry is unknown.  There is much variation with the logic applied to selecting and processing null
-geometry values in different GIS systems, except when essential, these variations will not be explored here .
-
--------------------------
-Set theory and empty sets
--------------------------
-A set is a collection of objects, referred to as elements of the set.  An empty set is a set that has no elements, and,
-is designated by :math:`\{\ \}`.
-One way of representing a geometry is by text representation of vertices.  For example, the point geometry A with a
-point located at the vertex :math:`(1,1)` is a one element set :math:`\{(1,1)\}`, whilst, the multiple point geometry B with points
-located at the :math:`(1,1)` and :math:`(2,2)` is a two element set :math:`\{(1,1),(2,2)\}`.  The intersection of geometry A and geometry B is
-also the one element set :math:`\{(1,1)\}`.  Hence:
-
-.. math::
-
-   geometry\ A\ ∩\ geometry\ B= point\{(1,1)\}\ ∩\ point \{ (1,1),(2,2)\}= point \{(1,1)\}
-
-Similarly, consider the intersection of squares with the vertices :math:`\{(0,0),(0,2),(2,2),(2,0),(0,0)\}` and
-:math:`\{(1,1),(1,3),(3,3),(3,1),(1,1)\}`.
-
-.. math::
-   square\{(0,0),(0,2),(2,2),(2,0),(0,0)\}∩square\{(1,1),(1,3),(3,3),(3,1),(1,1)\}=square\{(1,1),(1,2),(2,2),(2,1),(1,1)\}
-
-Now, consider the intersection of the squares with the vertices :math:`\{(0,0),(0,2),(2,2),(2,0),(0,0)\}` and
-:math:`\{(3,0),(5,0),(5,2),(3,2),(3,0)\}`:
-
-.. math::
-   square\{(0,0),(0,2),(2,2),(2,0),(0,0)\}∩square\{(3,0),(5,0),(5,2),(3,2),(3,0)\}=square\{\ \}
-
-These squares are disjoint as they have no area in common.  Their intersection produces an empty set of vertices.
-
-***NEED TO ADD FIGURES***
-
----------------------------------------------
-Empty and null shape values are not universal
----------------------------------------------
-There are many organisations that have geospatial datasets that have schema that prohibit null and empty shape values.
-Null values are most commonly avoided by using a lookup table that contains only those values that are known.  For
-example, the same road dataset presented in :numref:`tableI` can also be described with two look up tables for Road
-Name and Road Type that no longer contain null values as shown in :numref:`figureII`.  Both :numref:`tableI` and
-:numref:`figureII` are equivalent.  Using the same approach, lookup tables can be used to store geometry data
-values.  By design, a geometry lookup table does not contain a record when a geometry value is unknown (null).   Using
-the lookup table approach, those records that are missing geometry data sets are identified by constructing an
-appropriate join to the geometry containing lookup table.
-
-.. _figureII:
-
-.. figure:: _static/tableIV.png
-   :align: center
-
-   Road name dataset example using lookup tables to avoid null values.
-
-The use of a lookup table to contain geometry datasets in comparison to storing the geometry datasets in a single table with other relevant attributes requires an additional table to be created and a lookup key to be maintained.  A major advantage of the lookup table approach is that one can maintain the main non-geometry dataset in one enterprise database system that is not geospatially enabled, and, the ancillary geometry dataset in a geospatially enabled database.  Another advantage is that an organisation can use a single piece of geospatial software to maintain the geometry data that is associated with data in several different enterprise databases.  In this way, geospatial capability can be retrofitted to an enterprise database.  A major disadvantage of the lookup table approach is the requirement for the documentation of database schema for users to maintain the lookup key and to perform database queries that include spatial and non-spatial attributes.
-
-Empty values and their use are much more complicated to resolve relative to null values.  Prohibiting empty values has
-two major software design ramifications: Datasets are unable to contain multiple shape attributes; and, false set operations have to be removed by a selection.
+In many organisations, the geospatial vector datasets are located within enterprise databases that have one or more data types that are specific to storing geospatial shapes.  An enterprise database refers to any database where multiple users may query or edit the same dataset at the same time.  Consequently, the set of shape values available needs to be consistent with the database design, and, these often include null and empty values.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Records with multiple geometry attributes
@@ -489,6 +698,12 @@ Now, the QGIS test for empty performs the same test as for null, and, returns tr
 .. [#f2] In both Microsoft SQL and PostGis the geometry type that is empty is recorded :cite:`Loskot2010,Ramsey2010`).  Sometimes the geometry type gets changed to the generic ‘GEOMETRYCOLLECTION’ by set operations.
 
 .. [#f3] Unable to find a high quality reference for this argument.  Several private conversations with C++ programers reveal that this logic is common and is frequently used to test for empty in C++.
+
+.. [#f4] In many QSL databases the hierarchy separates all geometry types that employ cartesian coordinates from those that employ geographic coordinates.
+
+.. [#f5] For SQL relational databases, the term geometry is restricted to those shapes that are located by cartesian coordinates.
+
+.. [#f6] Python uses *None* instead of *null*, but, PyQT uses *NULL* as a QVariant, so, PyQGIS script may have a mixture of *None* and *NULL* depending on the origin of the classes in use.
 
 ******************
 Future Development

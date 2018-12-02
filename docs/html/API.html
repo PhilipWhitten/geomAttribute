@@ -26,6 +26,7 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -89,7 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="loadData.html">Load Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#modelvectorlayers-module">modelVectorLayers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-modelVectorLayers">modelVectorLayers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-parseQGISGeometry">parseQGISGeometry module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zipGeomAttribute">zipGeomAttribute module</a></li>
 </ul>
@@ -164,8 +165,38 @@
 <h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
 <p>The following modules are included within this plugin.  The plugin’s repository is
 on <a class="reference external" href="https://github.com/PhilipWhitten/geomAttribute">GitHub</a>.</p>
-<div class="section" id="modelvectorlayers-module">
-<span id="modelvectorlayers-api"></span><h2>modelVectorLayers module<a class="headerlink" href="#modelvectorlayers-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-modelVectorLayers">
+<span id="modelvectorlayers-module"></span><span id="modelvectorlayers-api"></span><h2>modelVectorLayers module<a class="headerlink" href="#module-modelVectorLayers" title="Permalink to this headline">¶</a></h2>
+<p>Creates vector layers as QGIS memory layers.  These layers are intended to demonstrate how the Geometry Attribute Table
+plugin renders datasets that have: multi-part, single part, empty, and, null geometries.  A description of the created
+layer is included with each method.</p>
+<dl class="function">
+<dt id="modelVectorLayers.createMultiLines">
+<code class="descclassname">modelVectorLayers.</code><code class="descname">createMultiLines</code><span class="sig-paren">(</span><em>layerName='Multi-Part Lines'</em><span class="sig-paren">)</span><a class="headerlink" href="#modelVectorLayers.createMultiLines" title="Permalink to this definition">¶</a></dt>
+<dd><p>A geometry collection of multi-part lines and lines (single part constrained).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>layerName (str): The name of the layer that is loaded into QGIS.</dd>
+<dt>Returns:</dt>
+<dd>A memory vector layer containing features with the following geometries: 2 part multi-line; 3 part multi-line,
+1 part multi-line, line, Empty multi-line, and, Null.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="modelVectorLayers.createMultiPoints">
+<code class="descclassname">modelVectorLayers.</code><code class="descname">createMultiPoints</code><span class="sig-paren">(</span><em>layerName='Multi-Part Points'</em><span class="sig-paren">)</span><a class="headerlink" href="#modelVectorLayers.createMultiPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>A geometry collection of multi-part points and points (single part constrained).</p>
+<p>For an empty point, QGIS creates erroneously creates a point with the coordinates (0 0).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>layerName (str): The name of the layer that is loaded into QGIS.</dd>
+<dt>Returns:</dt>
+<dd>A memory vector layer containing features with the following geometries: 2 point multi-point; 4 point multi-point,
+1 point multi-point, line, Empty multi-line, and, Null.</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-parseQGISGeometry">
 <span id="parseqgisgeometry-module"></span><span id="parseqgisgeometry-api"></span><h2>parseQGISGeometry module<a class="headerlink" href="#module-parseQGISGeometry" title="Permalink to this headline">¶</a></h2>

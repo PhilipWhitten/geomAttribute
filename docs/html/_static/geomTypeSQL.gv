@@ -1,0 +1,37 @@
+    digraph {
+
+       node [shape=record, fontname="Arial"];
+       rankdir = RL
+
+      G [label="Geometry"]
+
+        subgraph cluster_c2 {
+          label = "Multiple Parts";
+          fontname="Arial";
+            "Multi-Point" -> "Geometry Collection" [color=darkgreen, penwidth = 2];
+            "Multi-Curve" -> "Geometry Collection" [color=darkviolet, penwidth = 2];
+            "Multi-Line" -> "Multi-Curve" [color=darkviolet, penwidth = 2];
+            "Multi-Polygon" -> "Multi-Surface"  [color=darkorange, penwidth = 2];
+            "Multi-Surface" -> "Geometry Collection" [color=darkorange, penwidth = 2];
+
+            { rank=same; "Multi-Point", "Multi-Line", "Multi-Polygon"}
+            { rank=same; "Multi-Curve", "Multi-Surface"}
+        }
+
+        subgraph cluster_c1 {
+          label = "Single Part";
+          fontname="Arial";
+          Point;
+          Line -> Curve [color=darkviolet, penwidth = 2];
+          Polygon -> Surface  [color=darkorange, penwidth = 2];
+
+          { rank=same; Polygon, Point, Line}
+          { rank=same; Curve, Surface}
+        }
+
+        Point -> G;
+        Curve -> G;
+        Surface -> G;
+        "Geometry Collection" -> G;
+
+    }

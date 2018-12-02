@@ -1,0 +1,62 @@
+digraph G  
+{
+   node[ shape = none, fontname = "Arial" ];
+   edge [arrowhead=none, style=dashed, color = grey];
+
+    set1[ label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR>
+            <TD><B>Blue Crosses</B></TD>
+            <TD><B>Age (years)</B></TD>
+            <TD><B>Size</B></TD>
+        </TR>
+        <TR>
+            <TD>B1</TD>
+            <TD>2</TD>
+            <TD PORT="b1">Big</TD>
+        </TR>
+        <TR>
+            <TD>B2</TD>
+            <TD>2</TD>
+            <TD PORT="b2">Small</TD>
+        </TR>
+        <TR>
+            <TD>B3</TD>
+            <TD>3</TD>
+            <TD PORT="b3">Small</TD>
+        </TR>
+        <TR>
+            <TD>B4</TD>
+            <TD>8</TD>
+            <TD>Big</TD>
+        </TR>
+    </TABLE>>];
+
+    set2[ label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+        <TR>
+            <TD><B>Blue Crosses</B></TD>
+            <TD><B>Coordinates</B></TD>
+        </TR>
+        <TR>
+            <TD PORT="b1">B1</TD>
+            <TD>(1, 1)</TD>
+        </TR>
+        <TR>
+            <TD PORT="b2">B2</TD>
+            <TD>(2, 2)</TD>
+        </TR>
+        <TR>
+            <TD PORT="b3">B3</TD>
+            <TD>(4, 2)</TD>
+        </TR>
+    </TABLE>>];    
+
+    # layout
+    nodesep = 1;                /* increase distance distance between nodes */
+    { rank = same; set1 set2 }
+
+    set1:b1 -> set2:b1; 
+    set1:b2 -> set2:b2;
+    set1:b3 -> set2:b3;
+}
