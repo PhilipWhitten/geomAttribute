@@ -98,16 +98,16 @@
 <li class="toctree-l4"><a class="reference internal" href="#set">Set</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#relational-dataset">Relational Dataset</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#geospatial-dataset">Geospatial Dataset</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#geometry-data-types">Geometry data types</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#geometry-data-values">Geometry data values</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#parsing-data-by-qgis-data-providers">Parsing data by QGIS data Providers</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#empty-and-nulls">Empty and nulls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geometry-data-types">Geometry data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geometry-data-values">Geometry data values</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#empty">Empty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#null">null</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#parsing-data-by-qgis-data-providers">Parsing data by QGIS data Providers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gis-centric-and-the-wall-of-mystery">GIS Centric And the Wall of Mystery</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#vector-datasets-in-gis">Vector Datasets in GIS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#qgis">QGIS</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#qgis-history">QGIS history</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#vector-datasets-within-qgis">Vector datasets within QGIS</a></li>
@@ -290,23 +290,24 @@ that is a projection of the earth’s surface.</p>
 </div>
 <div class="section" id="geospatial-dataset">
 <h4>Geospatial Dataset<a class="headerlink" href="#geospatial-dataset" title="Permalink to this headline">¶</a></h4>
-<p>A geospatial dataset refers to any dataset where one or more of the composite sets refer to a location on the earth’s surface.  This project is only concerned with those geospatial datasets where the location on the earth’s surface is represented by one or more points, lines or polygons that are located by coordinates and stored as vectors.  These points, lines and polygons are collectively referred to as shapes or geometries <a class="footnote-reference" href="#f5" id="id2">[5]</a>.</p>
+<p>A geospatial dataset refers to any dataset where one or more of the composite sets refer to a location on the earth’s surface.  This project is only concerned with those geospatial datasets where the location on the earth’s surface is represented by one or more points, lines or polygons that are located by coordinates and stored as vectors.  These points, lines and polygons are collectively referred to as shapes or geometries <a class="footnote-reference" href="#f5" id="id2">[5]</a>.  Datasets that include one or more sets of geospatial vectors are referred to as <em>Vector Datasets</em> by the GIS community.</p>
 <p>A vector geospatial dataset is a subtype of geospatial dataset where the geospatial sets can be located graphically on the earths surface by the application of coordinates.  This project is only concerned with vector geospatial datasets.</p>
 </div>
+</div>
 <div class="section" id="geometry-data-types">
-<h4>Geometry data types<a class="headerlink" href="#geometry-data-types" title="Permalink to this headline">¶</a></h4>
+<h3>Geometry data types<a class="headerlink" href="#geometry-data-types" title="Permalink to this headline">¶</a></h3>
 <p>All datasets contain some restriction on the type of data each constituent set may contain.  From a software perspective, a restriction of type is essential for minimizing both the storage size of the dataset and the response time for a dataset query.  Analagous to specific data types for storage of numbers, text or dates there is one or more data types specifically used for the storage of geospatial geometries.  Similarly, just as there are often specific data types of signed and unsigned integers, float, and, decimal numbers there are also specific data types for different types of geometries, with the type often referring to how the geometry is constructed.</p>
 <p>For any dataset software the geometry data types that are availabe for use can be shown schematically as a hierarchy like the one shown in <a class="reference internal" href="#figuregeomtypei"><span class="std std-numref">Fig. 1</span></a>.  Within this hierarchy, the possible data types are described by the labels in the boxes.  Essential to all such hierarchy’s, a set of data of a declared type may consist of any type below it on the hierarchy.  Hence, if a set of data has a declared type of <em>Geometry Collection</em> then any data element within it may consist of <em>Geometry Collection</em>, <em>Multi-Point</em>, “Multi-Curve*, <em>Multi-Line</em>, <em>Multi-Surface</em>, and, <em>Multi-Polygon</em>.  Similarly, if a set of data has a declared type of <em>Point</em> than it may not contain a <em>Polygon</em> nor a <em>Line</em>.</p>
 <p>The single part constrained geometry subtypes in the lower part of <a class="reference internal" href="#figuregeomtypei"><span class="std std-numref">Fig. 1</span></a> are referred to as <em>Primitive Types</em> and must contain only one single part geometry per set element.  In contrast, the Multiple Part geometries may consist of one <em>or</em> many parts per feature.  For example, a feature of the <em>“Multi-Point”</em> geometry sub type may have one point, no points or multiple points. Another characteristic of the single part primitive types is that the <em>Line</em> and <em>Polygon</em> subtypes may only exist of straight line segments between coordinates.</p>
 <div class="figure align-center" id="id41">
-<span id="figuregeomtypei"></span><img alt="_images/geomTypeSQL.png" src="_images/geomTypeSQL.png" />
+<span id="figuregeomtypei"></span><a class="reference internal image-reference" href="_images/geomTypeSQL.png"><img alt="_images/geomTypeSQL.png" src="_images/geomTypeSQL.png" style="width: 595.2px; height: 432.8px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">GIS Geometry subtype hierarchy.  Adapted from <a class="reference internal" href="#iso19125-2" id="id3">[5]</a>.  The more conventional term <em>“LineString”</em> that is used in the QGIS API and <a class="reference internal" href="#iso19125-2" id="id4">[5]</a> is replaced here with <em>“Line”</em> for clarity.</span></p>
 </div>
 <p>In reality there may be many more geometry subtypes than the simplified hierarchy shown in <a class="reference internal" href="#figuregeomtypei"><span class="std std-numref">Fig. 1</span></a>.  For example, some common additional subtypes for datasets are created for sets of geometries that incorporate elevation data, or, for lines that are constructed from curves as opposed to straight line segments.</p>
 <p>Many GIS data format standards, and, many GIS software have a geometry subtype hierarchy that is <strong>similar</strong> with <a class="reference internal" href="#figuregeomtypei"><span class="std std-numref">Fig. 1</span></a>.  Within a GIS dataset, geometry objects there are several geometry subtypes, with the main ones without elevation are shown in <a class="reference internal" href="#figuregeomtypei"><span class="std std-numref">Fig. 1</span></a>.  Schematically, this hierarchy of geometry subtypes is replicated by the <a class="reference external" href="https://qgis.org/api/classQgsAbstractGeometry.html">inheritance diagram for QgsAbstractGeometry</a> <a class="reference internal" href="#qgsabstractgeometry" id="id5">[12]</a>.</p>
 </div>
 <div class="section" id="geometry-data-values">
-<h4>Geometry data values<a class="headerlink" href="#geometry-data-values" title="Permalink to this headline">¶</a></h4>
+<h3>Geometry data values<a class="headerlink" href="#geometry-data-values" title="Permalink to this headline">¶</a></h3>
 <p>For any data type there exists a universal set of valid values.  For example, a set of birthday dates must be restricted to valid dates.  For example, a birthday on the 30th of February is not valid as the 30th of February is not part of the universal set of dates.  Similarly, a valid geometry needs to be located within the boundaries of the coordinate system that it is referenced to.  <strong>Empty</strong> and <strong>null</strong> are two values that may be part of any set of data and could be fairly described as being:</p>
 <ol class="arabic simple">
 <li>Controversial</li>
@@ -314,11 +315,11 @@ that is a projection of the earth’s surface.</p>
 <li>Best avoided</li>
 </ol>
 <div class="section" id="empty">
-<h5>Empty<a class="headerlink" href="#empty" title="Permalink to this headline">¶</a></h5>
+<h4>Empty<a class="headerlink" href="#empty" title="Permalink to this headline">¶</a></h4>
 <p>A box of apples can be described as a set of apples.  A empty Apple box is an empty set of apples.  An empty geometry element is a geometry that has no coordinates.  Whether an empty element is a valid member of a set depends on the context.  For example, if a study of chickens hatching from eggs recorded the date that each chicken hatches for a set of 10 eggs than the hatch date element is of the hatch date set is empty before the chicken hatches.  It is <em>known</em> that the chicken has not hatched.</p>
 <p>All empty sets including an empty geometry value are place holders for when it is <em>known</em> that an element does not exist <a class="reference internal" href="#ogc2010" id="id6">[18]</a>.  For example, consider the intersection of the Blue Crosses and the Red Circles with the two squares shown in <a class="reference internal" href="#figuresquarepoint"><span class="std std-numref">Fig. 2</span></a>.  Both of the Blue Crosses B1 and B2 intersect the Left square, and, the Blue Cross B3 intersects the Right square.  The intersections of the Squares and Blue Crosses, and the Squares with Red Circles are summarized by the datasets shown in <a class="reference internal" href="#tableiiia"><span class="std std-numref">Table 3</span></a> and <a class="reference internal" href="#tableiiib"><span class="std std-numref">Table 4</span></a>.  As shown in  <a class="reference internal" href="#tableiiia"><span class="std std-numref">Table 3</span></a> the <em>Left Square</em> intersects with the <em>Blue Crosses</em> <em>B1</em> and <em>B2</em> which are represented as a subset <em>{B1, B2}</em>.  Similarly, it is reported in <a class="reference internal" href="#tableiiib"><span class="std std-numref">Table 4</span></a> that the <em>Left square</em> intersects the subset of <em>Red Circles</em> <em>{R1}</em>.  In contrast, also in <a class="reference internal" href="#tableiiib"><span class="std std-numref">Table 4</span></a> it is shown that the <em>Left square</em> does not intersect with any <em>Red Circles</em> as shown by the empty set <em>{ }</em>.  Here the empty set <em>{ }</em> shows that it is known that no intersection occurs.  The reporting of those combinations where intersections are known to not occur as shown  <a class="reference internal" href="#tableiiib"><span class="std std-numref">Table 4</span></a> follows the convention used by most SQL type relational databases for all set intersections regardless of whether they are geospatial or not.  In contrast, the convention for many GIS desktop software including QGIS and ArcGIS is to only show those combinations where intersections are known to occur (are True), hence, <a class="reference internal" href="#tableiiib"><span class="std std-numref">Table 4</span></a> is reported as <a class="reference internal" href="#tableiiic"><span class="std std-numref">Table 5</span></a> by QGIS.</p>
 <div class="figure align-center" id="id42">
-<span id="figuresquarepoint"></span><img alt="_images/squaresAndPoints.png" src="_images/squaresAndPoints.png" />
+<span id="figuresquarepoint"></span><a class="reference internal image-reference" href="_images/squaresAndPoints.png"><img alt="_images/squaresAndPoints.png" src="_images/squaresAndPoints.png" style="width: 358.0px; height: 198.5px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">The location of blue crosses and red circles in the “Left Square” and the “Right Square”.</span></p>
 </div>
 <span id="tableiiia"></span><table border="1" class="colwidths-auto docutils" id="id43">
@@ -411,13 +412,43 @@ that is a projection of the earth’s surface.</p>
 </tr>
 </tbody>
 </table>
+<div class="section" id="datasets-with-multiple-geometry-sets">
+<h5>Datasets with multiple geometry sets<a class="headerlink" href="#datasets-with-multiple-geometry-sets" title="Permalink to this headline">¶</a></h5>
+<p>Much of the GIS community work with the restriction of a single geometry set for each dataset (a single geometry column within a table).  It is difficult to have multiple geometry attributes without also allowing empty geometry attributes.  Next, I will examine the advantages and disadvantages of multiple geometry attributes.</p>
+<p>The fundamental advantage of multiple geometry attributes is they facilitate topology. Topology refers to how the constituent parts of a system are interrelated or arranged.  The location of points within squares shown schematically in <a class="reference internal" href="#figuresquarepoint"><span class="std std-numref">Fig. 2</span></a> is an example of topology as it shows how the points are related to squares.  <a class="reference internal" href="#tableiii"><span class="std std-numref">Table 6</span></a> shows the topological association of point type by square type, but, uses two geometry columns to do so.  <a class="reference internal" href="#tablev"><span class="std std-numref">Table 8</span></a> shows the same data as <a class="reference internal" href="#tableiii"><span class="std std-numref">Table 6</span></a> using only one geometry column.  Examination of <a class="reference internal" href="#tablev"><span class="std std-numref">Table 8</span></a> reveals that the relationship between a type of point (e.g. Blue Crosses) and the Square type (e.g. Left Square or Right Square) has to be reported as two separate relationships (two separate records) and a user is left with the task of mentally connecting these two relationships.  Clearly, without using multiple geometry columns showing topological relationships is less intuitive.</p>
+<span id="tablev"></span><table border="1" class="colwidths-auto docutils" id="id48">
+<caption><span class="caption-number">Table 8 </span><span class="caption-text">Another way to represent the data in <a class="reference internal" href="#tableiii"><span class="std std-numref">Table 6</span></a> that uses only one geometry column.</span><a class="headerlink" href="#id48" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Square</th>
+<th class="head">Point type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Left square</td>
+<td>Blue crosses <span class="math notranslate nohighlight">\(\{B1,\ B2\}\)</span></td>
+</tr>
+<tr class="row-odd"><td rowspan="2">Left square</td>
+<td rowspan="2">Red circles <span class="math notranslate nohighlight">\(\{R1\}\)</span></td>
+</tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"><td>Right square</td>
+<td>Blue crosses <span class="math notranslate nohighlight">\(\{B3\}\)</span></td>
+</tr>
+<tr class="row-even"><td rowspan="2">Red circles</td>
+<td rowspan="2">red circles <span class="math notranslate nohighlight">\(\{Empty\}\)</span></td>
+</tr>
+<tr class="row-odd"></tr>
+</tbody>
+</table>
+<p>The major disadvantage of multiple geometry columns is that they are not supported by many pieces of GIS software or GIS file formats.  For example, ArcGIS does not support multiple geometry columns in any capacity, QGIS treats each geometry column as an unrelated dataset, and, the ubiquitous shapefile can only contain one geometry column.  So, by adopting multiple geometry columns you are isolating yourself from a large portion of the GIS community.</p>
+</div>
 </div>
 <div class="section" id="null">
-<h5>null<a class="headerlink" href="#null" title="Permalink to this headline">¶</a></h5>
+<h4>null<a class="headerlink" href="#null" title="Permalink to this headline">¶</a></h4>
 <p><strong>null</strong> is the most common value (element) recorded many disciplines and software formats for <em>unknown</em> data values <a class="footnote-reference" href="#f6" id="id7">[6]</a>.  For example, if a study of chickens hatching from eggs recorded the hatch date of each chicken hatching for a set of 10 eggs than the hatch date element of the hatch date set is <em>null</em> (unknown) if the hatch date was not recorded.  Strictly speaking a <em>null</em> hatch date can be any value from the universal set of hath dates including <em>Empty</em> allowing for eggs that never hatched.</p>
-<p>The most useful feature of <em>null</em> values is that they enable incomplete datasets.  For example, consider the Blue Crosses dataset shown in <a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 8</span></a> where the coordinates for B4 are unknown. Datasets like <a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 8</span></a> can stem from requests to georeference existing datasets where the georeferencing is incomplete.</p>
-<span id="tableiiie"></span><table border="1" class="colwidths-auto docutils" id="id48">
-<caption><span class="caption-number">Table 8 </span><span class="caption-text">The age, size and coordinates for the Blue Crosses.</span><a class="headerlink" href="#id48" title="Permalink to this table">¶</a></caption>
+<p>The most useful feature of <em>null</em> values is that they enable incomplete datasets.  For example, consider the Blue Crosses dataset shown in <a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 9</span></a> where the coordinates for B4 are unknown. Datasets like <a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 9</span></a> can stem from requests to georeference existing datasets where the georeferencing is incomplete.</p>
+<span id="tableiiie"></span><table border="1" class="colwidths-auto docutils" id="id49">
+<caption><span class="caption-number">Table 9 </span><span class="caption-text">The age, size and coordinates for the Blue Crosses.</span><a class="headerlink" href="#id49" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Blue Cross</th>
 <th class="head">Age (years)</th>
@@ -448,13 +479,12 @@ that is a projection of the earth’s surface.</p>
 </tr>
 </tbody>
 </table>
-</div>
 <div class="section" id="using-joins-to-eliminate-null">
 <h5>Using joins to eliminate null<a class="headerlink" href="#using-joins-to-eliminate-null" title="Permalink to this headline">¶</a></h5>
-<p>Many GIS datasets do not allow <em>null</em> geometries.  Having a dataset constraint that prevents <em>null</em> geometries does not imply that the geometries are all known, it only means that the dataset can’t have a <em>null</em> geometry.  The prevention of <em>null</em> geometries without knowing all of the geometries is achieved by using multiple datasets that include a geometry only dataset that has a relationship with a non-geometry dataset as shown in <a class="reference internal" href="#figurejoinedcrosses"><span class="std std-numref">Fig. 3</span></a>.  The relationship is typically achieved by the use of a <strong>key</strong> that is used in all related datasets to distinguish each relationship across the datasets.  Joins refer the process of forming a new dataset from multiple datasets by the use of a relationship.  The dataset shown in <a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 8</span></a> can be created from the datasets shown in <a class="reference internal" href="#figurejoinedcrosses"><span class="std std-numref">Fig. 3</span></a> by application of an <em>outer join</em>.</p>
-<div class="figure align-center" id="id49">
-<span id="figurejoinedcrosses"></span><img alt="_images/CrossesWithoutNull.png" src="_images/CrossesWithoutNull.png" />
-<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text"><a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 8</span></a> presented as two separate datasets where <em>null</em> <em>Coordinates</em> data values are not permitted.  The <em>Blue Crosses</em> key is used to register relationships between the two datasets that is symbolised by the grey dashed lines.</span></p>
+<p>Many GIS datasets do not allow <em>null</em> geometries.  Having a dataset constraint that prevents <em>null</em> geometries does not imply that the geometries are all known, it only means that the dataset can’t have a <em>null</em> geometry.  The prevention of <em>null</em> geometries without knowing all of the geometries is achieved by using multiple datasets that include a geometry only dataset that has a relationship with a non-geometry dataset as shown in <a class="reference internal" href="#figurejoinedcrosses"><span class="std std-numref">Fig. 3</span></a>.  The relationship is typically achieved by the use of a <strong>key</strong> that is used in all related datasets to distinguish each relationship across the datasets.  Joins refer the process of forming a new dataset from multiple datasets by the use of a relationship.  The dataset shown in <a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 9</span></a> can be created from the datasets shown in <a class="reference internal" href="#figurejoinedcrosses"><span class="std std-numref">Fig. 3</span></a> by application of an <em>outer join</em>.</p>
+<div class="figure align-center" id="id50">
+<span id="figurejoinedcrosses"></span><a class="reference internal image-reference" href="_images/CrossesWithoutNull.png"><img alt="_images/CrossesWithoutNull.png" src="_images/CrossesWithoutNull.png" style="width: 514.5px; height: 131.6px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text"><a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 9</span></a> presented as two separate datasets where <em>null</em> <em>Coordinates</em> data values are not permitted.  The <em>Blue Crosses</em> key is used to register relationships between the two datasets that is symbolised by the grey dashed lines.</span></p>
 </div>
 </div>
 <div class="section" id="reasons-for-preventing-null-geometries">
@@ -462,9 +492,9 @@ that is a projection of the earth’s surface.</p>
 <p>The reasons for preventing null geometries include: it’s keeps GIS feature creation simple: one can’t map <em>null</em>; they permit the geometry value to be a variable; and, it keeps logic based algorithms simple.</p>
 <p>For QGIS and many desktop GIS systems, records are created by drawing the geometry and subsequently entering the other data values.  This geospatial geometry centered approach intuitively keeps the related computer programming simple in comparison to any approach that allows a user to enter any of the data values including the geometry in the sequence that they choose.</p>
 <p>There is no accepted universal approach to mapping a <em>null</em> geometry.  It is obvious that if a geometry is <em>null</em> then using a defined symbol at a single location is a miss-representation.  There is active research into approaches for mapping the unknown.</p>
-<p>The use of a geometry specific dataset enables geometry to be a variable.  For example, take the Blue Cross B1.  This Blue Cross may represent a boat in a sea.  Hence, at different points in time, B1 may have different coordinates (<a class="reference internal" href="#tableiiif"><span class="std std-numref">Table 9</span></a>).  Most geospatial datasets have geometries that are variable as our technology for recording and knowing location is improving.  For example, an allotment of land may be static as it is relative to reference points, but, the mapped location and hence the recorded geometry for the allotment of land will change as the location of the reference points is refined to a higher accuracy.  Whether a dataset owner should track changes to a geometry is a question that is beyond the scope of this discussion.</p>
-<span id="tableiiif"></span><table border="1" class="colwidths-auto docutils" id="id50">
-<caption><span class="caption-number">Table 9 </span><span class="caption-text">The coordinates of the Blue Crosses for yesterday and today.</span><a class="headerlink" href="#id50" title="Permalink to this table">¶</a></caption>
+<p>The use of a geometry specific dataset enables geometry to be a variable.  For example, take the Blue Cross B1.  This Blue Cross may represent a boat in a sea.  Hence, at different points in time, B1 may have different coordinates (<a class="reference internal" href="#tableiiif"><span class="std std-numref">Table 10</span></a>).  Most geospatial datasets have geometries that are variable as our technology for recording and knowing location is improving.  For example, an allotment of land may be static as it is relative to reference points, but, the mapped location and hence the recorded geometry for the allotment of land will change as the location of the reference points is refined to a higher accuracy.  Whether a dataset owner should track changes to a geometry is a question that is beyond the scope of this discussion.</p>
+<span id="tableiiif"></span><table border="1" class="colwidths-auto docutils" id="id51">
+<caption><span class="caption-number">Table 10 </span><span class="caption-text">The coordinates of the Blue Crosses for yesterday and today.</span><a class="headerlink" href="#id51" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head" rowspan="2">Blue Cross</th>
 <th class="head" colspan="2">Coordinates</th>
@@ -488,9 +518,9 @@ that is a projection of the earth’s surface.</p>
 </tr>
 </tbody>
 </table>
-<p>Whether a dataset allows <em>null</em> values or not directly affects the type of logic applied to the dataset for set operations.  Boolean logic, also referred to as two value logic, allows only for True or False answers to set operations.  Boolean logic has can’t be applied when the answer is unknown.  When <em>null</em> values are permitted, three value logic is required for set operations.  The intersection of the squares with the two subsets of blue crosses {B1, B2, B3} and {B1, B2, B3, B4} that are described in <a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 8</span></a> is shown in <a class="reference internal" href="#tableiiig"><span class="std std-numref">Table 10</span></a>.  For {B1, B2} it is True that they intersect the Left square, whilst it is also True that {B3} does not intersect the same square, however, it is null (unknown) whether {B4} intersects the Left Square.  Compounding the implementation of Three value logic is the fact that different database platforms implement three value logic differently leading to widespread avoidance of three value logic regardless of whether the data type is geometry or something more generic like an integer.  In summary, even when <em>null</em> values are permitted in datasets, the records associated with them are typically excluded from set operations.</p>
-<span id="tableiiig"></span><table border="1" class="colwidths-auto docutils" id="id51">
-<caption><span class="caption-number">Table 10 </span><span class="caption-text">The intersection of the squares with the subsets {B1, B2, B3} and {B1, B2, B3, and B4} as shown in <a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 8</span></a>.</span><a class="headerlink" href="#id51" title="Permalink to this table">¶</a></caption>
+<p>Whether a dataset allows <em>null</em> values or not directly affects the type of logic applied to the dataset for set operations.  Boolean logic, also referred to as two value logic, allows only for True or False answers to set operations.  Boolean logic has can’t be applied when the answer is unknown.  When <em>null</em> values are permitted, three value logic is required for set operations.  The intersection of the squares with the two subsets of blue crosses {B1, B2, B3} and {B1, B2, B3, B4} that are described in <a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 9</span></a> is shown in <a class="reference internal" href="#tableiiig"><span class="std std-numref">Table 11</span></a>.  For {B1, B2} it is True that they intersect the Left square, whilst it is also True that {B3} does not intersect the same square, however, it is null (unknown) whether {B4} intersects the Left Square.  Compounding the implementation of Three value logic is the fact that different database platforms implement three value logic differently leading to widespread avoidance of three value logic regardless of whether the data type is geometry or something more generic like an integer.  In summary, even when <em>null</em> values are permitted in datasets, the records associated with them are typically excluded from set operations.</p>
+<span id="tableiiig"></span><table border="1" class="colwidths-auto docutils" id="id52">
+<caption><span class="caption-number">Table 11 </span><span class="caption-text">The intersection of the squares with the subsets {B1, B2, B3} and {B1, B2, B3, and B4} as shown in <a class="reference internal" href="#tableiiie"><span class="std std-numref">Table 9</span></a>.</span><a class="headerlink" href="#id52" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head" rowspan="3">Square</th>
 <th class="head" colspan="2">Intersection with the subset</th>
@@ -528,10 +558,9 @@ that is a projection of the earth’s surface.</p>
 <h3>Parsing data by QGIS data Providers<a class="headerlink" href="#parsing-data-by-qgis-data-providers" title="Permalink to this headline">¶</a></h3>
 <p>QGIS parses data to and from many data formats without requiring importing or exporting to or from a common data format.  The intent of this data parsing is that a user may analyse data stored in different formats with a common user interface.  A key component of any GIS record is a geospatial geometry data type which could be stored in an infinite number of ways.  Fortunately, there are international standards <a class="reference internal" href="#iso19125-2" id="id8">[5]</a> that describe the geospatial geometry data type and subtypes, and, there is some consistency across most data formats.</p>
 <p>Although different GIS data formats have <strong>similar</strong> geometry subtype hierarchy’s, they are not the same.  For example, many different SQL databases that adopt elements of ISO19125-2 <a class="reference internal" href="#iso19125-2" id="id9">[5]</a> including PostGis and MS SQL by default have a <em>Geometry</em> subtype <a class="footnote-reference" href="#f4" id="id10">[4]</a>. Consequently, without further constraints in their native environment one can choose any subtype shown in <a class="reference internal" href="#figuregeomtypei"><span class="std std-numref">Fig. 1</span></a> for any record.  In comparison, the <em>Geometry</em> subtype equivalent in the QGIS data type inheritance diagram <a class="reference internal" href="#qgsabstractgeometry" id="id11">[12]</a> has the title <em>“QgsAbstractGeometry”</em> where the <em>Abstract</em> keyword tell us that this datatype can’t be created by itself, only it’s children can be created.  To emphasize, parsing data for different data formats but maintaining a uniform user interface is a Pandora’s box when the data types or subtypes have different hierarchy’s of data subtypes.</p>
-<p>With the understanding that different data formats have different geometry hierarchy’s it is expected that QGIS needs to make adjustments on the fly.
-.the This parsing is silent and without experience errors may be introduced into datasets.</p>
-<span id="tablemultiline"></span><table border="1" class="colwidths-auto docutils" id="id52">
-<caption><span class="caption-number">Table 11 </span><span class="caption-text">Feature geometry changes when exporting a QGIS Multi-Line memory layer.</span><a class="headerlink" href="#id52" title="Permalink to this table">¶</a></caption>
+<p>With the understanding that different data formats have different geometry hierarchy’s it is expected that QGIS needs to make adjustments on the fly. This parsing is silent and without experience errors may be introduced into datasets.</p>
+<span id="tablemultiline"></span><table border="1" class="colwidths-auto docutils" id="id53">
+<caption><span class="caption-number">Table 12 </span><span class="caption-text">Feature geometry changes when exporting a QGIS Multi-Line memory layer.</span><a class="headerlink" href="#id53" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Original</th>
 <th class="head">Geopackage</th>
@@ -615,67 +644,16 @@ that is a projection of the earth’s surface.</p>
 <span class="go">False</span>
 </pre></div>
 </div>
-<div class="figure align-center" id="id53">
-<span id="figuregeomtypeii"></span><img alt="_images/geomTypeQGIS.png" src="_images/geomTypeQGIS.png" />
+<div class="figure align-center" id="id54">
+<span id="figuregeomtypeii"></span><a class="reference internal image-reference" href="_images/geomTypeQGIS.png"><img alt="_images/geomTypeQGIS.png" src="_images/geomTypeQGIS.png" style="width: 630.4000000000001px; height: 432.8px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">The Geometry subtype hierarchy employed by QGIS by default for several data providers.</span></p>
 </div>
 <p>QGIS mixes the primitive geometry types with the modern geometry types by default.  The data providers typically handle this well, but, the pre-scripted decisions can have consequences.</p>
-<p>For example, by default QGIS will permit a user to add a Multline feature to a MicroS</p>
-<div class="section" id="empty-and-nulls">
-<h4>Empty and nulls<a class="headerlink" href="#empty-and-nulls" title="Permalink to this headline">¶</a></h4>
-</div>
+<p>For example, by default QGIS will permit a user to add a Multi-line feature to a MicroSoft SQL database that only contains Line features.</p>
 </div>
 <div class="section" id="gis-centric-and-the-wall-of-mystery">
 <h3>GIS Centric And the Wall of Mystery<a class="headerlink" href="#gis-centric-and-the-wall-of-mystery" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="vector-datasets-in-gis">
-<h3>Vector Datasets in GIS<a class="headerlink" href="#vector-datasets-in-gis" title="Permalink to this headline">¶</a></h3>
-<p>GIS refers to all of the components that are required to construct a Geographic Information System.  Every GIS system
-needs components to store and retrieve spatial information and components to view and edit spatial information.</p>
-<p>Spatial information is normally classified by whether it is a set of shapes referred to as a vector dataset or a
-rectangular grid of values referred to as a raster dataset.  Here we are only concerned with vector datasets.</p>
-<p>To facilitate storage and retrieval, an individual vector dataset is restricted to shapes and their attributes for a
-specific subject.  To achieve utility, it is essential that the data type and range of valid values for each attribute is defined.  The prescription of data types and value ranges is referred to as schema.   For example, many GIS systems impose that a vector dataset may only contain one type of shape (e.g. point, line or polygon) and one shape object per record.  A dataset that has a defined schema is by definition a database.</p>
-<p>In many organisations, the geospatial vector datasets are located within enterprise databases that have one or more data types that are specific to storing geospatial shapes.  An enterprise database refers to any database where multiple users may query or edit the same dataset at the same time.  Consequently, the set of shape values available needs to be consistent with the database design, and, these often include null and empty values.</p>
-<p>Much of the GIS community work with the schema  restriction of a single geometry attribute data set.  It is difficult
-to have multiple geometry attributes without also allowing empty geometry attributes.  Next, I will examine the
-advantages and disadvantages of multiple geometry attributes.</p>
-<p>The fundamental advantage of multiple geometry attributes is they facilitate topology. Topology refers to how the
-constituent parts of a system are interrelated or arranged.  The location of points within squares shown schematically
-in <code class="xref std std-numref docutils literal notranslate"><span class="pre">figureI</span></code> is an example of topology as it shows how the points are related to squares.  <a class="reference internal" href="#tableiii"><span class="std std-numref">Table 6</span></a> shows the topological
-association of point type by square type, but, uses two geometry columns to do so.  <a class="reference internal" href="#tablev"><span class="std std-numref">Table 12</span></a> shows the same data as
-<a class="reference internal" href="#tableiii"><span class="std std-numref">Table 6</span></a> using only one geometry column.  Examination of <a class="reference internal" href="#tablev"><span class="std std-numref">Table 12</span></a> reveals that the relationship between a type of point (e.g. Blue Crosses) and the Square type (e.g. Left Square or Right Square) has to be reported as two separate
-relationships (two separate records) and a user is left with the task of mentally connecting these two relationships.  Clearly, without using multiple geometry columns showing topological relationships is less intuitive.</p>
-<span id="tablev"></span><table border="1" class="colwidths-auto docutils" id="id54">
-<caption><span class="caption-number">Table 12 </span><span class="caption-text">Another way to represent the data in <a class="reference internal" href="#tableiii"><span class="std std-numref">Table 6</span></a> that uses only one geometry column.</span><a class="headerlink" href="#id54" title="Permalink to this table">¶</a></caption>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Square</th>
-<th class="head">Point type</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>Left square</td>
-<td>Blue crosses <span class="math notranslate nohighlight">\(\{P1,\ P2\}\)</span></td>
-</tr>
-<tr class="row-odd"><td rowspan="2">Left square</td>
-<td rowspan="2">Red circles <span class="math notranslate nohighlight">\(\{P3\}\)</span></td>
-</tr>
-<tr class="row-even"></tr>
-<tr class="row-odd"><td>Right square</td>
-<td>Blue crosses <span class="math notranslate nohighlight">\(\{P4\}\)</span></td>
-</tr>
-<tr class="row-even"><td rowspan="2">Red circles</td>
-<td rowspan="2">red circles <span class="math notranslate nohighlight">\(\{empty\}\)</span></td>
-</tr>
-<tr class="row-odd"></tr>
-</tbody>
-</table>
-<p>The major disadvantage of multiple geometry columns is that they are not supported by many pieces of GIS software or GIS file formats.  For example, ArcGIS does not support multiple geometry columns in any capacity, QGIS treats each geometry column as an unrelated dataset, and, the ubiquitous shapefile can only contain one geometry column.  So, by adopting multiple geometry columns you are isolating yourself from a large portion of the GIS community.</p>
-<p>Many GIS software packages force the user to perform a selection whenever they perform a set operation like a union,
-intersection or difference.  The results of an intersection without a selection of the points and squares shown in
-<code class="xref std std-numref docutils literal notranslate"><span class="pre">figureI</span></code> includes those records that don’t intersect (<a class="reference internal" href="#tablev"><span class="std std-numref">Table 12</span></a>).  To achieve the more common output shown in
-<a class="reference internal" href="#tablevi"><span class="std std-numref">Table 13</span></a> a selection must be performed on the data to include only those records that do intersect.  Hence, the logic
-performed by most GIS software packages including ArcGIS and QGIS is: 1. Select those records where intersect is True; 2. Perform intersection.</p>
+<p>Many GIS software packages force the user to perform a selection whenever they perform a set operation like a union, intersection or difference.  The results of an intersection without a selection of the points and squares shown in <a class="reference internal" href="#figuresquarepoint"><span class="std std-numref">Fig. 2</span></a> includes those records that don’t intersect (<a class="reference internal" href="#tablev"><span class="std std-numref">Table 8</span></a>).  To achieve the more common output shown in <a class="reference internal" href="#tablevi"><span class="std std-numref">Table 13</span></a> a selection must be performed on the data to include only those records that do intersect.  Hence, the logic performed by most GIS software packages including ArcGIS and QGIS is: 1. Select those records where intersect is True; 2. Perform intersection.</p>
 <span id="tablevi"></span><table border="1" class="colwidths-auto docutils" id="id55">
 <caption><span class="caption-number">Table 13 </span><span class="caption-text">Another way to represent the data in 5 where records where no intersection occurs are also shown.</span><a class="headerlink" href="#id55" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">

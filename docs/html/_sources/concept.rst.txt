@@ -91,13 +91,13 @@ Although a *relational dataset* consists of multiple sets of data where the elem
 ------------------
 Geospatial Dataset
 ------------------
-A geospatial dataset refers to any dataset where one or more of the composite sets refer to a location on the earth's surface.  This project is only concerned with those geospatial datasets where the location on the earth's surface is represented by one or more points, lines or polygons that are located by coordinates and stored as vectors.  These points, lines and polygons are collectively referred to as shapes or geometries [#f5]_.
+A geospatial dataset refers to any dataset where one or more of the composite sets refer to a location on the earth's surface.  This project is only concerned with those geospatial datasets where the location on the earth's surface is represented by one or more points, lines or polygons that are located by coordinates and stored as vectors.  These points, lines and polygons are collectively referred to as shapes or geometries [#f5]_.  Datasets that include one or more sets of geospatial vectors are referred to as *Vector Datasets* by the GIS community.
 
 A vector geospatial dataset is a subtype of geospatial dataset where the geospatial sets can be located graphically on the earths surface by the application of coordinates.  This project is only concerned with vector geospatial datasets.
 
--------------------
+===================
 Geometry data types
--------------------
+===================
 All datasets contain some restriction on the type of data each constituent set may contain.  From a software perspective, a restriction of type is essential for minimizing both the storage size of the dataset and the response time for a dataset query.  Analagous to specific data types for storage of numbers, text or dates there is one or more data types specifically used for the storage of geospatial geometries.  Similarly, just as there are often specific data types of signed and unsigned integers, float, and, decimal numbers there are also specific data types for different types of geometries, with the type often referring to how the geometry is constructed.
 
 For any dataset software the geometry data types that are availabe for use can be shown schematically as a hierarchy like the one shown in :numref:`figureGeomTypeI`.  Within this hierarchy, the possible data types are described by the labels in the boxes.  Essential to all such hierarchy's, a set of data of a declared type may consist of any type below it on the hierarchy.  Hence, if a set of data has a declared type of *Geometry Collection* then any data element within it may consist of *Geometry Collection*, *Multi-Point*, "Multi-Curve*, *Multi-Line*, *Multi-Surface*, and, *Multi-Polygon*.  Similarly, if a set of data has a declared type of *Point* than it may not contain a *Polygon* nor a *Line*.
@@ -108,6 +108,7 @@ The single part constrained geometry subtypes in the lower part of :numref:`figu
 .. _figureGeomTypeI:
 
 .. figure:: _static/geomTypeSQL.png
+   :scale: 80%
    :align: center
 
    GIS Geometry subtype hierarchy.  Adapted from :cite:`ISO19125-2`.  The more conventional term *"LineString"* that is used in the QGIS API and :cite:`ISO19125-2` is replaced here with *"Line"* for clarity.
@@ -116,9 +117,9 @@ In reality there may be many more geometry subtypes than the simplified hierarch
 
 Many GIS data format standards, and, many GIS software have a geometry subtype hierarchy that is **similar** with :numref:`figureGeomTypeI`.  Within a GIS dataset, geometry objects there are several geometry subtypes, with the main ones without elevation are shown in :numref:`figureGeomTypeI`.  Schematically, this hierarchy of geometry subtypes is replicated by the `inheritance diagram for QgsAbstractGeometry <https://qgis.org/api/classQgsAbstractGeometry.html>`_ :cite:`QGSAbstractGeometry`.
 
---------------------
+====================
 Geometry data values
---------------------
+====================
 
 For any data type there exists a universal set of valid values.  For example, a set of birthday dates must be restricted to valid dates.  For example, a birthday on the 30th of February is not valid as the 30th of February is not part of the universal set of dates.  Similarly, a valid geometry needs to be located within the boundaries of the coordinate system that it is referenced to.  **Empty** and **null** are two values that may be part of any set of data and could be fairly described as being:
 
@@ -126,9 +127,9 @@ For any data type there exists a universal set of valid values.  For example, a 
 2. Miss-understood
 3. Best avoided
 
-^^^^^
+-----
 Empty
-^^^^^
+-----
 A box of apples can be described as a set of apples.  A empty Apple box is an empty set of apples.  An empty geometry element is a geometry that has no coordinates.  Whether an empty element is a valid member of a set depends on the context.  For example, if a study of chickens hatching from eggs recorded the date that each chicken hatches for a set of 10 eggs than the hatch date element is of the hatch date set is empty before the chicken hatches.  It is *known* that the chicken has not hatched.
 
 All empty sets including an empty geometry value are place holders for when it is *known* that an element does not exist :cite:`OGC2010`.  For example, consider the intersection of the Blue Crosses and the Red Circles with the two squares shown in :numref:`figureSquarePoint`.  Both of the Blue Crosses B1 and B2 intersect the Left square, and, the Blue Cross B3 intersects the Right square.  The intersections of the Squares and Blue Crosses, and the Squares with Red Circles are summarized by the datasets shown in :numref:`tableIIIA` and :numref:`tableIIIB`.  As shown in  :numref:`tableIIIA` the *Left Square* intersects with the *Blue Crosses* *B1* and *B2* which are represented as a subset *{B1, B2}*.  Similarly, it is reported in :numref:`tableIIIB` that the *Left square* intersects the subset of *Red Circles* *{R1}*.  In contrast, also in :numref:`tableIIIB` it is shown that the *Left square* does not intersect with any *Red Circles* as shown by the empty set *{ }*.  Here the empty set *{ }* shows that it is known that no intersection occurs.  The reporting of those combinations where intersections are known to not occur as shown  :numref:`tableIIIB` follows the convention used by most SQL type relational databases for all set intersections regardless of whether they are geospatial or not.  In contrast, the convention for many GIS desktop software including QGIS and ArcGIS is to only show those combinations where intersections are known to occur (are True), hence, :numref:`tableIIIB` is reported as :numref:`tableIIIC` by QGIS.
@@ -137,6 +138,7 @@ All empty sets including an empty geometry value are place holders for when it i
 .. _figureSquarePoint:
 
 .. figure:: _static/squaresAndPoints.png
+   :scale: 50%
    :align: center
 
    The location of blue crosses and red circles in the “Left Square” and the “Right Square”.
@@ -214,9 +216,36 @@ The real utility of empty geometry values is realised when the intersection of a
    | Left square  | Red Circles  | {R1}     |
    +--------------+--------------+----------+
 
-^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Datasets with multiple geometry sets
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Much of the GIS community work with the restriction of a single geometry set for each dataset (a single geometry column within a table).  It is difficult to have multiple geometry attributes without also allowing empty geometry attributes.  Next, I will examine the advantages and disadvantages of multiple geometry attributes.
+
+The fundamental advantage of multiple geometry attributes is they facilitate topology. Topology refers to how the constituent parts of a system are interrelated or arranged.  The location of points within squares shown schematically in :numref:`figureSquarePoint` is an example of topology as it shows how the points are related to squares.  :numref:`tableIII` shows the topological association of point type by square type, but, uses two geometry columns to do so.  :numref:`tableV` shows the same data as :numref:`tableIII` using only one geometry column.  Examination of :numref:`tableV` reveals that the relationship between a type of point (e.g. Blue Crosses) and the Square type (e.g. Left Square or Right Square) has to be reported as two separate relationships (two separate records) and a user is left with the task of mentally connecting these two relationships.  Clearly, without using multiple geometry columns showing topological relationships is less intuitive.
+
+.. _tableV:
+
+.. table:: Another way to represent the data in :numref:`tableIII` that uses only one geometry column.
+   :widths: auto
+
+   +--------------+----------------------------------+
+   | Square       | Point type                       |
+   +==============+==================================+
+   | Left square  | Blue crosses :math:`\{B1,\ B2\}` |
+   +--------------+----------------------------------+
+   + Left square  | Red circles :math:`\{R1\}`       |
+   +--------------+----------------------------------+
+   | Right square | Blue crosses :math:`\{B3\}`      |
+   +--------------+----------------------------------+
+   + Red circles  | red circles :math:`\{Empty\}`    |
+   +--------------+----------------------------------+
+
+
+The major disadvantage of multiple geometry columns is that they are not supported by many pieces of GIS software or GIS file formats.  For example, ArcGIS does not support multiple geometry columns in any capacity, QGIS treats each geometry column as an unrelated dataset, and, the ubiquitous shapefile can only contain one geometry column.  So, by adopting multiple geometry columns you are isolating yourself from a large portion of the GIS community.
+
+----
 null
-^^^^
+----
 **null** is the most common value (element) recorded many disciplines and software formats for *unknown* data values [#f6]_.  For example, if a study of chickens hatching from eggs recorded the hatch date of each chicken hatching for a set of 10 eggs than the hatch date element of the hatch date set is *null* (unknown) if the hatch date was not recorded.  Strictly speaking a *null* hatch date can be any value from the universal set of hath dates including *Empty* allowing for eggs that never hatched.
 
 The most useful feature of *null* values is that they enable incomplete datasets.  For example, consider the Blue Crosses dataset shown in :numref:`tableIIIE` where the coordinates for B4 are unknown. Datasets like :numref:`tableIIIE` can stem from requests to georeference existing datasets where the georeferencing is incomplete.
@@ -247,6 +276,7 @@ Many GIS datasets do not allow *null* geometries.  Having a dataset constraint t
 .. _figureJoinedCrosses:
 
 .. figure:: _static/CrossesWithoutNull.png
+   :scale: 70%
    :align: center
 
    :numref:`tableIIIE` presented as two separate datasets where *null* *Coordinates* data values are not permitted.  The *Blue Crosses* key is used to register relationships between the two datasets that is symbolised by the grey dashed lines.
@@ -321,10 +351,7 @@ QGIS parses data to and from many data formats without requiring importing or ex
 
 Although different GIS data formats have **similar** geometry subtype hierarchy's, they are not the same.  For example, many different SQL databases that adopt elements of ISO19125-2 :cite:`ISO19125-2` including PostGis and MS SQL by default have a *Geometry* subtype [#f4]_. Consequently, without further constraints in their native environment one can choose any subtype shown in :numref:`figureGeomTypeI` for any record.  In comparison, the *Geometry* subtype equivalent in the QGIS data type inheritance diagram :cite:`QGSAbstractGeometry` has the title *"QgsAbstractGeometry"* where the *Abstract* keyword tell us that this datatype can't be created by itself, only it's children can be created.  To emphasize, parsing data for different data formats but maintaining a uniform user interface is a Pandora's box when the data types or subtypes have different hierarchy's of data subtypes.
 
-
-
-With the understanding that different data formats have different geometry hierarchy's it is expected that QGIS needs to make adjustments on the fly.
-.the This parsing is silent and without experience errors may be introduced into datasets.
+With the understanding that different data formats have different geometry hierarchy's it is expected that QGIS needs to make adjustments on the fly. This parsing is silent and without experience errors may be introduced into datasets.
 
 .. _tableMultiLine:
 
@@ -393,6 +420,7 @@ Fortunately with QGIS you can't insert a *Point* into a *Line* dataset, or, othe
 .. _figureGeomTypeII:
 
 .. figure:: _static/geomTypeQGIS.png
+   :scale: 80%
    :align: center
 
    The Geometry subtype hierarchy employed by QGIS by default for several data providers.
@@ -403,12 +431,7 @@ Fortunately with QGIS you can't insert a *Point* into a *Line* dataset, or, othe
 
 QGIS mixes the primitive geometry types with the modern geometry types by default.  The data providers typically handle this well, but, the pre-scripted decisions can have consequences.
 
-For example, by default QGIS will permit a user to add a Multline feature to a MicroS
-
-
----------------
-Empty and nulls
----------------
+For example, by default QGIS will permit a user to add a Multi-line feature to a MicroSoft SQL database that only contains Line features.
 
 
 ===================================
@@ -416,62 +439,10 @@ GIS Centric And the Wall of Mystery
 ===================================
 
 
-======================
-Vector Datasets in GIS
-======================
-GIS refers to all of the components that are required to construct a Geographic Information System.  Every GIS system
-needs components to store and retrieve spatial information and components to view and edit spatial information.
-
-Spatial information is normally classified by whether it is a set of shapes referred to as a vector dataset or a
-rectangular grid of values referred to as a raster dataset.  Here we are only concerned with vector datasets.
-
-To facilitate storage and retrieval, an individual vector dataset is restricted to shapes and their attributes for a
-specific subject.  To achieve utility, it is essential that the data type and range of valid values for each attribute is defined.  The prescription of data types and value ranges is referred to as schema.   For example, many GIS systems impose that a vector dataset may only contain one type of shape (e.g. point, line or polygon) and one shape object per record.  A dataset that has a defined schema is by definition a database.
-
-In many organisations, the geospatial vector datasets are located within enterprise databases that have one or more data types that are specific to storing geospatial shapes.  An enterprise database refers to any database where multiple users may query or edit the same dataset at the same time.  Consequently, the set of shape values available needs to be consistent with the database design, and, these often include null and empty values.
-
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Records with multiple geometry attributes
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Much of the GIS community work with the schema  restriction of a single geometry attribute data set.  It is difficult
-to have multiple geometry attributes without also allowing empty geometry attributes.  Next, I will examine the
-advantages and disadvantages of multiple geometry attributes.
-
-The fundamental advantage of multiple geometry attributes is they facilitate topology. Topology refers to how the
-constituent parts of a system are interrelated or arranged.  The location of points within squares shown schematically
-in :numref:`figureI` is an example of topology as it shows how the points are related to squares.  :numref:`tableIII` shows the topological
-association of point type by square type, but, uses two geometry columns to do so.  :numref:`tableV` shows the same data as
-:numref:`tableIII` using only one geometry column.  Examination of :numref:`tableV` reveals that the relationship between a type of point (e.g. Blue Crosses) and the Square type (e.g. Left Square or Right Square) has to be reported as two separate
-relationships (two separate records) and a user is left with the task of mentally connecting these two relationships.  Clearly, without using multiple geometry columns showing topological relationships is less intuitive.
-
-.. _tableV:
-
-.. table:: Another way to represent the data in :numref:`tableIII` that uses only one geometry column.
-   :widths: auto
-
-   +--------------+----------------------------------+
-   | Square       | Point type                       |
-   +==============+==================================+
-   | Left square  | Blue crosses :math:`\{P1,\ P2\}` |
-   +--------------+----------------------------------+
-   + Left square  | Red circles :math:`\{P3\}`       |
-   +--------------+----------------------------------+
-   | Right square | Blue crosses :math:`\{P4\}`      |
-   +--------------+----------------------------------+
-   + Red circles  | red circles :math:`\{empty\}`    |
-   +--------------+----------------------------------+
-
-
-The major disadvantage of multiple geometry columns is that they are not supported by many pieces of GIS software or GIS file formats.  For example, ArcGIS does not support multiple geometry columns in any capacity, QGIS treats each geometry column as an unrelated dataset, and, the ubiquitous shapefile can only contain one geometry column.  So, by adopting multiple geometry columns you are isolating yourself from a large portion of the GIS community.
-
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Records with false Boolean logic
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Many GIS software packages force the user to perform a selection whenever they perform a set operation like a union,
-intersection or difference.  The results of an intersection without a selection of the points and squares shown in
-:numref:`figureI` includes those records that don’t intersect (:numref:`tableV`).  To achieve the more common output shown in
-:numref:`tableVI` a selection must be performed on the data to include only those records that do intersect.  Hence, the logic
-performed by most GIS software packages including ArcGIS and QGIS is: 1. Select those records where intersect is True; 2. Perform intersection.
+Many GIS software packages force the user to perform a selection whenever they perform a set operation like a union, intersection or difference.  The results of an intersection without a selection of the points and squares shown in :numref:`figureSquarePoint` includes those records that don’t intersect (:numref:`tableV`).  To achieve the more common output shown in :numref:`tableVI` a selection must be performed on the data to include only those records that do intersect.  Hence, the logic performed by most GIS software packages including ArcGIS and QGIS is: 1. Select those records where intersect is True; 2. Perform intersection.
 
 .. _tableVI:
 
