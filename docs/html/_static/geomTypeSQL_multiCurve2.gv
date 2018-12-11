@@ -1,0 +1,20 @@
+    digraph {
+
+       node [shape=record, fontname="Arial"];
+       rankdir = RL
+
+    MC [label="Multi-Curve"]
+  MC2 [label="Multi-Curve"]
+  ML2 [label="Multi-Line"]
+
+          fontname="Arial";
+            "Multi-Line" -> MC [color=darkviolet, penwidth = 2];
+            "Circular-String" -> MC [color=darkviolet, penwidth = 2];
+            "Compound-Curve" -> MC [color=darkviolet, penwidth = 2];
+
+            ML2 -> MC2 [color=darkviolet, penwidth = 2];
+
+            { rank=same;  "Multi-Line", "Circular-String", "Compound-Curve", ML2}
+  {rank=same; MC, MC2}
+           
+    }

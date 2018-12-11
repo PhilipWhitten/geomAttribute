@@ -98,9 +98,9 @@ A vector geospatial dataset is a subtype of geospatial dataset where the geospat
 ===================
 Geometry data types
 ===================
-All datasets contain some restriction on the type of data each constituent set may contain.  From a software perspective, a restriction of type is essential for minimizing both the storage size of the dataset and the response time for a dataset query.  Analagous to specific data types for storage of numbers, text or dates there is one or more data types specifically used for the storage of geospatial geometries.  Similarly, just as there are often specific data types of signed and unsigned integers, float, and, decimal numbers there are also specific data types for different types of geometries, with the type often referring to how the geometry is constructed.
+All datasets contain some restriction on the type of data each constituent set may contain.  From a software perspective, a restriction of type is essential for minimizing both the storage size of the dataset and the response time for a dataset query.  Analagous to specific data types for storage of numbers, text or dates there are data types specifically used for the storage of geospatial geometries :cite:`ISO19125-2` .  Similarly, just as there are often specific data types of signed and unsigned integers, float, and, decimal numbers there are also specific data types for different types of geometries, with the type often referring to how the geometry is constructed.
 
-For any dataset software the geometry data types that are availabe for use can be shown schematically as a hierarchy like the one shown in :numref:`figureGeomTypeI`.  Within this hierarchy, the possible data types are described by the labels in the boxes.  Essential to all such hierarchy's, a set of data of a declared type may consist of any type below it on the hierarchy.  Hence, if a set of data has a declared type of *Geometry Collection* then any data element within it may consist of *Geometry Collection*, *Multi-Point*, "Multi-Curve*, *Multi-Line*, *Multi-Surface*, and, *Multi-Polygon*.  Similarly, if a set of data has a declared type of *Point* than it may not contain a *Polygon* nor a *Line*.
+For any dataset software the geometry data types that are availabe for use can be shown schematically as a hierarchy like the one shown in :numref:`figureGeomTypeI`.  Within this hierarchy, the possible data types are described by the labels in the boxes.  Essential to all such hierarchy's, a set of data of a declared type may consist of any type below it on the hierarchy.  Hence, if a set of data has a declared type of *Geometry Collection* then any data element within it may consist of *Geometry Collection*, *Multi-Point*, "Multi-Curve*, *Multi-Line*, *Multi-Surface*, and, *Multi-Polygon*.  Similarly, if a set of data has a declared type of *Point* than it may not contain a *Polygon* nor a *Line* as neither are below the sub-type *Point* on the hierarchy.
 
 The single part constrained geometry subtypes in the lower part of :numref:`figureGeomTypeI` are referred to as *Primitive Types* and must contain only one single part geometry per set element.  In contrast, the Multiple Part geometries may consist of one *or* many parts per feature.  For example, a feature of the *"Multi-Point"* geometry sub type may have one point, no points or multiple points. Another characteristic of the single part primitive types is that the *Line* and *Polygon* subtypes may only exist of straight line segments between coordinates.
 
@@ -113,7 +113,7 @@ The single part constrained geometry subtypes in the lower part of :numref:`figu
 
    GIS Geometry subtype hierarchy.  Adapted from :cite:`ISO19125-2`.  The more conventional term *"LineString"* that is used in the QGIS API and :cite:`ISO19125-2` is replaced here with *"Line"* for clarity.
 
-In reality there may be many more geometry subtypes than the simplified hierarchy shown in :numref:`figureGeomTypeI`.  For example, some common additional subtypes for datasets are created for sets of geometries that incorporate elevation data, or, for lines that are constructed from curves as opposed to straight line segments.
+In reality there may be many more geometry subtypes than the simplified hierarchy shown in :numref:`figureGeomTypeI`.  For example, some common additional subtypes for datasets are created for sets of geometries that incorporate elevation, or, for lines that are constructed from curves as opposed to straight line segments.
 
 Many GIS data format standards, and, many GIS software have a geometry subtype hierarchy that is **similar** with :numref:`figureGeomTypeI`.  Within a GIS dataset, geometry objects there are several geometry subtypes, with the main ones without elevation are shown in :numref:`figureGeomTypeI`.  Schematically, this hierarchy of geometry subtypes is replicated by the `inheritance diagram for QgsAbstractGeometry <https://qgis.org/api/classQgsAbstractGeometry.html>`_ :cite:`QGSAbstractGeometry`.
 
@@ -329,6 +329,30 @@ Whether a dataset allows *null* values or not directly affects the type of logic
    +--------------+---------------+-------------------+
 
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Records with false Boolean logic
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Many GIS software packages force the user to perform a selection whenever they perform a set operation like a union, intersection or difference.  The results of an intersection without a selection of the points and squares shown in :numref:`figureSquarePoint` includes those records that don’t intersect (:numref:`tableV`).  To achieve the more common output shown in :numref:`tableVI` a selection must be performed on the data to include only those records that do intersect.  Hence, the logic performed by most GIS software packages including ArcGIS and QGIS is: 1. Select those records where intersect is True; 2. Perform intersection.
+
+.. _tableVI:
+
+.. table:: Another way to represent the data in 5 where records where no intersection occurs are also shown.
+   :widths: auto
+
+   +--------------+----------------------------------+
+   | Square       | Point type                       |
+   +==============+==================================+
+   | Left square  | Blue crosses :math:`\{P1,\ P2\}` |
+   +--------------+----------------------------------+
+   + Left square  | Red circles :math:`\{P3\}`       |
+   +--------------+----------------------------------+
+   | Right square | Blue crosses :math:`\{P4\}`      |
+   +--------------+----------------------------------+
+
+
+
+Being forced to do a selection in addition to an intersection is an algorithmic solution that eliminates the need for empty geometry values.  Forcing a selection as part of a set operation introduces the assumption that records missing from the results are empty (e.g. do not intersect) and hence prohibits the ability to also record unknown (*null*) set operations.  Another problem of forced selection is that problem solving of erroneous set operations is hindered as one needs to undertake additional steps to confirm those records that were explicitly excluded by the forced selection.  For logic and critical thinking analysing the negative results can be more fruitful than analysing the positive results!
+
 
 Although beyond the scope of this project, it is noted that although Boolean logic is applied the same in the majority of relational databases there is known diversity in the application for three value logic.
 
@@ -346,26 +370,65 @@ A disadvantage of the lookup table approach is the requirement for the documenta
 ===================================
 Parsing data by QGIS data Providers
 ===================================
-QGIS parses data to and from many data formats without requiring importing or exporting to or from a common data format.  The intent of this data parsing is that a user may analyse data stored in different formats with a common user interface.  A key component of any GIS record is a geospatial geometry data type which could be stored in an infinite number of ways.  Fortunately, there are international standards :cite:`ISO19125-2` that describe the geospatial geometry data type and subtypes, and, there is some consistency across most data formats.
+A component of software that allows reading and editing of datasets without the user importing to or exporting from another data format is called a data provider. QGIS parses data to and from many data formats without requiring importing or exporting to or from a common data format.  The algorithms for this data parsing are contained within 1 of 18 different QGIS data providers.  A data providers is specific for one or more data formats.  The data providers are scripted within C++ without python handles.  To function, the relevant data provider need to read and write each data type and the appropriate values for each set (column) included in the dataset. The intent of this data parsing is that a user may read, write and analyse data stored in different formats with a common QGIS user interface.
 
-
-Although different GIS data formats have **similar** geometry subtype hierarchy's, they are not the same.  For example, many different SQL databases that adopt elements of ISO19125-2 :cite:`ISO19125-2` including PostGis and MS SQL by default have a *Geometry* subtype [#f4]_. Consequently, without further constraints in their native environment one can choose any subtype shown in :numref:`figureGeomTypeI` for any record.  In comparison, the *Geometry* subtype equivalent in the QGIS data type inheritance diagram :cite:`QGSAbstractGeometry` has the title *"QgsAbstractGeometry"* where the *Abstract* keyword tell us that this datatype can't be created by itself, only it's children can be created.  To emphasize, parsing data for different data formats but maintaining a uniform user interface is a Pandora's box when the data types or subtypes have different hierarchy's of data subtypes.
-
-With the understanding that different data formats have different geometry hierarchy's it is expected that QGIS needs to make adjustments on the fly. This parsing is silent and without experience errors may be introduced into datasets.
+The parsing of datasets by QGIS data providers is silent and can change both geometry sub-type and the geometry data values of *null* and *Empty* (:numref:`tableMultiLine`).   The change of geometry sub-type from line to multi-line for Geopackage, Shapefile and Spatialite is necessary as none of these data formats permits the mixing of primitive geometry types within multi-part geometry sub-types.  Except for the PostGis format, either the parsing of the known geometry data value of Empty is changed to the unknown value of *null*, or, visa versa.  The replacement of known with unknown, or unknown with known will cause erroneous analysis and interpretation.  Without experience errors may be introduced into datasets by the parsing of data by QGIS's data providers.
 
 .. _tableMultiLine:
 
-.. table:: Feature geometry changes when exporting a QGIS Multi-Line memory layer.
+.. table:: Appending of non-empty single part multi-line, non-empty line, empty line and null geometry records by QGIS to 5 popular data formats.
    :widths: auto
 
-   ========== ============ ============ ============ ============ ============
-   Original   Geopackage   Shapefile    Spatialite   PostGis      MS SQL
-   ========== ============ ============ ============ ============ ============
-   Multi-Line Multi-Line   Multi-Line   Multi-Line   Multi-Line   Multi-Line
-   Line       *Multi-Line* *Multi-Line* *Multi-Line* Line         Line
-   Empty      Empty        *null*       Empty        Empty        *null*
-   *null*     Empty        *null*       Empty        *null*       *null*
-   ========== ============ ============ ============ ============ ============
+   ========== ============ ============ ================= =============== ==============
+   Original   Geopackage   Shapefile    Spatialite [#f9]_ PostGis [#f10]_ MS SQL [#f10]_
+   ========== ============ ============ ================= =============== ==============
+   Multi-Line Multi-Line   Multi-Line   Multi-Line        Multi-Line      Multi-Line
+   Line       *Multi-Line* *Multi-Line* *Multi-Line*      Line            Line
+   Empty      Empty        *null*       Empty             Empty           *null*
+   *null*     Empty        *null*       Empty             *null*          *null*
+   ========== ============ ============ ================= =============== ==============
+
+
+------------------
+Parsing Data Types
+------------------
+
+Although different GIS data formats have **similar** geometry subtype hierarchy's, they are not the same.  The most typical deviations between different hierarchy's are the selection of sub-types that are included, and, which sub-types can be directly instantiated.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Set of Geometry Sub-Types
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Most data formats have a unique set of geometry subtypes available.  It is the data provider's task to:
+
+   * associate sub-type within an external data format with a QGIS sub-type
+   * provide an algorithm to parse data to and from the external data's sub type to the QGIS sub-type
+   * for many data formats this association and parsing is per record, not per dataset.
+
+The number and type of geometry Sub-Types are different for many data formats.  The data providers needs to associate each geometry subtype in an external format with an equivalent or similar QGIS sub-type.  For example, the hierarchy for the ubiquitous Shapefile shown in :numref:`figureShapeHier` is vastly different to the conventional geometry hierarchy shown in :numref:`figureGeomTypeI`.  For the purpose of constructing a single part line, QGIS has the four geometry subtypes of *"Multi-Line"*, *"Circular-String"*, *"Compound-Curve"*, and, *"Line"*, whereas Shapefile has only the single subtype of *"PolyLine"*.  Hence, in an QGIS editing session, a user may create a line using any of QGIS's four line subtypes, but, the line will only be recorded as a *"PolyLine*" and it is the Provider's task to inform QGIS of this requirement (:numref:`figureShapeToQgis`).  In comparison to a shapefile, SpatiaLite has the "Multi-Line" and "Line" subtypes and QGIS has to count the number of geometry parts (the number of separate lines) if the "Line" subtype is specified for SpatiaLite (:numref:`figureShapeToQgis`).  Although QGIS's data providers are able to instruct QGIS to change a geometry sub-type upon saving the edit, they do not stop a user from creating a geometry sub-type that is incompatible with the stored data format.  For example, with QGIS in an edit session, one may create a line with multiple parts for a single part "Line" dataset, and, it is only when the user attempts to commit the edits by saving the dataset that QGIS throws an error.
+
+.. _figureShapeHier:
+
+.. figure:: _static/geomTypeShapefile.png
+   :scale: 70%
+   :align: center
+
+   The hierarchy of geometry types for a shapefile excluding those that include elevation or measurements (adapted from :cite:`ShapefileDesc`).  The *Shape Type* can't be instantiated directly and is included for consistency.
+
+
+.. _figureShapeToQgis:
+
+.. figure:: _static/SpataLiteToQgisToShapefile.png
+   :align: center
+
+   The association of various geometry line sub-types for SpatiaLite, QGIS and Shapefile: grey arrows refer to changes in geometry sub-type within QGIS prior to comitting data; black arrows indicate data parsing between QGIS and the external formats.
+
+SpatiaLite and Shapefiles have a single geometry sub-type defined for a dataset [#f8]_ which is simpler than formats like MS SQL Server and PostGIS where each record maybe a different sub-type.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Abstract Geometry Sub-Types
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Regardless of data-type, those data types that can't be instantiated directly are referred to as *Abstract*.
+For example, without imposing constraints, PostGis and MS SQL Server by default have a *Geometry* type [#f4]_ for all geometry datasets. Consequently, PostGis or MS SQL Server the geometry sub-type can vary for each record.  For example, a single geometry set in PostGis can contain point, line and Multi-Surface sub-types, thereby mixing primitive and multi-part branches, and, mixing geometry types of different dimensionality.  In comparison, the *Geometry* subtype equivalent in the QGIS data type inheritance diagram :cite:`QGSAbstractGeometry` has the title *"QgsAbstractGeometry"* where the *Abstract* keyword implies that this datatype can't be created by itself, only it's children (sub-types) can be created.
 
 
 For several dataproviders including QGIS memory layer, PostGIS and MicroSoft SQL Server QGIS employs a subtype hierarchy shown by :numref:`figureGeomTypeII`.  Hence for some dataproviders, by default, QGIS creates a new one part line in a dataset of the *"Multi-Line"* subtype as a Line and not a *"Multi-Line"*.  The insertion of a *"Line"* geometry subtype into a *"Multi-Line"* geometry subtype dataset is readily demonstrated by python script using the QGIS API:
@@ -404,7 +467,7 @@ More worringly, as shown in the next python script, the reverse is also possible
    >>> print(QgsWkbTypes.displayString(layerSingle.dataProvider().wkbType()))
    LineString
 
-Fortunately with QGIS you can't insert a *Point* into a *Line* dataset, or, otherwise mix geometry sub-types of different dimensionality.
+Fortunately with a QGIS memory layer you can't insert a *Point* into a *Line* dataset, or, otherwise mix geometry sub-types of different dimensionality.
 
 .. doctest::
 
@@ -439,29 +502,7 @@ GIS Centric And the Wall of Mystery
 ===================================
 
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Records with false Boolean logic
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Many GIS software packages force the user to perform a selection whenever they perform a set operation like a union, intersection or difference.  The results of an intersection without a selection of the points and squares shown in :numref:`figureSquarePoint` includes those records that don’t intersect (:numref:`tableV`).  To achieve the more common output shown in :numref:`tableVI` a selection must be performed on the data to include only those records that do intersect.  Hence, the logic performed by most GIS software packages including ArcGIS and QGIS is: 1. Select those records where intersect is True; 2. Perform intersection.
 
-.. _tableVI:
-
-.. table:: Another way to represent the data in 5 where records where no intersection occurs are also shown.
-   :widths: auto
-
-   +--------------+----------------------------------+
-   | Square       | Point type                       |
-   +==============+==================================+
-   | Left square  | Blue crosses :math:`\{P1,\ P2\}` |
-   +--------------+----------------------------------+
-   + Left square  | Red circles :math:`\{P3\}`       |
-   +--------------+----------------------------------+
-   | Right square | Blue crosses :math:`\{P4\}`      |
-   +--------------+----------------------------------+
-
-
-
-Being forced to do a selection in addition to an intersection is an algorithmic solution that eliminates the need for empty geometry values.  Forcing a selection as part of a set operation introduces the assumption that records missing from the results are empty (e.g. do not intersect) and hence prohibits the ability to also record unknown (*null*) set operations.  Another problem of forced selection is that problem solving of erroneous set operations is hindered as one needs to undertake additional steps to confirm those records that were explicitly excluded by the forced selection.  For logic and critical thinking analysing the negative results can be more fruitful than analysing the positive results!
 
 ====
 QGIS
@@ -537,13 +578,11 @@ Using source specific data providers, QGIS processes data to and from third part
 -------------------
 QGIS Data Providers
 -------------------
-A component of software that allows it to directly read data without conversion to a different data type, and, to write updates or new records to a dataset without exporting is called a data provider.   QGIS contains data providers for 18 different formats for which it can read from or write to in their native format :cite:`QGSProviders2018`.  Being open source, each of the data QGIS providers were created at different times for different purposes, are founded on different philosophies and have different levels of development.  Consequently, even when different database packages follow the same geospatial standards, equivalent shapes from those different database packages may be read as different shapes due to variations or errors between data providers.
+QGIS contains 18 data providers that it uses to read and edit datasets in a wide range of data formats :cite:`QGSProviders2018`.  Being open source, each of the data QGIS providers were created at different times for different purposes, are founded on different philosophies and have different levels of development.  Consequently, even when different data formats are follow the same geospatial standards, equivalent geometries from those different database packages may be read as different shapes due to variations or errors between these data providers.  All of the QGIS data providers are scripted in C++ and unfortunately none are are exposed in the QGIS API which inhibits modification of their function :cite:`QGSProviders2018`.
 
-Within this project it is anticipated that errors passing empty or null values from Microsoft SQL Server or PostGIS will be found.  Unfortunately, the C++ classes employed in the data type specific data providers :cite:`QGSProviders2018` are not exposed in the QGIS API which means that their function is not easily modified.
+QGIS’s data providers that allow it to read or write in native format without need for additional constraints or data tables is a key feature that makes it popular in large organisations. By reading and writing in the native format, QGIS can edit or create geospatial data within an enterprise database that is configured for another piece of software and without importing and exporting.  By application of data providers to datasets in enterprise databases, QGIS has removed one of the barriers to integration of geospatial data within enterprise datasets.  Geospatial data within enterprise datasets enables built in geospatial analysis.
 
-QGIS’s data providers that allow it to read or write in native format without need for additional constraints or data tables is a key feature that makes it popular in large organisations. By reading and writing in the native format, QGIS can edit or create geospatial data within an enterprise database that is configured for another piece of software and without importing and exporting.  In doing so QGIS has removed one of the barriers to integration of geospatial data within enterprise datasets.
-
-In comparison to QGIS’s approach of editing the data in it’s native format, ESRI’s ArcMap requires a user to import into a geodatabase and undertake the editing there– even though the enterprise database and the geodatabase may be using the same database server :cite:`ArcGISTutorialForEmpty`.  ESRI’s approach often leads to a lookup table being used for geospatial data and then scripts run on those lookup tables to publish an integrated dataset.
+In comparison to QGIS’s approach of editing the data in it’s native format, ESRI’s ArcMap requires a user to import into a geodatabase and undertake the editing there– even though the enterprise database and the geodatabase may be using the same database server :cite:`ArcGISTutorialForEmpty`.  ESRI’s approach often leads to a lookup table being used for geospatial data and then scripts run on those lookup tables to publish an integrated dataset.  LINK TO PART ON LOOKUP TABLES
 
 ===============================================
 EXPOSURE OF NULL AND EMPTY SHAPE VALUES IN QGIS
@@ -675,6 +714,14 @@ Now, the QGIS test for empty performs the same test as for null, and, returns tr
 .. [#f5] For SQL relational databases, the term geometry is restricted to those shapes that are located by cartesian coordinates.
 
 .. [#f6] Python uses *None* instead of *null*, but, PyQT uses *NULL* as a QVariant, so, PyQGIS script may have a mixture of *None* and *NULL* depending on the origin of the classes in use.
+
+.. [#f7] This statements ignores all geometry sub-types that include elevation.
+
+.. [#f8] Technically in a Shapefile the geometry sub-type is recorded for each record, but, the technical specifications state that "All non-null shapes must be of the same shape type" :cite:`ShapefileDesc`.
+
+.. [#f9] SpatialLite table has a *Multi-Line* geometry data type.
+
+.. [#f10] The geometry type saved by PostGis and MS SQL Server depends on geometry constraints within the databases, the use of a *Geometery columns* lookup table, and, what geometry types already exist within the respective datasets.
 
 ******************
 Future Development

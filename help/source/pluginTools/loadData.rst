@@ -14,4 +14,4 @@ The methods that create these layers are contained within the :ref:`modelVectorL
 
 
 
-.. |model_data|  image:: ../../icons/model_data.png
+.. |model_data|  image:: ../../../icons/model_data.png

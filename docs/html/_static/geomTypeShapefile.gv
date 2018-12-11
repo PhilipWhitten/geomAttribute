@@ -1,0 +1,13 @@
+    digraph {
+
+       node [shape=record, fontname="Arial"];
+       rankdir = RL
+
+      G [label="Shape\nType", color=red, shape=ellipse]
+
+            "Null Shape" -> G;
+        "Point" -> G;
+            "PolyLine" -> G;
+       "MultiPoint" -> G;
+     
+    }

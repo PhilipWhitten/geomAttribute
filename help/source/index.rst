@@ -1,26 +1,17 @@
-|att_table|
-
 ============================================================
 GeomAttribute: A QGIS Attribute Table with a Geometry Column
 ============================================================
-
-A QGIS 3 plugin that shows an attribute table which includes a geometry column for any vector layer.
-
-This plugin has the following tools:
-
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   geomAttribute
-   loadData
    about
-   API
+   pluginTools/index
    concept
+   API
    changelog
-
-.. |att_table|  image:: ../../icons/attribute_table.png
+   glossary
 
 ==================
 Indices and tables

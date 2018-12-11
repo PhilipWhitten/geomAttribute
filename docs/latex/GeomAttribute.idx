@@ -1,0 +1,11 @@
+\indexentry{modelVectorLayers (module)@\spxentry{modelVectorLayers}\spxextra{module}|hyperpage}{29}
+\indexentry{createMultiLines() (in module modelVectorLayers)@\spxentry{createMultiLines()}\spxextra{in module modelVectorLayers}|hyperpage}{29}
+\indexentry{createMultiPoints() (in module modelVectorLayers)@\spxentry{createMultiPoints()}\spxextra{in module modelVectorLayers}|hyperpage}{29}
+\indexentry{parseQGISGeometry (module)@\spxentry{parseQGISGeometry}\spxextra{module}|hyperpage}{29}
+\indexentry{geometryField() (in module parseQGISGeometry)@\spxentry{geometryField()}\spxextra{in module parseQGISGeometry}|hyperpage}{29}
+\indexentry{layerAddVirtualGeometryField() (in module parseQGISGeometry)@\spxentry{layerAddVirtualGeometryField()}\spxextra{in module parseQGISGeometry}|hyperpage}{30}
+\indexentry{layerRemoveVirtualGeometryField() (in module parseQGISGeometry)@\spxentry{layerRemoveVirtualGeometryField()}\spxextra{in module parseQGISGeometry}|hyperpage}{30}
+\indexentry{layer\_review() (in module parseQGISGeometry)@\spxentry{layer\_review()}\spxextra{in module parseQGISGeometry}|hyperpage}{30}
+\indexentry{zipGeomAttribute (module)@\spxentry{zipGeomAttribute}\spxextra{module}|hyperpage}{30}
+\indexentry{installGeomAttributeFromZip() (in module zipGeomAttribute)@\spxentry{installGeomAttributeFromZip()}\spxextra{in module zipGeomAttribute}|hyperpage}{30}
+\indexentry{zipGeomAttribute() (in module zipGeomAttribute)@\spxentry{zipGeomAttribute()}\spxextra{in module zipGeomAttribute}|hyperpage}{30}

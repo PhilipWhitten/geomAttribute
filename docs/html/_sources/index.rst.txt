@@ -13,12 +13,12 @@ This plugin has the following tools:
    :maxdepth: 2
    :caption: Contents:
 
-   geomAttribute
-   loadData
    about
-   API
+   pluginTools/index
    concept
+   API
    changelog
+   glossary
 
 .. |att_table|  image:: ../../icons/attribute_table.png
 

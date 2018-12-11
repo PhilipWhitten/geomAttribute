@@ -1,0 +1,52 @@
+digraph {
+  node [shape=record, fontname="Arial"];
+  newrank=true;
+  rankdir=LR;
+  ranksep = 0.9;
+
+  L [label="Line"];
+  ML [label="Multi-Line"];
+  QL [label="Line"];
+  QML [label = "Multi-Line"];
+  QCS [label = "Circular-String"];
+  QCC [label = "Compound-Curve"];
+  P [label="PolyLine"];
+
+  subgraph cluster_c1 { 
+    rank=same;
+    label = "SpatiaLite";
+    fontname="Arial";
+    L;
+    ML;
+  }
+
+  subgraph cluster_c2 { 
+    rank=same;
+    label = "QGIS";
+    fontname="Arial";
+    QL;
+    QML;
+    QCS;
+    QCC;
+  }
+
+  subgraph cluster_c3 { 
+    rank=same;
+    label = "Shapefile";
+    fontname="Arial";
+    P;
+  }
+
+  L -> QL   [dir=both];   
+  ML -> QML [dir=both];        
+  QCS -> L [color=grey];
+  QCS -> ML   [color=grey];   
+  QCC -> ML  [color=grey];   
+  QCC -> L [ color=grey];
+  QML-> L [color=grey];  
+  QL -> ML [color=grey];    
+  QCS -> P; 
+  QCC -> P; 
+  QML -> P [dir=both];
+  QL -> P ;
+}

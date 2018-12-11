@@ -1,0 +1,46 @@
+    digraph {
+
+       node [shape=record, fontname="Arial"];
+rankdir=LR;
+
+
+
+    L [label="Line"] 
+    ML [label="Multi-Line"] 
+
+
+subgraph cluster_c1 { 
+    label = "SpatiaLite";
+    fontname="Arial";
+    L;
+    ML;
+}
+
+subgraph cluster_c2 { 
+    label = "QGIS";
+    fontname="Arial";
+    "Line";
+    "Multi-Line";
+    "Circular-String";
+    "Compound-Curve";
+
+}
+
+
+
+   L -> "Line"   [dir=both];   
+"Circular-String" -> L [color=grey];
+    
+
+    "Circular-String" -> ML   [color=grey];   
+    "Compound-Curve" -> ML  [color=grey];   
+   "Multi-Line" -> ML [dir=both];   
+
+      
+   "Compound-Curve" -> L [ color=grey];
+   "Multi-Line" -> L [color=grey];  
+   "Line" -> ML [color=grey];    
+        
+
+
+    }
