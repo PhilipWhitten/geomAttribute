@@ -1,54 +1,50 @@
 \babel@toc {english}{}
-\contentsline {chapter}{\numberline {1}About}{1}{chapter.1}
-\contentsline {chapter}{\numberline {2}Tools Included With This Plugin}{3}{chapter.2}
-\contentsline {section}{\numberline {2.1}Geometry Attribute Table}{3}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Description}{3}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}Use}{4}{subsection.2.1.2}
-\contentsline {section}{\numberline {2.2}Load Data}{4}{section.2.2}
-\contentsline {chapter}{\numberline {3}A QGIS attribute table plugin to show empty and null shapes}{5}{chapter.3}
-\contentsline {section}{\numberline {3.1}Preamble}{5}{section.3.1}
-\contentsline {section}{\numberline {3.2}Introduction}{5}{section.3.2}
-\contentsline {section}{\numberline {3.3}Background}{6}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Relational Datasets}{6}{subsection.3.3.1}
-\contentsline {subsubsection}{Set}{6}{subsubsection*.3}
-\contentsline {subsubsection}{Relational Dataset}{6}{subsubsection*.4}
-\contentsline {subsubsection}{Geospatial Dataset}{7}{subsubsection*.5}
-\contentsline {subsection}{\numberline {3.3.2}Geometry data types}{7}{subsection.3.3.2}
-\contentsline {subsection}{\numberline {3.3.3}Geometry data values}{9}{subsection.3.3.3}
-\contentsline {subsubsection}{Empty}{9}{subsubsection*.6}
-\contentsline {paragraph}{Datasets with multiple geometry sets}{10}{paragraph*.7}
-\contentsline {subsubsection}{null}{11}{subsubsection*.8}
-\contentsline {paragraph}{Using joins to eliminate null}{12}{paragraph*.9}
-\contentsline {paragraph}{Reasons for preventing null geometries}{12}{paragraph*.10}
-\contentsline {paragraph}{Records with false Boolean logic}{13}{paragraph*.11}
-\contentsline {paragraph}{Reasons for allowing null geometries}{14}{paragraph*.12}
-\contentsline {subsection}{\numberline {3.3.4}Parsing data by QGIS data Providers}{14}{subsection.3.3.4}
-\contentsline {subsubsection}{Parsing Data Types}{15}{subsubsection*.13}
-\contentsline {paragraph}{Set of Geometry Sub-Types}{15}{paragraph*.14}
-\contentsline {paragraph}{Abstract Geometry Sub-Types}{16}{paragraph*.15}
-\contentsline {subsection}{\numberline {3.3.5}GIS Centric And the Wall of Mystery}{20}{subsection.3.3.5}
-\contentsline {subsection}{\numberline {3.3.6}QGIS}{20}{subsection.3.3.6}
-\contentsline {subsubsection}{QGIS history}{20}{subsubsection*.16}
-\contentsline {subsubsection}{Vector datasets within QGIS}{20}{subsubsection*.17}
-\contentsline {section}{\numberline {3.4}PROBLEM DEFINITION}{21}{section.3.4}
-\contentsline {subsection}{\numberline {3.4.1}PARSING OF NULL AND EMPTY SHAPES TO AND FROM EXTERNAL DATABASES BY QGIS}{21}{subsection.3.4.1}
-\contentsline {subsubsection}{QGIS Data Providers}{21}{subsubsection*.18}
-\contentsline {subsection}{\numberline {3.4.2}EXPOSURE OF NULL AND EMPTY SHAPE VALUES IN QGIS}{22}{subsection.3.4.2}
-\contentsline {subsection}{\numberline {3.4.3}GIS PROFESSIONAL AWARENESS}{22}{subsection.3.4.3}
-\contentsline {subsubsection}{Set operations in Microsoft SQL or PostGIS can produce empty geometry values}{23}{subsubsection*.19}
-\contentsline {subsubsection}{Inadvertently Creating Empty Geometries within QGIS}{26}{subsubsection*.20}
-\contentsline {subsection}{\numberline {3.4.4}Retrospective incorporation of empty and null values into Software}{26}{subsection.3.4.4}
-\contentsline {subsubsection}{The definition of Null and Empty Values depends on context}{26}{subsubsection*.21}
-\contentsline {section}{\numberline {3.5}Future Development}{27}{section.3.5}
-\contentsline {section}{\numberline {3.6}Bibliography}{28}{section.3.6}
-\contentsline {chapter}{\numberline {4}API}{29}{chapter.4}
-\contentsline {section}{\numberline {4.1}modelVectorLayers module}{29}{section.4.1}
-\contentsline {section}{\numberline {4.2}parseQGISGeometry module}{29}{section.4.2}
-\contentsline {section}{\numberline {4.3}zipGeomAttribute module}{30}{section.4.3}
-\contentsline {chapter}{\numberline {5}Changelog}{31}{chapter.5}
-\contentsline {section}{\numberline {5.1}Version 0.1.0}{31}{section.5.1}
-\contentsline {section}{\numberline {5.2}Version 0.1.1}{31}{section.5.2}
-\contentsline {chapter}{\numberline {6}Glossary}{33}{chapter.6}
-\contentsline {chapter}{\numberline {7}Indices and tables}{35}{chapter.7}
-\contentsline {chapter}{Bibliography}{37}{chapter*.30}
-\contentsline {chapter}{Python Module Index}{39}{section*.31}
+\contentsline {chapter}{\numberline {1}Preface}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Introduction}{3}{chapter.2}
+\contentsline {chapter}{\numberline {3}Background}{5}{chapter.3}
+\contentsline {section}{\numberline {3.1}Relational Datasets}{5}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Geospatial Dataset}{6}{subsection.3.1.1}
+\contentsline {section}{\numberline {3.2}Geometry Data Types}{6}{section.3.2}
+\contentsline {section}{\numberline {3.3}Geometry Data Values}{8}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Empty}{8}{subsection.3.3.1}
+\contentsline {subsubsection}{Datasets With Multiple Geometry Sets}{9}{subsubsection*.3}
+\contentsline {subsubsection}{Set Operations in Microsoft SQL or PostGIS Produce Empty Geometry Values}{10}{subsubsection*.4}
+\contentsline {subsection}{\numberline {3.3.2}null}{11}{subsection.3.3.2}
+\contentsline {subsubsection}{Using Joins to Eliminate null}{11}{subsubsection*.5}
+\contentsline {subsubsection}{Reasons For Preventing null Geometries}{12}{subsubsection*.6}
+\contentsline {subsubsection}{Reasons For Allowing null Geometries}{13}{subsubsection*.7}
+\contentsline {section}{\numberline {3.4}QGIS}{13}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}QGIS Data Providers}{13}{subsection.3.4.1}
+\contentsline {section}{\numberline {3.5}GIS Professional Awareness}{16}{section.3.5}
+\contentsline {subsection}{\numberline {3.5.1}Exposing null or Empty Geometry Values in QGIS}{16}{subsection.3.5.1}
+\contentsline {chapter}{\numberline {4}QGIS Data Provider Data Parsing Problems}{19}{chapter.4}
+\contentsline {section}{\numberline {4.1}Parsing Geometry Data Types}{19}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Data Provider Geometry Type Errors}{21}{subsection.4.1.1}
+\contentsline {section}{\numberline {4.2}Parsing Empty and null Geometry Data Values}{22}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Instantiation of Empty Geometry Values by QGIS}{22}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Changing of Empty data Values by parsing}{22}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Inadvertently Creating Empty Geometries within QGIS}{23}{subsection.4.2.3}
+\contentsline {subsubsection}{In QGIS null Implies Empty}{23}{subsubsection*.8}
+\contentsline {subsection}{\numberline {4.2.4}Instantiation of null Geometry Values by QGIS}{24}{subsection.4.2.4}
+\contentsline {subsection}{\numberline {4.2.5}Retrospective Incorporation of Empty and null Values Into GDAL}{24}{subsection.4.2.5}
+\contentsline {chapter}{\numberline {5}Aim}{27}{chapter.5}
+\contentsline {chapter}{\numberline {6}Plugin Design}{29}{chapter.6}
+\contentsline {section}{\numberline {6.1}Geometry Describing Expression}{29}{section.6.1}
+\contentsline {section}{\numberline {6.2}Attribute Table Creation}{30}{section.6.2}
+\contentsline {section}{\numberline {6.3}Putting Icons into the Attribute Table}{31}{section.6.3}
+\contentsline {section}{\numberline {6.4}Plugin Window}{33}{section.6.4}
+\contentsline {section}{\numberline {6.5}Plugin Help Files}{33}{section.6.5}
+\contentsline {section}{\numberline {6.6}Future Development}{33}{section.6.6}
+\contentsline {chapter}{\numberline {7}Tools Included With This Plugin}{35}{chapter.7}
+\contentsline {section}{\numberline {7.1}Geometry Attribute Table}{35}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Use}{35}{subsection.7.1.1}
+\contentsline {section}{\numberline {7.2}Load Data}{36}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Use}{37}{subsection.7.2.1}
+\contentsline {chapter}{\numberline {8}API}{39}{chapter.8}
+\contentsline {section}{\numberline {8.1}modelVectorLayers module}{39}{section.8.1}
+\contentsline {section}{\numberline {8.2}parseQGISGeometry module}{39}{section.8.2}
+\contentsline {section}{\numberline {8.3}zipGeomAttribute module}{40}{section.8.3}
+\contentsline {chapter}{\numberline {9}Changelog}{41}{chapter.9}
+\contentsline {section}{\numberline {9.1}Version 0.1.0}{41}{section.9.1}
+\contentsline {section}{\numberline {9.2}Version 0.1.1}{41}{section.9.2}
+\contentsline {chapter}{Bibliography}{43}{chapter*.17}

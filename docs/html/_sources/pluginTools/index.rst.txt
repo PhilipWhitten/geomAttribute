@@ -4,13 +4,13 @@
 Tools Included With This Plugin
 ===============================
 
-A QGIS 3 plugin that shows an attribute table which includes a geometry column for any vector layer.
+A QGIS 3.x plugin that shows an *Attribute Table* with a geometry describing column for the active vector layer.
 
 This plugin has the following tools:
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    geomAttribute
    loadData

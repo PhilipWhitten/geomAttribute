@@ -27,20 +27,19 @@ from sys import path as sysPath
 from PyQt5 import uic
 from PyQt5 import QtWidgets
 
-
+#   The system path needs to include the directory of the icons
 sysPath.append(osPath.dirname(__file__))
+
 FORM_CLASS, _ = uic.loadUiType(osPath.join(
     osPath.dirname(__file__), 'geomAttribute_window_base.ui'), resource_suffix='')
 
 class geomAttributeWindow(QtWidgets.QMainWindow, FORM_CLASS):
     def __init__(self, parent=None):
-        """Constructor."""
+        """
+        Constructor
+        """
         super(geomAttributeWindow, self).__init__(parent)
-        # Set up the user interface from Designer.
-        # After setupUI you can access any designer object by doing
-        # self.<objectname>, and you can use autoconnect slots - see
-        # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
-        # #widgets-and-dialogs-with-auto-connect
+        #   Set up the user interface that is constructed with Qt Designer.
         self.setupUi(self)
 
 

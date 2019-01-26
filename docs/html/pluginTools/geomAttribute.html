@@ -26,7 +26,6 @@
 
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -89,14 +88,19 @@
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tools Included With This Plugin</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Geometry Attribute Table</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#description">Description</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#use">Use</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="loadData.html">Load Data</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../concept.html">A QGIS attribute table plugin to show empty and null shapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preamble.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QGISproblems.html">QGIS Data Provider Data Parsing Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Aims.html">Aim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pluginDesign.html">Plugin Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Conclusions.html">Conclusions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
@@ -168,57 +172,70 @@
             
   <div class="section" id="geometry-attribute-table">
 <span id="geometryattributetable-page"></span><h1>Geometry Attribute Table<a class="headerlink" href="#geometry-attribute-table" title="Permalink to this headline">¶</a></h1>
-<p><img alt="att_table" src="../_images/attribute_table1.png" /></p>
-<div class="section" id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
-<p>An attribute table window which includes a geometry column for any vector layer.</p>
-<p>The geometry column uses the icons shown in the table below to indicate the feature’s geometry type in descending
-precedence: unknown (null); empty; point; multi-part point; line; multi-part line; polygon; and, multi-part polygon.</p>
-<span id="geometryicon-table"></span><table border="1" class="colwidths-given docutils" id="id1">
+<p><a class="reference internal" href="../_images/attribute_table.png"><img alt="att_table" src="../_images/attribute_table.png" style="width: 12.0px; height: 12.0px;" /></a> An attribute table window which includes a geometry describing column for any vector layer.</p>
+<p>The geometry column uses the icons shown in <a class="reference internal" href="#geometryicon-table"><span class="std std-numref">Table 1</span></a> to indicate a feature’s geometry value or type in descending precedence: unknown (null); empty; point; multi-part point; line; multi-part line; polygon; and, multi-part polygon.</p>
+<span id="geometryicon-table"></span><table border="1" class="colwidths-given docutils align-center" id="id1">
 <caption><span class="caption-number">Table 1 </span><span class="caption-text">Icons used to represent various geometries.</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <colgroup>
-<col width="30%" />
-<col width="70%" />
+<col width="24%" />
+<col width="44%" />
+<col width="32%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Icon</th>
-<th class="head">Geometry</th>
+<th class="head">Geometry Description</th>
+<th class="head">Precedence</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><img alt="Empty" src="../_images/Empty.png" /></td>
-<td>Empty geometry</td>
+<tr class="row-even"><td><img alt="Null" src="../_images/Null.png" /></td>
+<td>Unknown value</td>
+<td>First</td>
 </tr>
-<tr class="row-odd"><td><img alt="Null" src="../_images/Null.png" /></td>
-<td>Unknown geometry</td>
+<tr class="row-odd"><td><img alt="Empty" src="../_images/Empty.png" /></td>
+<td>Empty value</td>
+<td>Second</td>
 </tr>
 <tr class="row-even"><td><img alt="poin_1x" src="../_images/point_1x.png" /></td>
-<td>Point</td>
+<td>Point type</td>
+<td>Third</td>
 </tr>
 <tr class="row-odd"><td><img alt="poin_2x" src="../_images/point_2x.png" /></td>
-<td>Multi-Part Point</td>
+<td>Multi-Part Point type</td>
+<td>Fourth</td>
 </tr>
 <tr class="row-even"><td><img alt="line_1x" src="../_images/line_1x.png" /></td>
-<td>Line</td>
+<td>Line type</td>
+<td>Fifth</td>
 </tr>
 <tr class="row-odd"><td><img alt="line_2x" src="../_images/line_2x.png" /></td>
-<td>Multi-Part Line</td>
+<td>Multi-Part Line type</td>
+<td>Sixth</td>
 </tr>
 <tr class="row-even"><td><img alt="poly_1x" src="../_images/polygon_1x.png" /></td>
-<td>Polygon</td>
+<td>Polygon type</td>
+<td>Seventh</td>
 </tr>
 <tr class="row-odd"><td><img alt="poly_2x" src="../_images/polygon_2x.png" /></td>
-<td>Multi-Part Polygon</td>
+<td>Multi-Part Polygon type</td>
+<td>Eighth</td>
 </tr>
 </tbody>
 </table>
-</div>
+<p>The plugin does not distinguish between two dimensional and three dimensional shapes, nor between those with or without measurements.  The plugin does not consider whether geographic or cartesian coordinates are used for the spatial reference system.</p>
 <div class="section" id="use">
 <h2>Use<a class="headerlink" href="#use" title="Permalink to this headline">¶</a></h2>
-<p>This tool works on the current active layer within QGIS.  The current layer needs to be a vector layer.  This tool will
-not work on a raster layer.</p>
-<p>Click on the vector layer in the <em>Layers Panel</em> then click on the <em>Geometry Attribute Table</em> icon <img alt="att_table" src="../_images/attribute_table1.png" /> or select
-<em>Geometry Attribute Table</em> from the <em>Plugins</em> menu.</p>
+<p>This tool works on the current active layer within QGIS.  The current layer needs to be a vector layer.  This tool will not work on a raster layer.</p>
+<p>Within QGIS, click on the vector layer to be analysed in the <em>Layers Panel</em> to make it active, then click on the <em>Geometry Attribute Table</em> icon <a class="reference internal" href="../_images/attribute_table.png"><img alt="att_table" src="../_images/attribute_table.png" style="width: 12.0px; height: 12.0px;" /></a> or select the <em>Geometry Attribute Table</em> item from the <em>Geometry Attribute Table</em> group on the <em>Plugins</em> menu.  Successful use of the <em>Geometry Attribute Table</em> tool will display a new window with the title <em>“Geometry-Attribute Table”</em> that contains an attribute table where the last column has the heading <em>“Geometry”</em>.  <a class="reference internal" href="#figurescreen"><span class="std std-numref">Fig. 1</span></a> shows an example of an open <em>Geometry Attribute Table</em> output window with a <em>“Geometry”</em> column heading. This geometry describing column uses the icons shown in <a class="reference internal" href="#geometryicon-table"><span class="std std-numref">Table 1</span></a> to represent each record’s geometry.</p>
+<div class="figure align-center" id="id2">
+<span id="figurescreen"></span><a class="reference internal image-reference" href="../_images/pluginScreenShot.png"><img alt="../_images/pluginScreenShot.png" src="../_images/pluginScreenShot.png" style="width: 329.0px; height: 298.9px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">A screen shot of the window containing an attribute table produced by the <em>Geometry Attribute Table</em> tool in a Microsoft Windows environment.</span></p>
+</div>
+<p>A text version of the <em>Geometry</em> column will also be appended to the conventional QGIS attribute table (<a class="reference internal" href="#figurescreen2"><span class="std std-numref">Fig. 2</span></a>).  Successful closing of the <em>Geometry Attribute Table</em> window will also remove this appended <em>Geometry</em> column.</p>
+<div class="figure align-center" id="id3">
+<span id="figurescreen2"></span><a class="reference internal image-reference" href="../_images/stdScreenShot.png"><img alt="../_images/stdScreenShot.png" src="../_images/stdScreenShot.png" style="width: 385.0px; height: 387.09999999999997px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">A screen shot of the standard QGIS Attribute Table window showing the same dataset shown in <a class="reference internal" href="#figurescreen"><span class="std std-numref">Fig. 1</span></a> in a Microsoft Windows environment.  The column with the heading <em>“Geometry”</em> is a virtual field created by the <em>Geometry Attribute Table</em> tool and will be removed when the <em>Geometry-Attribute Table</em> window is closed.</span></p>
+</div>
 </div>
 </div>
 
@@ -267,7 +284,8 @@ not work on a raster layer.</p>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   

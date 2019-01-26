@@ -8,15 +8,14 @@ GeomAttribute: A QGIS Attribute Table with a Geometry Column
 
    about
    pluginTools/index
-   concept
+   preamble
+   introduction
+   background
+   QGISproblems
+   Aims
+   pluginDesign
+   Conclusions
    API
    changelog
    glossary
-
-==================
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   references  .. latex automatically adds references and the latex output is worse with this

@@ -2,30 +2,46 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7aed021-0361-4d5a-95ff-12849b48cb91" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../docs/doctrees/about.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/doctrees/about.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/doctrees/concept.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/doctrees/concept.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../docs/doctrees/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/doctrees/index.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/doctrees/pluginTools/geomAttribute.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/doctrees/pluginTools/geomAttribute.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/doctrees/pluginTools/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/doctrees/pluginTools/index.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/doctrees/pluginTools/loadData.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/doctrees/pluginTools/loadData.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/API.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/API.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/html/_sources/about.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/_sources/about.rst.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/_sources/concept.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/_sources/concept.rst.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/_sources/index.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/_sources/index.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/html/_sources/pluginTools/geomAttribute.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/_sources/pluginTools/geomAttribute.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/html/_sources/pluginTools/index.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/_sources/pluginTools/index.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/html/_sources/pluginTools/loadData.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/_sources/pluginTools/loadData.rst.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/about.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../docs/html/changelog.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/changelog.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/concept.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/concept.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/genindex.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/html/pluginTools/geomAttribute.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/pluginTools/geomAttribute.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/html/pluginTools/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/pluginTools/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/html/pluginTools/loadData.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/pluginTools/loadData.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/py-modindex.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/html/searchindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../docs/latex/CrossesWithoutNull.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/latex/CrossesWithoutNull.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.aux" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.aux" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.idx" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.idx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.log" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.out" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.tex" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.toc" beforeDir="false" afterPath="$PROJECT_DIR$/../../../docs/latex/GeomAttribute.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../NullFeaturesInQGIS.bib" beforeDir="false" afterPath="$PROJECT_DIR$/../NullFeaturesInQGIS.bib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../_static/SpataLiteToQgisToShapefile.gv" beforeDir="false" afterPath="$PROJECT_DIR$/../_static/SpataLiteToQgisToShapefile.gv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../_static/SpataLiteToQgisToShapefile.png" beforeDir="false" afterPath="$PROJECT_DIR$/../_static/SpataLiteToQgisToShapefile.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../about.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../about.rst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../concept.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../concept.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/../conf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../geomAttribute.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../index.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../loadData.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geomAttribute.rst" beforeDir="false" afterPath="$PROJECT_DIR$/geomAttribute.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/index.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loadData.rst" beforeDir="false" afterPath="$PROJECT_DIR$/loadData.rst" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,9 +50,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.rst">
+          <provider selected="true" editor-type-id="restructured-text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../concept.rst">
           <provider selected="true" editor-type-id="restructured-text-editor" />
         </entry>
       </file>
@@ -46,31 +67,7 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../conf.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1063">
-              <caret line="150" column="7" selection-start-line="150" selection-start-column="7" selection-end-line="150" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../about.rst">
-          <provider selected="true" editor-type-id="restructured-text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/loadData.rst">
-          <provider selected="true" editor-type-id="restructured-text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../index.rst">
-          <provider selected="true" editor-type-id="restructured-text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../glossary.rst">
           <provider selected="true" editor-type-id="restructured-text-editor" />
         </entry>
       </file>
@@ -82,17 +79,20 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/loadData.rst" />
-        <option value="$PROJECT_DIR$/index.rst" />
-        <option value="$PROJECT_DIR$/geomAttribute.rst" />
         <option value="$PROJECT_DIR$/../glossary.rst" />
         <option value="$PROJECT_DIR$/../conf.py" />
         <option value="$PROJECT_DIR$/../index.rst" />
         <option value="$PROJECT_DIR$/../about.rst" />
+        <option value="$PROJECT_DIR$/index.rst" />
+        <option value="$PROJECT_DIR$/loadData.rst" />
+        <option value="$PROJECT_DIR$/geomAttribute.rst" />
+        <option value="$PROJECT_DIR$/../concept.rst" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="9" />
+    <option name="y" value="15" />
     <option name="width" value="1764" />
     <option name="height" value="1107" />
   </component>
@@ -107,7 +107,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../about.rst" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/loadData.rst" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -137,7 +137,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.08508977" />
@@ -159,29 +158,32 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/loadData.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../glossary.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geomAttribute.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../index.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/../conf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1063">
+        <state relative-caret-position="3129">
           <caret line="150" column="7" selection-start-line="150" selection-start-column="7" selection-end-line="150" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../about.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../index.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../glossary.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geomAttribute.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loadData.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../concept.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
   </component>

@@ -1,15 +1,15 @@
 """
-
 Contains methods for zipping the minimum compiled source scripts needed for this plugin to function within QGIS.  These
-methods do not do any of the compilation (e.g. update docs, or, compile the QT Designer interface).
-
+methods do not do any of the compilation (e.g. update documentation, or, compile the QT Designer interface).
 """
 
 import zipfile
 import os
 
 def zipGeomAttribute():
-    """Zips the minimum number of files needed for the plugin to be installed into QGIS"""
+    """
+    Zips the minimum number of files needed for the plugin to be installed into QGIS
+    """
     print('creating archive')
     zipWrite = zipfile.ZipFile('geomAttribute.zip', mode='w')
 

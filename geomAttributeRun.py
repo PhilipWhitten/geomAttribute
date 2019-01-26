@@ -37,7 +37,9 @@ from .geomAttribute_window import geomAttributeWindow
 import os.path
 
 class geomAttribute:
-    """QGIS Plugin Implementation."""
+    """
+    QGIS Plugin Implementation.
+    """
 
     def __init__(self, iface):
         """Constructor.
@@ -162,7 +164,9 @@ class geomAttribute:
         return action
 
     def initGui(self):
-        """Create the menu entries and toolbar icons inside the QGIS GUI."""
+        """
+        Create the menu entries and toolbar icons inside the QGIS GUI.
+        """
 
         icon_path = ':/plugins/geomAttribute/icons/attribute_table.png'
         self.add_action(
@@ -181,8 +185,9 @@ class geomAttribute:
 
     def addModelData(self):
         """
-        Dialog for loading demonstration data.  Yes triggers the creation of demonstration vector layers within the
-        current QGIS workspace. No escapes the dialog and returns to QGIS without doing anything.
+        Dialog for loading demonstration data.  Yes triggers the creation of demonstration
+        vector layers within the current QGIS workspace. No escapes the dialog and returns
+        to QGIS without doing anything.
         """
         loadModelData = QMessageBox.question(None, "Load Model Data",
                                              "Do you want to load demonstration vector layers?",
@@ -196,7 +201,9 @@ class geomAttribute:
             pass
 
     def unload(self):
-        """Removes the plugin menu item and icon from QGIS GUI."""
+        """
+        Removes the plugin menu item and icon from QGIS GUI.
+        """
         for action in self.actions:
             self.iface.removePluginMenu(
                 self.tr(u'&Geometry Attribute Table'),
@@ -223,37 +230,38 @@ class geomAttribute:
         #look for help icon clicks
         self.window.actionHelp.triggered.connect(self.helpPage)
 
-        ## Add virtual field to layer
+        #   Add virtual field to layer
 
         from .parseQGISGeometry import layerAddVirtualGeometryField
 
-        #the try/except tests that the layer is a vector layer.
+        #   The try/except tests that the layer is a vector layer.
         try:
             layerAddVirtualGeometryField(self.layer)
 
-            # create a cache of the vector layer data of size 10000
+            #   Create a cache of the vector layer data of size 10000
+            #   Cache geometry is true by default
+            #   For example: print(self.vector_layer_cache.cacheGeometry())
             self.vector_layer_cache = QgsVectorLayerCache(self.layer, 10000)
-            # cache geometry is true by default (print(self.vector_layer_cache.cacheGeometry()))
 
-            # QgsAttributeTableModel is a subclass of QAbstractTableModel
+            #   QgsAttributeTableModel is a subclass of QAbstractTableModel
             self.attribute_table_model = QgsAttributeTableModel(self.vector_layer_cache)
 
             self.attribute_table_model.loadLayer()
 
-            #######################################################self.setWindowTitle('First Attribute Table')
-
+            #   The QgsAttributeTableFilterModel() is used to synchronize any selection.
             self.attribute_table_filter_model = QgsAttributeTableFilterModel(
             self.iface.mapCanvas(), self.attribute_table_model)
-            # The QgsAttributeTableFilterModel() is used to synchronize any selection.  Probably some
-            # form of custom model to reduce duplication of data.
 
-            self.attribute_table_view = self.window.tableView #The table view is instantiated via a promotion in QT Designer
+            #   The table view is instantiated via a promotion in Qt Designer
+            self.attribute_table_view = self.window.tableView
 
             self.attribute_table_view.setModel(self.attribute_table_filter_model)
-            # MyDelegate class below is used to put symbols and colors into the geometry column.
-            self.attribute_table_view.setItemDelegateForColumn(self.layer.geometryIndex, myDelegate(self.attribute_table_view))
 
-            # show the dialog
+            #   MyDelegate class below is used to put symbols and colors into the geometry column.
+            self.attribute_table_view.setItemDelegateForColumn(
+                self.layer.geometryIndex, myDelegate(self.attribute_table_view))
+
+            #   Show the dialog
             self.window.show()
 
         except AttributeError:
@@ -275,14 +283,23 @@ class geomAttribute:
 ########################################################################################################################
 class myDelegate(QItemDelegate):
     """
-    This class formats the strings for the geometry column field, or, it shows icons instead of strings.
+    This class formats the strings for the geometry column field, or, it shows icons instead
+    of strings.
+
+    This class is a subclass of QItemDelegate.
     """
     def __init__(self, parent=None, *args):
         QItemDelegate.__init__(self, parent, *args)
 
-    # class method for painting geometry row attributes.  Where is this method called?
     def paint(self, painter, option, index):
-        """option is a QStyleOptionViewItem, painter is a QPainter object"""
+        """
+        This method paints the geometry column attributes with icon's for
+        display in the Plugin's Attribute-Table window.
+
+        Args:
+           option(QStyleOptionViewItem):
+           painter(QPainter):
+        """
 
         value = index.data(Qt.DisplayRole)
 
@@ -295,13 +312,13 @@ class myDelegate(QItemDelegate):
             "Polygon": 'polygon_1x'
         }
 
-        #for iconKey in iconDict:
+        #   Equivalent to "for iconKey in iconDict:"
         geometry = next(filter(value.__contains__, iconDict.keys()), None)
         if geometry is not None:
             icon = QIcon(':/plugins/geomAttribute/icons/{}.png'.format(iconDict.get(geometry)))
             icon.paint(painter, option.rect, Qt.AlignCenter)
         else:
-            # set background color
+            #   Set background color
             painter.setPen(QPen(Qt.NoPen))
             backgroundColor = Qt.lightGray
             geometry = next(filter(value.__eq__, ['Null', 'Empty']), None)
@@ -312,9 +329,9 @@ class myDelegate(QItemDelegate):
                     backgroundColor = Qt.darkYellow
             painter.setBrush(backgroundColor)
             painter.drawRect(option.rect)
-            # set text color - order is important.  If done before background color will not show
+            #   Set text color - order is important.
+            #   If done before background color will not show.
             painter.setPen(QPen(Qt.black))
-
             painter.drawText(option.rect, Qt.AlignCenter, value)
 
 #######################################################################################################################

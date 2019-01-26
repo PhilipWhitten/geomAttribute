@@ -39,14 +39,8 @@ digraph {
 
   L -> QL   [dir=both];   
   ML -> QML [dir=both];        
-  QCS -> L [color=grey];
-  QCS -> ML   [color=grey];   
-  QCC -> ML  [color=grey];   
-  QCC -> L [ color=grey];
-  QML-> L [color=grey];  
-  QL -> ML [color=grey];    
-  QCS -> P; 
-  QCC -> P; 
+  QCS -> QL [color=grey]; 
+  QCC -> QL [ color=grey];
+  QL -> QML [color=grey];    
   QML -> P [dir=both];
-  QL -> P ;
 }

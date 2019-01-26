@@ -1,7 +1,7 @@
 # Update 09/11/2018
 
 """
-The QGIS Expression and methods in this module parse a vector's geometry for a QGIS vector layer.
+The QGIS Expression and methods in this module parse each record's vector geometry for a QGIS vector layer.
 """
 
 from qgis.core import *
@@ -13,11 +13,11 @@ from PyQt5 import QtWidgets
 
 @qgsfunction(args='auto', group='Custom', usesGeometry=False)
 def geometryField(feature, parent):
+    #   THIS DOCUMENTATION IS NOT BE SHOWN BY THE SPHINX AUTODOC DIRECTIVE
     """
-    THIS DOCUMENTATION DOES NOT SHOW UP IN SPHINX
-
-    Creates a QGIS expression called geometryField.  This expression returns a string that represents the geometry in
-    the following order of decreasing precedence:
+    Creates a QGIS expression called geometryField.  This expression
+    returns a string that represents the geometry in the following
+    order of decreasing precedence:
 
        * Null
        * Empty
@@ -27,13 +27,20 @@ def geometryField(feature, parent):
        A string that represents the geometry.
     """
     geom = feature.geometry()
-    emptyPoint = QgsPoint()
+    #   Creates Point(0 0)
+    emptyPoint1 = QgsPoint()
+    #   Creates Point(nan nan)
+    emptyPoint2 = emptyPoint1.createEmptyWithSameType()
+    #   Null has to be tested for before empty as QGIS treats all null
+    # geometries as empty
     if geom.isNull():
         return 'Null'
     elif geom.isEmpty():
         return 'Empty'
-    #Specific test for empty points.
-    elif geom.type().__eq__(0) and geom.vertexAt(0).__eq__(emptyPoint):
+    #   Specific tests for empty points.
+    elif geom.type().__eq__(0) and geom.vertexAt(0).__eq__(emptyPoint1):
+        return 'Empty'
+    elif geom.type().__eq__(0) and geom.vertexAt(0).__eq__(emptyPoint2):
         return 'Empty'
     else:
         return QgsWkbTypes.displayString(geom.wkbType())
@@ -41,8 +48,7 @@ def geometryField(feature, parent):
 
 def layerAddVirtualGeometryField(vectorLayer):
     """
-    Uses the *'geometryField'* expression to provide string values that represent the feature's geometry.  These string
-    values are appended to the input *vectorLayer* as a virtual field.
+    Appends a virtual field called *"Geometry"* to the input *vectorLayer*.  This virtual field consists of string values populated by the *"geometryField"* expression that is contained within this module.
 
     Args:
         vectorLayer (QgsVectorLayer):  A QGIS vector layer.
@@ -75,10 +81,9 @@ def layerRemoveVirtualGeometryField(vectorLayer):
 
 def layer_review(layer):
     """
-    **IN PROGRESS - NOT CURRENTLY USED BY PLUGIN**
+    **IN DEVELOPMENT - NOT CURRENTLY USED BY PLUGIN**
 
-    Reviews any vector layer for the presence of null or empty geometries.  Provides a summary of a layer by geometry
-    type.
+    Reviews any vector layer for the presence of *Null* or *Empty* geometries.  Provides a summary of the vector geometry types that occur within a layer.
 
     Args:
         vectorLayer (QgsVectorLayer):  A QGIS vector layer.

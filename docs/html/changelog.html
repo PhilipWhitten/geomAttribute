@@ -26,10 +26,10 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
     <link rel="prev" title="API" href="API.html" /> 
 
   
@@ -86,14 +86,21 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pluginTools/index.html">Tools Included with this Plugin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concept.html">A QGIS attribute table plugin to show empty and null shapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pluginTools/index.html">Tools Included With This Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preamble.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QGISproblems.html">QGIS Data Provider Data Parsing Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Aims.html">Aim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pluginDesign.html">Plugin Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Conclusions.html">Conclusions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-1-0">Version 0.1.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#version-0-1-1">Version 0.1.1</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 
             
@@ -160,14 +167,13 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
-<p>All notable changes to this project will be documented in this file.</p>
 <p>This project adheres to <a class="reference external" href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
 <div class="section" id="version-0-1-0">
 <h2>Version 0.1.0<a class="headerlink" href="#version-0-1-0" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
 <li>First release</li>
-<li>Shows attribute table for vector layers in QGIS v3.x with icons that represent the geometry.</li>
+<li>Shows attribute table for vector layers in QGIS v3.x with icons that represent the geometry of each record.</li>
 <li>Has the option to create demonstration vector datasets.</li>
 </ul>
 </div></blockquote>
@@ -176,9 +182,178 @@
 <h2>Version 0.1.1<a class="headerlink" href="#version-0-1-1" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
-<li>Removes the virtual field called ‘Geometry’ when the geomAttribute Attribute table is closed.</li>
+<li>Removes the virtual field called <em>“Geometry”</em> when the created <em>“Geometry-Attribute Table”</em> is closed.</li>
 </ul>
 </div></blockquote>
+<p id="bibtex-bibliography-changelog-0"><table class="docutils citation" frame="void" id="gdalempty" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>Empty(self, *args). URL: <a class="reference external" href="http://gdal.org/python/osgeo.ogr.Geometry-class.html#Empty">http://gdal.org/python/osgeo.ogr.Geometry-class.html#Empty</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="esrinulloracle" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td>How To : Insert a NULL or empty st _ geometry attribute in Oracle. URL: <a class="reference external" href="https://support.esri.com/en/technical-article/000010466">https://support.esri.com/en/technical-article/000010466</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgis" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td>QGIS - The Leading Open Source Desktop GIS. URL: <a class="reference external" href="https://www.qgis.org/en/site/about/index.html#">https://www.qgis.org/en/site/about/index.html#</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="gdalintersection" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td>def Intersection(self, *args):. URL: <a class="reference external" href="http://gdal.org/python/osgeo.ogr-pysrc.html#Geometry.Intersection">http://gdal.org/python/osgeo.ogr-pysrc.html#Geometry.Intersection</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="iso19125-2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td>ISO 19125-2 Geographic information - Simple feature access. Part 2: SQL Option. First Edition. 2004.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="whatisnull" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[6]</td><td>What Is Null. 2010. URL: <a class="reference external" href="http://wiki.c2.com/?WhatIsNull">http://wiki.c2.com/?WhatIsNull</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="mssql-types" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[7]</td><td>Spatial Data Types Overview | Microsoft Docs. 2016. URL: <a class="reference external" href="https://docs.microsoft.com/en-us/sql/relational-databases/spatial/spatial-data-types-overview?view=sql-server-2017">https://docs.microsoft.com/en-us/sql/relational-databases/spatial/spatial-data-types-overview?view=sql-server-2017</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgspointbugreport2018" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[8]</td><td>Bug report #19190: QgsPoint class does not store empty point geometries - QGIS Application - QGIS Issue Tracking. 2018. URL: <a class="reference external" href="https://issues.qgis.org/issues/19190">https://issues.qgis.org/issues/19190</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgischangelogv3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[9]</td><td>Changelog for QGIS 3.0. 2018. URL: <a class="reference external" href="https://www.qgis.org/en/site/forusers/visualchangelog30/">https://www.qgis.org/en/site/forusers/visualchangelog30/</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="intersectdefinition" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[10]</td><td>INTERSECT | meaning in the Cambridge English Dictionary. 2018. URL: <a class="reference external" href="https://dictionary.cambridge.org/dictionary/english/intersect">https://dictionary.cambridge.org/dictionary/english/intersect</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qtmodelview" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[11]</td><td>Model/View Programming | Qt Widgets 5.12. 2018. URL: <a class="reference external" href="http://doc.qt.io/qt-5/model-view-programming.html">http://doc.qt.io/qt-5/model-view-programming.html</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgsabstractgeometry" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[12]</td><td>QGIS API Documentation: QgsAbstractGeometry Class Reference. 2018. URL: <a class="reference external" href="https://qgis.org/api/classQgsAbstractGeometry.html">https://qgis.org/api/classQgsAbstractGeometry.html</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgsgeometrysource2018" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[13]</td><td>QGIS API Documentation: Source File. 2018. URL: <a class="reference external" href="https://qgis.org/api/qgsgeometry_8cpp_source.html">https://qgis.org/api/qgsgeometry_8cpp_source.html</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgsproviders2018" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[14]</td><td>QGIS/src/providers/. 2018. URL: <a class="reference external" href="https://github.com/qgis/QGIS/tree/master/src/providers">https://github.com/qgis/QGIS/tree/master/src/providers</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="arcgistutorialforempty" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[15]</td><td>Tutorial: Perform web editing using data from a database—Documentation | ArcGIS Enterprise. 2018. URL: <a class="reference external" href="http://enterprise.arcgis.com/en/server/latest/get-started/windows/tutorial-performing-web-editing-using-data-from-a-database.htm">http://enterprise.arcgis.com/en/server/latest/get-started/windows/tutorial-performing-web-editing-using-data-from-a-database.htm</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="qgiscontributors" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[16]</td><td>Wikipeday Contributors. QGIS. URL: <a class="reference external" href="https://en.wikipedia.org/wiki/QGIS">https://en.wikipedia.org/wiki/QGIS</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="settheoryoverall" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[17]</td><td>Wikipedia Contributors. Set (mathematics). 2018. URL: <a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Set_(mathematics)&amp;oldid=866126059">https://en.wikipedia.org/w/index.php?title=Set_(mathematics)&amp;oldid=866126059</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="shapefiledesc" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[18]</td><td>ESRI. ESRI Shapefile Technical Description. Technical Report, ESRI, 1998. URL: <a class="reference external" href="www.esri.com,">www.esri.com,</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="imielinski1984" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[19]</td><td>Tomasz Imieliński and Witold Lipski Jr. Incomplete Information in Relational Databases. <em>J. ACM</em>, 31(4):761–791, sep 1984. URL: <a class="reference external" href="http://doi.acm.org/10.1145/1634.1886">http://doi.acm.org/10.1145/1634.1886</a>, <a class="reference external" href="https://doi.org/10.1145/1634.1886">doi:10.1145/1634.1886</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="loskot2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[20]</td><td>Mateusz Loskot. SqlGeometry and POINT EMPTY in WKB. 2010. URL: <a class="reference external" href="http://mateusz.loskot.net/post/2010/02/26/sqlgeometry-and-point-empty-in-wkb/">http://mateusz.loskot.net/post/2010/02/26/sqlgeometry-and-point-empty-in-wkb/</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ogc2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[21]</td><td>OGC. OpenGIS\textregistered  Implementation Standard for Geographic information - Simple feature access - Part 1: Common architecture. <em>Open Geospatial Consortium, Inc</em>, pages 93, 2010. URL: <a class="reference external" href="http://portal.opengeospatial.org/files/?artifact_id=25355E+Implementation+Standard+for+Geographic+information+-+Simple+feature+access#1">http://portal.opengeospatial.org/files/?artifact_id=25355E+Implementation+Standard+for+Geographic+information+-+Simple+feature+access#1</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ramsey2010" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[22]</td><td>Paul Ramsey. Nothing, Nada, Zip, Bupkus. 2010. URL: <a class="reference external" href="http://blog.cleverelephant.ca/2010/03/nothing-nada-zip-bupkus.html">http://blog.cleverelephant.ca/2010/03/nothing-nada-zip-bupkus.html</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="robinson2018" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[23]</td><td>Anthony Robinson. Representing the Presence of Absence in Cartography. <em>Annals of the American Association of Geographers</em>, pages 1–15, feb 2018. URL: <a class="reference external" href="https://www.tandfonline.com/doi/full/10.1080/24694452.2018.1473754">https://www.tandfonline.com/doi/full/10.1080/24694452.2018.1473754</a>, <a class="reference external" href="https://doi.org/10.1080/24694452.2018.1473754">doi:10.1080/24694452.2018.1473754</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="rouault2015" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[24]</td><td>Even Rouault. Empty elements in GML : empty or NULL. 2015. URL: <a class="reference external" href="https://trac.osgeo.org/gdal/ticket/5968">https://trac.osgeo.org/gdal/ticket/5968</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="vandermeyden1998" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[25]</td><td>Ron van&nbsp;der Meyden. Logical Approaches to Incomplete Information: A Survey. In Jan Chomicki and Gunter Saake, editors, <em>Logics for Databases and Information Systems</em>, chapter Logical Ap, pages 307–356. Kluwer Academic Publishers, Norwell, MA, USA, 1998. URL: <a class="reference external" href="http://dl.acm.org/citation.cfm?id=294135.294145">http://dl.acm.org/citation.cfm?id=294135.294145</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="pbtool" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[26]</td><td>Gary Sherman. Plugin Builder Tool. URL: <a class="reference external" href="http://g-sherman.github.io/plugin_build_tool/">http://g-sherman.github.io/plugin_build_tool/</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="garysherman2011" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[27]</td><td>Gary Sherman. History of QGIS Committers. 2011. URL: <a class="reference external" href="http://spatialgalaxy.net/2011/09/23/history-of-qgis-committers/">http://spatialgalaxy.net/2011/09/23/history-of-qgis-committers/</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="parseemptyfromsql" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[28]</td><td>Philip Whitten. Bug report #19397: Parssing of empty geometry values from MicroSoft SQL Server - QGIS Application - QGIS Issue Tracking. 2018. URL: <a class="reference external" href="https://issues.qgis.org/issues/19397">https://issues.qgis.org/issues/19397</a>.</td></tr>
+</tbody>
+</table>
+</p>
 </div>
 </div>
 
@@ -189,6 +364,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="API.html" class="btn btn-neutral" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -225,7 +402,8 @@
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   

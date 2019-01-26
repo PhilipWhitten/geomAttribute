@@ -1,7 +1,6 @@
 """
-Creates vector layers as QGIS memory layers.  These layers are intended to demonstrate how the Geometry Attribute Table
-plugin renders datasets that have: multi-part, single part, empty, and, null geometries.  A description of the created
-layer is included with each method.
+Creates vector layers with a QGIS memory layer data source.  These layers are intended to demonstrate how the Geometry Attribute Table
+plugin renders datasets that have: multi-part, single part, *empty*, and, *null* geometries.  A description of the created layer is included with each method.
 """
 # update 03/11/2018
 
@@ -10,16 +9,17 @@ from qgis.core import *
 from PyQt5.QtGui import QColor
 
 def createMultiPoints(layerName='Multi-Part Points'):
-    """A geometry collection of multi-part points and points (single part constrained).
+    """
+    A geometry collection of multi-part points and points (single part constrained).
 
-    For an empty point, QGIS creates erroneously creates a point with the coordinates (0 0).
+    For an *empty* point, QGIS creates erroneously creates a point with the coordinates (0 0).
 
     Args:
         layerName (str): The name of the layer that is loaded into QGIS.
 
     Returns:
-        A memory vector layer containing features with the following geometries: 2 point multi-point; 4 point multi-point,
-        1 point multi-point, line, Empty multi-line, and, Null.
+        A QGIS memory data source vector layer containing features with the following geometries: 2 point multi-point; 4 point multi-point,
+        1 point multi-point, point, *empty* multi-point, and, *null*.
 
     """
     """Creates a model single line dataset that also contains empty lines and null lines.  Constructed by function as

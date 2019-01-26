@@ -26,12 +26,11 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Changelog" href="changelog.html" />
-    <link rel="prev" title="A QGIS attribute table plugin to show empty and null shapes" href="concept.html" /> 
+    <link rel="prev" title="Conclusions" href="Conclusions.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -88,10 +87,16 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pluginTools/index.html">Tools Included With This Plugin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concept.html">A QGIS attribute table plugin to show empty and null shapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preamble.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QGISproblems.html">QGIS Data Provider Data Parsing Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Aims.html">Aim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pluginDesign.html">Plugin Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Conclusions.html">Conclusions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-modelVectorLayers">modelVectorLayers module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-parseQGISGeometry">parseQGISGeometry module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parseqgisgeometry-module">parseQGISGeometry module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-zipGeomAttribute">zipGeomAttribute module</a></li>
 </ul>
 </li>
@@ -163,13 +168,12 @@
             
   <div class="section" id="api">
 <h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
-<p>The following modules are included within this plugin.  The plugin’s repository is
+<p>The following modules are included within this Plugin.  The Plugin’s repository is
 on <a class="reference external" href="https://github.com/PhilipWhitten/geomAttribute">GitHub</a>.</p>
 <div class="section" id="module-modelVectorLayers">
 <span id="modelvectorlayers-module"></span><span id="modelvectorlayers-api"></span><h2>modelVectorLayers module<a class="headerlink" href="#module-modelVectorLayers" title="Permalink to this headline">¶</a></h2>
-<p>Creates vector layers as QGIS memory layers.  These layers are intended to demonstrate how the Geometry Attribute Table
-plugin renders datasets that have: multi-part, single part, empty, and, null geometries.  A description of the created
-layer is included with each method.</p>
+<p>Creates vector layers with a QGIS memory layer data source.  These layers are intended to demonstrate how the Geometry Attribute Table
+plugin renders datasets that have: multi-part, single part, <em>empty</em>, and, <em>null</em> geometries.  A description of the created layer is included with each method.</p>
 <dl class="function">
 <dt id="modelVectorLayers.createMultiLines">
 <code class="descclassname">modelVectorLayers.</code><code class="descname">createMultiLines</code><span class="sig-paren">(</span><em>layerName='Multi-Part Lines'</em><span class="sig-paren">)</span><a class="headerlink" href="#modelVectorLayers.createMultiLines" title="Permalink to this definition">¶</a></dt>
@@ -192,40 +196,20 @@ layer is included with each method.</p>
 <dt>Args:</dt>
 <dd>layerName (str): The name of the layer that is loaded into QGIS.</dd>
 <dt>Returns:</dt>
-<dd>A memory vector layer containing features with the following geometries: 2 point multi-point; 4 point multi-point,
-1 point multi-point, line, Empty multi-line, and, Null.</dd>
+<dd>A QGIS memory data source vector layer containing features with the following geometries: 2 point multi-point; 4 point multi-point,
+1 point multi-point, point, <em>empty</em> multi-point, and, <em>null</em>.</dd>
 </dl>
 </dd></dl>
 
 </div>
-<div class="section" id="module-parseQGISGeometry">
-<span id="parseqgisgeometry-module"></span><span id="parseqgisgeometry-api"></span><h2>parseQGISGeometry module<a class="headerlink" href="#module-parseQGISGeometry" title="Permalink to this headline">¶</a></h2>
-<p>The QGIS Expression and methods in this module parse a vector’s geometry for a QGIS vector layer.</p>
-<dl class="function">
-<dt id="parseQGISGeometry.geometryField">
-<code class="descclassname">parseQGISGeometry.</code><code class="descname">geometryField</code><span class="sig-paren">(</span><em>feature</em>, <em>parent</em><span class="sig-paren">)</span><a class="headerlink" href="#parseQGISGeometry.geometryField" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a QGIS expression called geometryField.  This expression returns a string that represents the geometry in
-the following order of decreasing precedence:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Null</li>
-<li>Empty</li>
-<li>Well known binary type string</li>
-</ul>
-</div></blockquote>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>QgsFeature</dd>
-<dt>Returns:</dt>
-<dd>A string that represents the QgsFeature’s geometry.</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="parseqgisgeometry-module">
+<span id="parseqgisgeometry-api"></span><h2>parseQGISGeometry module<a class="headerlink" href="#parseqgisgeometry-module" title="Permalink to this headline">¶</a></h2>
+<p>The <em>parseQGISGeometry</em> module includes a QGIS expression called <strong>geometryField</strong> that returns a string that represents a vector feature’s geometry.  The <strong>geometryField QGIS expression</strong> is described in detail in the section <a class="reference internal" href="pluginDesign.html#geometry-describing-expression"><span class="std std-ref">Geometry Describing Expression</span></a>.</p>
+<span class="target" id="module-parseQGISGeometry"></span><p>The QGIS Expression and methods in this module parse each record’s vector geometry for a QGIS vector layer.</p>
 <dl class="function">
 <dt id="parseQGISGeometry.layerAddVirtualGeometryField">
 <code class="descclassname">parseQGISGeometry.</code><code class="descname">layerAddVirtualGeometryField</code><span class="sig-paren">(</span><em>vectorLayer</em><span class="sig-paren">)</span><a class="headerlink" href="#parseQGISGeometry.layerAddVirtualGeometryField" title="Permalink to this definition">¶</a></dt>
-<dd><p>Uses the <em>‘geometryField’</em> expression to provide string values that represent the feature’s geometry.  These string
-values are appended to the input <em>vectorLayer</em> as a virtual field.</p>
+<dd><p>Appends a virtual field called <em>“Geometry”</em> to the input <em>vectorLayer</em>.  This virtual field consists of string values populated by the <em>“geometryField”</em> expression that is contained within this module.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd>vectorLayer (QgsVectorLayer):  A QGIS vector layer.</dd>
@@ -245,22 +229,19 @@ values are appended to the input <em>vectorLayer</em> as a virtual field.</p>
 <dl class="function">
 <dt id="parseQGISGeometry.layer_review">
 <code class="descclassname">parseQGISGeometry.</code><code class="descname">layer_review</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#parseQGISGeometry.layer_review" title="Permalink to this definition">¶</a></dt>
-<dd><p><strong>IN PROGRESS - NOT CURRENTLY USED BY PLUGIN</strong></p>
-<p>Reviews any vector layer for the presence of null or empty geometries.  Provides a summary of a layer by geometry
-type.</p>
+<dd><p><strong>IN DEVELOPMENT - NOT CURRENTLY USED BY PLUGIN</strong></p>
+<p>Reviews any vector layer for the presence of <em>Null</em> or <em>Empty</em> geometries.  Provides a summary of the vector geometry types that occur within a layer.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd>vectorLayer (QgsVectorLayer):  A QGIS vector layer.</dd>
 </dl>
 </dd></dl>
 
-<p>The following modules are included in the plugin’s repository and are useful to construct the plugin from the source
-scripts.</p>
 </div>
 <div class="section" id="module-zipGeomAttribute">
 <span id="zipgeomattribute-module"></span><h2>zipGeomAttribute module<a class="headerlink" href="#module-zipGeomAttribute" title="Permalink to this headline">¶</a></h2>
 <p>Contains methods for zipping the minimum compiled source scripts needed for this plugin to function within QGIS.  These
-methods do not do any of the compilation (e.g. update docs, or, compile the QT Designer interface).</p>
+methods do not do any of the compilation (e.g. update documentation, or, compile the QT Designer interface).</p>
 <dl class="function">
 <dt id="zipGeomAttribute.installGeomAttributeFromZip">
 <code class="descclassname">zipGeomAttribute.</code><code class="descname">installGeomAttributeFromZip</code><span class="sig-paren">(</span><em>pluginPath</em><span class="sig-paren">)</span><a class="headerlink" href="#zipGeomAttribute.installGeomAttributeFromZip" title="Permalink to this definition">¶</a></dt>
@@ -291,7 +272,7 @@ methods do not do any of the compilation (e.g. update docs, or, compile the QT D
         <a href="changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="concept.html" class="btn btn-neutral" title="A QGIS attribute table plugin to show empty and null shapes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Conclusions.html" class="btn btn-neutral" title="Conclusions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -325,7 +306,8 @@ methods do not do any of the compilation (e.g. update docs, or, compile the QT D
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   

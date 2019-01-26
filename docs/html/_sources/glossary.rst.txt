@@ -15,3 +15,6 @@ Empty
 
 Null
    The geometry is unknown.  It may or may not be empty depending on the dataset.
+
+API
+   Application Programming Interface.  Often a set of classes (objects) and sub-classes that can be instantiated in a selection of computer languages.

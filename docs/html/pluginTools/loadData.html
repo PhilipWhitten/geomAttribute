@@ -26,11 +26,10 @@
 
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="A QGIS attribute table plugin to show empty and null shapes" href="../concept.html" />
+    <link rel="next" title="Preface" href="../preamble.html" />
     <link rel="prev" title="Geometry Attribute Table" href="geomAttribute.html" /> 
 
   
@@ -89,12 +88,22 @@
 <li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tools Included With This Plugin</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="geomAttribute.html">Geometry Attribute Table</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Load Data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Load Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#use">Use</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../concept.html">A QGIS attribute table plugin to show empty and null shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../preamble.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QGISproblems.html">QGIS Data Provider Data Parsing Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Aims.html">Aim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pluginDesign.html">Plugin Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Conclusions.html">Conclusions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
             
@@ -163,15 +172,19 @@
             
   <div class="section" id="load-data">
 <h1>Load Data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h1>
-<p>The <img alt="model_data" src="../_images/model_data.png" /> <em>Load Data</em> function creates the following QGS memory vector layers:</p>
+<p>The <a class="reference internal" href="../_images/model_data.png"><img alt="model_data" src="../_images/model_data.png" style="width: 12.0px; height: 12.0px;" /></a> <em>Load Data</em> function creates the following QGS memory vector layers and adds them to the current QGIS work space:</p>
 <blockquote>
 <div><ul class="simple">
 <li>Multi-part Lines</li>
 <li>Multi-part Points</li>
 </ul>
 </div></blockquote>
-<p>These layers are ideal to observe the utility of the <a class="reference internal" href="geomAttribute.html#geometryattributetable-page"><span class="std std-ref">Geometry Attribute Table</span></a>.</p>
-<p>The methods that create these layers are contained within the <a class="reference internal" href="../API.html#modelvectorlayers-api"><span class="std std-ref">modelVectorLayers module</span></a>.</p>
+<p>Both of these layers contain records with: primitive geometries; multi-part geometries; <em>empty</em> geometry values; and, <em>null</em> geometry values.  These layers are ideal to observe the utility of the <a class="reference internal" href="geomAttribute.html#geometryattributetable-page"><span class="std std-ref">Geometry Attribute Table</span></a> tool.</p>
+<p>The methods that create these layers are contained within the plugin’s <a class="reference internal" href="../API.html#modelvectorlayers-api"><span class="std std-ref">modelVectorLayers module</span></a>.</p>
+<div class="section" id="use">
+<h2>Use<a class="headerlink" href="#use" title="Permalink to this headline">¶</a></h2>
+<p>Select the <em>Load Model Data</em> item from the <em>Geometry Attribute Table</em> group on the QGIS <em>Plugins</em> menu.</p>
+</div>
 </div>
 
 
@@ -182,7 +195,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../concept.html" class="btn btn-neutral float-right" title="A QGIS attribute table plugin to show empty and null shapes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../preamble.html" class="btn btn-neutral float-right" title="Preface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="geomAttribute.html" class="btn btn-neutral" title="Geometry Attribute Table" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -219,7 +232,8 @@
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   

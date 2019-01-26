@@ -26,7 +26,6 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -87,7 +86,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pluginTools/index.html">Tools Included With This Plugin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concept.html">A QGIS attribute table plugin to show empty and null shapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preamble.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QGISproblems.html">QGIS Data Provider Data Parsing Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Aims.html">Aim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pluginDesign.html">Plugin Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Conclusions.html">Conclusions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
@@ -155,11 +160,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p><img alt="att_table" src="_images/attribute_table.png" /></p>
-<div class="section" id="geomattribute-a-qgis-attribute-table-with-a-geometry-column">
+  <div class="section" id="geomattribute-a-qgis-attribute-table-with-a-geometry-column">
 <h1>GeomAttribute: A QGIS Attribute Table with a Geometry Column<a class="headerlink" href="#geomattribute-a-qgis-attribute-table-with-a-geometry-column" title="Permalink to this headline">¶</a></h1>
-<p>A QGIS 3 plugin that shows an attribute table which includes a geometry column for any vector layer.</p>
-<p>This plugin has the following tools:</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -169,18 +171,35 @@
 <li class="toctree-l2"><a class="reference internal" href="pluginTools/loadData.html">Load Data</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="concept.html">A QGIS attribute table plugin to show empty and null shapes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="concept.html#preamble">Preamble</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concept.html#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concept.html#background">Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concept.html#problem-definition">PROBLEM DEFINITION</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concept.html#future-development">Future Development</a></li>
-<li class="toctree-l2"><a class="reference internal" href="concept.html#bibliography">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preamble.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="background.html#relational-datasets">Relational Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#geometry-data-types">Geometry Data Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#geometry-data-values">Geometry Data Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#qgis">QGIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#gis-professional-awareness">GIS Professional Awareness</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="QGISproblems.html">QGIS Data Provider Data Parsing Problems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="QGISproblems.html#parsing-geometry-data-types">Parsing Geometry Data Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QGISproblems.html#parsing-empty-and-null-geometry-data-values">Parsing Empty and null Geometry Data Values</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Aims.html">Aim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pluginDesign.html">Plugin Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pluginDesign.html#geometry-describing-expression">Geometry Describing Expression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pluginDesign.html#attribute-table-creation">Attribute Table Creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pluginDesign.html#putting-icons-into-the-attribute-table">Putting Icons into the Attribute Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pluginDesign.html#plugin-window">Plugin Window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pluginDesign.html#plugin-help-files">Plugin Help Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pluginDesign.html#future-development">Future Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Conclusions.html">Conclusions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="API.html#module-modelVectorLayers">modelVectorLayers module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-parseQGISGeometry">parseQGISGeometry module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API.html#parseqgisgeometry-module">parseQGISGeometry module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="API.html#module-zipGeomAttribute">zipGeomAttribute module</a></li>
 </ul>
 </li>
@@ -192,14 +211,6 @@
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 </ul>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
 </div>
 
 
@@ -245,7 +256,8 @@
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   

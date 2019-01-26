@@ -37,11 +37,10 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.githubpages',
-    'sphinxcontrib.bibtex',
+    'sphinxcontrib.bibtex', # needed for references with bibtex configured in Mendeley
     'sphinx.ext.doctest',
     'sphinx.ext.autosectionlabel',
-    'sphinx.ext.graphviz'
+    'sphinx.ext.githubpages' #adds a .nojekyll file for github
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -53,11 +52,17 @@ templates_path = ['_templates']
 # source_suffix = ['.rst', '.md']
 source_suffix = '.rst'
 
-# The master toctree document.
+# The html index document.
 master_doc = 'index'
+
+# The latex index document
+latex_doc = 'index_latex'
 
 # figures, tables and code-blocks are automatically numbers
 numfig = True
+
+# checks links
+nitpicky = True
 
 # prefix each section label with the name of the document
 autosectionlabel_prefix_document = False
@@ -76,6 +81,7 @@ exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
+
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -118,7 +124,7 @@ htmlhelp_basename = 'GeomAttributedoc'
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
-    # 'papersize': 'letterpaper',
+    'papersize': 'a4paper',
 
     # The font size ('10pt', '11pt' or '12pt').
     #
@@ -126,28 +132,44 @@ latex_elements = {
 
     # Additional stuff for the LaTeX preamble.
     #
-    # 'preamble': '',
+    #'preamble': r'''
+    #    \newcommand\sphinxbackoftitlepage{test of extra}\sphinxmaketitle'
+    #''',
+
+    'maketitle': r'''\newcommand\sphinxbackoftitlepage{\textbf{GeomAttribute: A QGIS Attribute Table with a Geometry Column} \par '''
+                 r'An Attribute Table with a geometry describing column that illuminates those geometries with {\textit{empty}} or {\textit{null}} values for the active vector layer in a QGIS workspace. \par '
+                 r'This QGIS 3 plugin is licensed under the GNU General Public License v3.0. \par '
+                 r'The plugin\textquotesingle s development repository is on Github: \url{https://github.com/PhilipWhitten/geomAttribute} \par ' 
+                 r'The plugin can be downloaded from the QGIS repository: \url{http://plugins.qgis.org/plugins/geomAttribute} \par '
+                 r'The help documentation is hosted online: \url{http://philipwhitten.github.io/geomAttribute} \par '
+                 r'The initial version of the plugin was created in 2018 by Philip Whitten as part of a Penn State MGIS Capstone Project supervised by James O\textquotesingle Brien. \par '
+                 r'Python scripts contained within this documentation were tested using the Sphinx doctest extension (\url{https://www.sphinx-doc.org/en/master/usage/extensions/doctest.html}) using a standard network installation of QGIS version 3.2.2 in a Microsoft Windows environment.}\sphinxmaketitle',
+
 
     # Latex figure (float) alignment
     #
-    # 'figure_align': 'htbp',
+    'figure_align': 'htbp',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'GeomAttribute.tex', 'GeomAttribute Documentation',
+    (latex_doc, 'GeomAttribute.tex', '\\Large GeomAttribute\\\\{\\normalsize A QGIS Attribute Table with a Geometry Column}',
      'Philip Whitten', 'manual'),
 ]
 
+latex_show_urls = 'footnote'
+
+# If false, no module index is generated.
+latex_domain_indices = False
 
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'geomattribute', 'GeomAttribute Documentation',
+    (master_doc, 'geomattribute', 'Geometry Attribute Table: A QGIS Plugin',
      [author], 1)
 ]
 
@@ -158,10 +180,15 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'GeomAttribute', 'GeomAttribute Documentation',
+    (master_doc, 'GeomAttribute', 'Geometry Attribute Table: A QGIS Plugin',
      author, 'GeomAttribute', 'One line description of project.',
      'Miscellaneous'),
 ]
+
+# If false, no module index is generated.
+texinfo_domain_indices = False
+
+texinfo_show_urls = 'footnote'
 
 
 # -- Options for Epub output -------------------------------------------------
