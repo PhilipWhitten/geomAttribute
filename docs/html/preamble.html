@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Preface &mdash; GeomAttribute  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introduction" href="introduction.html" />
+    <link rel="prev" title="Load Data" href="pluginTools/loadData.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> GeomAttribute
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.2a
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pluginTools/index.html">Tools Included With This Plugin</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QGISproblems.html">QGIS Data Provider Data Parsing Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Aims.html">Aim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pluginDesign.html">Plugin Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Conclusions.html">Conclusions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GeomAttribute</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Preface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/preamble.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="preface">
+<h1>Preface<a class="headerlink" href="#preface" title="Permalink to this headline">¶</a></h1>
+<p>I am in the closing stages of a MGIS at Penn State and needed a topic for a capstone project.  What sort of topic? I am gainfully employed as a GIS Officer at a local government bureau, but, my employer was not willing to offer a topic nor were they willing to offer open access to curious datasets.  I have a passion for maps, cartography and spatial analysis, but, previous attempts to combine my passion with requirements for academia often ended in a feeling of futility.  From my employment, I realised that my colleagues and I occasionally loose hours because some of our datasets were <strong>corrupted</strong> by <em>null</em> or <em>empty</em> geometries.  I also realised that I was blissfully ignorant of the concept of <em>null</em> and <em>empty</em> geometries as they were not included in my GIS education.  So, I wanted to learn a bit about <em>null</em> and <em>empty</em> geometries in the hope that I can be more capable in my employment and so that I can feed a curiosity.</p>
+<p>The concept of a QGIS plugin that exposed <em>null</em> and <em>empty</em> shapes evolved quickly.  A plugin is tangible and deliverable as opposed to curiosity which is instinct and always expanding.  QGIS is the primary desktop GIS software where I work and I was keen to learn how to automate and develop QGIS for specific tasks.  In my GIS degree we had used Python to automate tasks in ArcMap, and, C# to make apps for ArcMap, but, we had not dabbled in QGIS.  So, this project was also an adventure in QGIS scripting.</p>
+<p>What comes next?  From this project I have learnt that much of the GIS software and the GIS community is GIS centric.  After all, to create a new record in a dataset with either QGIS or ArcMap one creates the shape of a feature, and, <em>subsequently</em> populates the other attributes.  To work in reverse and create the shape of a feature as the last step in a workflow is not only unconventional, but, also nontrivial.  But here’s the point, whenever I have to create geospatial records I am always given a list of attributes and the shape is the last attribute to be created, the other attributes are already known and are re-entered.  Furthermore, most of the major desktop GIS packages report set operations between datasets differently to established database conventions.  I would like to work towards making QGIS and other software packages less GIS centric so that geospatial datasets become more ubiquitous and more open to other professional communities! To become less GIS centric you need to embrace the <em>null</em> and exploit the <em>empty</em>.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pluginTools/loadData.html" class="btn btn-neutral" title="Load Data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Philip Whitten
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

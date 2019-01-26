@@ -1,0 +1,13 @@
+digraph {
+  node [shape=record, fontname="Arial"];
+  ranksep = 0.5;
+
+  A [label="Add virtual field to dataset\n using a custom expression"];
+  B [label="Create Attribute Table\nin a new window"];
+  C [label="Replace Geometry type\n strings with icons, and,\n change background colour\n of table cells containing\n the strings 'Empty' or 'Null'"];
+
+   A -> B;
+   B -> C;
+   
+
+}

@@ -1,0 +1,12 @@
+*******
+Preface
+*******
+
+I am in the closing stages of a MGIS at Penn State and needed a topic for a capstone project.  What sort of topic? I am gainfully employed as a GIS Officer at a local government bureau, but, my employer was not willing to offer a topic nor were they willing to offer open access to curious datasets.  I have a passion for maps, cartography and spatial analysis, but, previous attempts to combine my passion with requirements for academia often ended in a feeling of futility.  From my employment, I realised that my colleagues and I occasionally loose hours because some of our datasets were **corrupted** by *null* or *empty* geometries.  I also realised that I was blissfully ignorant of the concept of *null* and *empty* geometries as they were not included in my GIS education.  So, I wanted to learn a bit about *null* and *empty* geometries in the hope that I can be more capable in my employment and so that I can feed a curiosity.
+
+The concept of a QGIS plugin that exposed *null* and *empty* shapes evolved quickly.  A plugin is tangible and deliverable as opposed to curiosity which is instinct and always expanding.  QGIS is the primary desktop GIS software where I work and I was keen to learn how to automate and develop QGIS for specific tasks.  In my GIS degree we had used Python to automate tasks in ArcMap, and, C# to make apps for ArcMap, but, we had not dabbled in QGIS.  So, this project was also an adventure in QGIS scripting.
+
+What comes next?  From this project I have learnt that much of the GIS software and the GIS community is GIS centric.  After all, to create a new record in a dataset with either QGIS or ArcMap one creates the shape of a feature, and, *subsequently* populates the other attributes.  To work in reverse and create the shape of a feature as the last step in a workflow is not only unconventional, but, also nontrivial.  But here's the point, whenever I have to create geospatial records I am always given a list of attributes and the shape is the last attribute to be created, the other attributes are already known and are re-entered.  Furthermore, most of the major desktop GIS packages report set operations between datasets differently to established database conventions.  I would like to work towards making QGIS and other software packages less GIS centric so that geospatial datasets become more ubiquitous and more open to other professional communities! To become less GIS centric you need to embrace the *null* and exploit the *empty*.
+
+
+

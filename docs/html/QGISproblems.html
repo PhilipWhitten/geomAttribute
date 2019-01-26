@@ -1,0 +1,497 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>QGIS Data Provider Data Parsing Problems &mdash; GeomAttribute  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Aim" href="Aims.html" />
+    <link rel="prev" title="Background" href="background.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> GeomAttribute
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.2a
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pluginTools/index.html">Tools Included With This Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preamble.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">QGIS Data Provider Data Parsing Problems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#parsing-geometry-data-types">Parsing Geometry Data Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-provider-geometry-type-errors">Data Provider Geometry Type Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#parsing-empty-and-null-geometry-data-values">Parsing Empty and null Geometry Data Values</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#instantiation-of-empty-geometry-values-by-qgis">Instantiation of Empty Geometry Values by QGIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changing-of-empty-data-values-by-parsing">Changing of Empty data Values by parsing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inadvertently-creating-empty-geometries-within-qgis">Inadvertently Creating Empty Geometries within QGIS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#in-qgis-null-implies-empty">In QGIS null Implies Empty</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#instantiation-of-null-geometry-values-by-qgis">Instantiation of null Geometry Values by QGIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#retrospective-incorporation-of-empty-and-null-values-into-gdal">Retrospective Incorporation of Empty and null Values Into GDAL</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Aims.html">Aim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pluginDesign.html">Plugin Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Conclusions.html">Conclusions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GeomAttribute</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>QGIS Data Provider Data Parsing Problems</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/QGISproblems.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="qgis-data-provider-data-parsing-problems">
+<h1>QGIS Data Provider Data Parsing Problems<a class="headerlink" href="#qgis-data-provider-data-parsing-problems" title="Permalink to this headline">¶</a></h1>
+<p>The parsing of datasets by QGIS data providers is silent and can change both geometry sub-type and the geometry data values of <em>null</em> and <em>Empty</em> (<a class="reference internal" href="#tablemultiline"><span class="std std-numref">Table 12</span></a>).</p>
+<p>Changes of geometry sub-type may be required because the data source doesn’t support the mixing of specific sub-types, or, because the source sub-type may not be supported at all.  For example, in <a class="reference internal" href="#tablemultiline"><span class="std std-numref">Table 12</span></a>, neither Geopackage nor Spatialite permit the mixing of <em>Line</em> and <em>Multi-Line</em> subtypes, so, the data provider defaults to the <em>Multi-Line</em> subtype for the creation of a new dataset, and, all records with a <em>Line</em> subtype are changed to a <em>Multi-Line</em> subtype.  In an another example, Shapefile does not support the <em>Line</em> subtype at all, with all records with a <em>Line</em> subtype changed to a <em>PolyLine</em> <a class="footnote-reference" href="#f2" id="id1">[2]</a>.</p>
+<p>For geometry data vales of <em>null</em> and <em>empty</em>, values are changed as the data source does not permit both types, or, because the data provider contains errors.  In <a class="reference internal" href="#tablemultiline"><span class="std std-numref">Table 12</span></a> it is shown that with the exception of the PostGis format, either the parsing of the known geometry data value of <em>empty</em> is changed to the unknown value of <em>null</em>, or, visa versa.  The replacement of known with unknown, or unknown with known can cause erroneous analysis and interpretation.  Without experience errors may be introduced into datasets by the parsing of data by QGIS’s data providers.</p>
+<span id="tablemultiline"></span><table border="1" class="colwidths-auto docutils align-center" id="id20">
+<caption><span class="caption-number">Table 12 </span><span class="caption-text">Appending of non-empty single part multi-line, non-empty line, empty line and <em>null</em> geometry records by QGIS to 5 popular data sources.</span><a class="headerlink" href="#id20" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">QGIS memory</th>
+<th class="head">Geopackage</th>
+<th class="head">Shapefile</th>
+<th class="head">Spatialite <a class="footnote-reference" href="#f9" id="id2">[7]</a></th>
+<th class="head">PostGis <a class="footnote-reference" href="#f5" id="id3">[5]</a></th>
+<th class="head">MS SQL <a class="footnote-reference" href="#f5" id="id4">[5]</a></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Multi-Line</td>
+<td>Multi-Line</td>
+<td>Polyline</td>
+<td>Multi-Line</td>
+<td>Multi-Line</td>
+<td>Multi-Line</td>
+</tr>
+<tr class="row-odd"><td>Line</td>
+<td><strong>Multi-Line</strong></td>
+<td><strong>Polyline</strong></td>
+<td><strong>Multi-Line</strong></td>
+<td>Line</td>
+<td>Line</td>
+</tr>
+<tr class="row-even"><td><em>Empty</em></td>
+<td><em>Empty</em></td>
+<td><strong>null</strong></td>
+<td><em>Empty</em></td>
+<td><em>Empty</em></td>
+<td><strong>null</strong></td>
+</tr>
+<tr class="row-odd"><td><em>null</em></td>
+<td><strong>Empty</strong></td>
+<td><em>null</em></td>
+<td><em>Empty</em></td>
+<td><em>null</em></td>
+<td><em>null</em></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="parsing-geometry-data-types">
+<h2>Parsing Geometry Data Types<a class="headerlink" href="#parsing-geometry-data-types" title="Permalink to this headline">¶</a></h2>
+<p>The parsing of geometry records by the QGIS data providers often requires changing the geometry sub-type.  For example, consider the parsing of geometry subtypes between ESRI’s Shapefile, QGIS, and, SpatiaLite (<a class="reference internal" href="#figureshapetoqgis"><span class="std std-numref">Fig. 11</span></a>).  SpatiaLite and Shapefiles have a single geometry sub-type defined for a dataset <a class="footnote-reference" href="#f8" id="id5">[6]</a> which is simpler than data sources like Microsoft SQL Server and PostGIS where the geometry sub-type can vary for each record.</p>
+<p>The hierarchy for the ubiquitous Shapefile shown in <a class="reference internal" href="background.html#figureshapehier"><span class="std std-numref">Fig. 7</span></a> is vastly different to that for QGIS <a class="reference internal" href="changelog.html#qgsabstractgeometry" id="id6">[12]</a>.  For constructing a single part line, QGIS has the four geometry subtypes of <em>“Multi-Line”</em>, <em>“Circular-String”</em>, <em>“Compound-Curve”</em>, and, <em>“Line”</em>, whereas Shapefile only has the single subtype of <em>“PolyLine”</em> <a class="footnote-reference" href="#fi" id="id7">[1]</a>.  Hence, in a QGIS editing session, a user may create a line using any of QGIS’s four line subtypes, but, the line will only be recorded as a <em>“PolyLine</em>” and it is the Provider’s task to inform QGIS of this requirement (<a class="reference internal" href="#figureshapetoqgis"><span class="std std-numref">Fig. 11</span></a>).</p>
+<p>In comparison to a Shapefile, SpatiaLite has the <em>Multi-Line</em> and <em>Line</em> sub-types and QGIS has to distinguish between these.  The manner in which QGIS distinguishes between a <em>Multi-Line</em> and a <em>Line</em> for parsing to SpatiaLite is primitive.  A single part QGIS <em>Multi-Line</em> can’t be parsed to a SpatiaLite <em>Line</em> as the provider refers to the geometry type and not the number of parts, but, a “Line” will be converted to a <em>Multi-Line</em> by silently changing it’s geometry type if it is parsed to a SpatiaLite <em>Mutli-Line</em> data source. In a similar manner, <em>Circular-String</em> and <em>Compound-Curve</em> sub-types will be converted to <em>Line</em> sub-types, and then <em>Multi-Line</em> sub-types if required.  Some of the geometry sub-type changing may confuse unwary users, for example, a SpatiaLite Line data source read by QGIS and saved as a SpatiaLite <em>Multi-Line</em> is silent and without error or warning, however, the newly created SpatiaLite <em>Multi-Line</em> can’t be then saved as a SpatiaLite <em>Line</em> by QGIS without the use of a tool that changes the geometry type to <em>Line</em>, even though each <em>Multi-Line</em> only has one part.</p>
+<p>Editing existing geometries or creating new geometries creates similar challenges for parsing geometry types.  Any geometry edit or creation has to occur on a QGIS geometry sub-type and then parsed to the data source.  In an edit process, QGIS will allow incompatible geometries to be created and it is only when the edited geometries are attempted to be committed to the data source that QGIS either throws an error or changes to a compatible geometry sub-type.</p>
+<div class="figure align-center" id="id21">
+<span id="figureshapetoqgis"></span><a class="reference internal image-reference" href="_images/SpataLiteToQgisToShapefile.png"><img alt="_images/SpataLiteToQgisToShapefile.png" src="_images/SpataLiteToQgisToShapefile.png" style="width: 417.2px; height: 248.49999999999997px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 11 </span><span class="caption-text">The association of various geometry <em>Line</em> sub-types for SpatiaLite, QGIS and Shapefile: grey arrows refer to changes in geometry sub-type within QGIS prior to committing data; black arrows indicate data parsing between QGIS and the external data sources.</span></p>
+</div>
+<div class="section" id="data-provider-geometry-type-errors">
+<h3>Data Provider Geometry Type Errors<a class="headerlink" href="#data-provider-geometry-type-errors" title="Permalink to this headline">¶</a></h3>
+<p>There is a great diversity in both the refinement and development of each QGIS data provider.  As QGIS is opensource, the varying levels of refinement of different data providers may reflect communities of users or the commissioning of developers.  Given the complexity of the data providers task of parsing datasources to and from QGIS, it is not surprising that there are many unexpected errors originating from the data parsing process.</p>
+<p>For example, for a <em>memory</em> data source, QGIS allows the mixing of primitive and multi-part geometries of the same dimensionality.  The insertion of a <em>Line</em> geometry subtype record into a <em>Multi-Line</em> geometry subtype for a QGIS <em>memory</em> data source is demonstrated by Python script using the QGIS API:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layerMulti</span><span class="o">=</span><span class="n">QgsVectorLayer</span><span class="p">(</span><span class="s1">&#39;MultiLineString?crs=epsg:4326&amp;field=ID:string&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">providerMulti</span><span class="o">=</span><span class="n">layerMulti</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordWrite</span> <span class="o">=</span> <span class="n">QgsFeature</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordWrite</span><span class="o">.</span><span class="n">setAttributes</span><span class="p">([</span><span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordWrite</span><span class="o">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="n">QgsGeometry</span><span class="o">.</span><span class="n">fromWkt</span><span class="p">(</span><span class="s1">&#39;LINESTRING (1 1, 6 1)&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">providerMulti</span><span class="o">.</span><span class="n">addFeature</span><span class="p">(</span><span class="n">recordWrite</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordRead</span> <span class="o">=</span> <span class="n">layerMulti</span><span class="o">.</span><span class="n">getFeature</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">QgsWkbTypes</span><span class="o">.</span><span class="n">displayString</span><span class="p">(</span><span class="n">recordRead</span><span class="o">.</span><span class="n">geometry</span><span class="p">()</span><span class="o">.</span><span class="n">wkbType</span><span class="p">()))</span>
+<span class="go">LineString</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">QgsWkbTypes</span><span class="o">.</span><span class="n">displayString</span><span class="p">(</span><span class="n">layerMulti</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">wkbType</span><span class="p">()))</span>
+<span class="go">MultiLineString</span>
+</pre></div>
+</div>
+<p>More worryingly, as shown in the next Python script, the reverse is also possible.  One may add a feature with a <em>Multi-Line</em> geometry sub-type into a <em>Line</em> QGIS memory dataset.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layerSingle</span><span class="o">=</span><span class="n">QgsVectorLayer</span><span class="p">(</span><span class="s1">&#39;LineString?crs=epsg:4326&amp;field=ID:string&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">providerSingle</span> <span class="o">=</span> <span class="n">layerSingle</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordWrite</span> <span class="o">=</span> <span class="n">QgsFeature</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordWrite</span><span class="o">.</span><span class="n">setAttributes</span><span class="p">([</span><span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordWrite</span><span class="o">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="n">QgsGeometry</span><span class="o">.</span><span class="n">fromWkt</span><span class="p">(</span><span class="s1">&#39;MULTILINESTRING ((1 1, 6 1), (1 2, 6 2))&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">providerSingle</span><span class="o">.</span><span class="n">addFeature</span><span class="p">(</span><span class="n">recordWrite</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordRead</span> <span class="o">=</span> <span class="n">layerSingle</span><span class="o">.</span><span class="n">getFeature</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">QgsWkbTypes</span><span class="o">.</span><span class="n">displayString</span><span class="p">(</span><span class="n">recordRead</span><span class="o">.</span><span class="n">geometry</span><span class="p">()</span><span class="o">.</span><span class="n">wkbType</span><span class="p">()))</span>
+<span class="go">MultiLineString</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">QgsWkbTypes</span><span class="o">.</span><span class="n">displayString</span><span class="p">(</span><span class="n">layerSingle</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">wkbType</span><span class="p">()))</span>
+<span class="go">LineString</span>
+</pre></div>
+</div>
+<p>Fortunately with a QGIS memory dataset you can’t insert a <em>Point</em> into a <em>Line</em> dataset, or, otherwise mix geometry sub-types of different dimensionality.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layerSingle</span><span class="o">=</span><span class="n">QgsVectorLayer</span><span class="p">(</span><span class="s1">&#39;LineString?crs=epsg:4326&amp;field=ID:string&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">providerSingle</span> <span class="o">=</span> <span class="n">layerSingle</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordWrite</span> <span class="o">=</span> <span class="n">QgsFeature</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordWrite</span><span class="o">.</span><span class="n">setAttributes</span><span class="p">([</span><span class="s1">&#39;1&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordWrite</span><span class="o">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="n">QgsGeometry</span><span class="o">.</span><span class="n">fromWkt</span><span class="p">(</span><span class="s1">&#39;POINT (1 1)&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">providerSingle</span><span class="o">.</span><span class="n">addFeature</span><span class="p">(</span><span class="n">recordWrite</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="parsing-empty-and-null-geometry-data-values">
+<h2>Parsing Empty and null Geometry Data Values<a class="headerlink" href="#parsing-empty-and-null-geometry-data-values" title="Permalink to this headline">¶</a></h2>
+<p>The instantiation process for <em>empty</em> and <em>null</em> data values in QGIS is very different dependent on whether the value is <em>empty</em> or <em>null</em>.</p>
+<div class="section" id="instantiation-of-empty-geometry-values-by-qgis">
+<h3>Instantiation of Empty Geometry Values by QGIS<a class="headerlink" href="#instantiation-of-empty-geometry-values-by-qgis" title="Permalink to this headline">¶</a></h3>
+<p>An <em>empty</em> geometry is a geometry value with an <em>empty</em> set of vertices.  Hence, an <em>empty Line</em> geometry value is distinct to an <em>empty Multi-Line</em> geometry value.  As the geometry sub-type is associated with an <em>empty</em> value, the method for instantiating <em>empty</em> geometries is embedded within each geometry subclass that can be instantiated.  Unfortunately, there is some variation with how QGIS instantiates <em>empty</em> geometry values across different geometry subclasses.</p>
+<p>Using the QGIS API, <em>empty</em> geometries for several geometry types can be instantiated by instantiating the relevant QgsAbstractGeometry subclass without a set of vertices.  For example, to test that a <code class="docutils literal notranslate"><span class="pre">QgsLineString()</span></code> is <em>empty</em>:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="n">QgsLineString</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">QgsLineString</span><span class="p">()</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Although <em>empty</em> geometries can be created for most geometry types with the QGIS API by instantiation without a set of vertices, it is not currently possible to instantiate an <em>empty</em> point geometry using this approach (<a class="reference internal" href="#tablevii"><span class="std std-numref">Table 13</span></a>). As demonstrated below, the well known text representation of the call to instantiate an <em>empty</em> point reveals that QGIS is wrongly adding a vertex with the coordinates of <span class="math notranslate nohighlight">\((0\ 0)\)</span> <a class="reference internal" href="changelog.html#qgspointbugreport2018" id="id8">[8]</a> <a class="footnote-reference" href="#f1" id="id9">[3]</a>.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="n">QgsLineString</span><span class="p">,</span><span class="n">QgsPoint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">QgsLineString</span><span class="p">()</span><span class="o">.</span><span class="n">asWkt</span><span class="p">())</span>
+<span class="go">LineString ()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">QgsPoint</span><span class="p">()</span><span class="o">.</span><span class="n">asWkt</span><span class="p">())</span>
+<span class="go">Point (0 0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">QgsPoint</span><span class="p">()</span><span class="o">.</span><span class="n">createEmptyWithSameType</span><span class="p">()</span><span class="o">.</span><span class="n">asWkt</span><span class="p">())</span>
+<span class="go">Point (nan nan)</span>
+</pre></div>
+</div>
+<span id="tablevii"></span><table border="1" class="colwidths-auto docutils" id="id22">
+<caption><span class="caption-number">Table 13 </span><span class="caption-text">Testing whether an <em>empty</em> geometry has been created by the instantiation of various types of <code class="docutils literal notranslate"><span class="pre">QgsAbstractGeometry</span></code> subclasses using the Python Console in QGIS 3.0.3.</span><a class="headerlink" href="#id22" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Input</th>
+<th class="head">Output</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">QgsPoint().isEmpty()</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">False</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">QgsLineString().isEmpty()</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">True</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">QgsPolygon().isEmpty()</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">True</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">QgsGeometryCollection().isEmpty()</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">True</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="changing-of-empty-data-values-by-parsing">
+<h3>Changing of Empty data Values by parsing<a class="headerlink" href="#changing-of-empty-data-values-by-parsing" title="Permalink to this headline">¶</a></h3>
+<p>As indicated in <a class="reference internal" href="#tablemultiline"><span class="std std-numref">Table 12</span></a> <em>empty</em> geometry values are changed to <em>null</em> when parsing to Microsft SQL server or Shapefile data sources.  For a Shapefile, this change in data value maybe the most pragmatic outcome as <em>empty</em> geometries are not included in it’s specification.  For the Micrsoft SQL Server data source, the change from <em>empty</em> to <em>null</em> occurs when parsing to or from this data source <a class="reference internal" href="changelog.html#parseemptyfromsql" id="id10">[28]</a> although both QGIS and Microsoft SQL Server specifications include <em>empty</em> geometry data values.  In contrast to Microsoft SQL Server, <em>empty</em> and <em>null</em> values are parsed to and from PostGIS without fault or change.</p>
+</div>
+<div class="section" id="inadvertently-creating-empty-geometries-within-qgis">
+<h3>Inadvertently Creating Empty Geometries within QGIS<a class="headerlink" href="#inadvertently-creating-empty-geometries-within-qgis" title="Permalink to this headline">¶</a></h3>
+<p>Within QGIS, an <em>empty</em> geometry is created by using the “Vertex Tool” to delete all vertices of an existing shape.  A user unfamiliar with QGIS may incorrectly assume that deleting all the vertices of a geometry also deletes the record.  This mistake of assumed record deletion when deleting vertices is most likely to occur for geometries with single part points as the geometry disappears from view when the first and only vertex is deleted.  Hence, when editing a shape, a QGIS user may unintentionally create an <em>empty</em> shape when they are attempting to delete the shape.</p>
+<div class="section" id="in-qgis-null-implies-empty">
+<h4>In QGIS null Implies Empty<a class="headerlink" href="#in-qgis-null-implies-empty" title="Permalink to this headline">¶</a></h4>
+<p>In the definition of <em>empty</em> geometry values in section <a class="reference internal" href="background.html#emptyanchor"><span class="std std-ref">Empty</span></a> it is articulated that an <em>empty</em> geometry is just one valid value in the set of valid values for the geometry data type.  In contrast, <em>null</em> indicates that the geometry value is unknown and that the value can be <em>any</em> value from the set of valid values. Hence, an <em>empty</em> geometry values is one of many possible values for a <em>null</em> geometry.  For example, for a point, the vertices of an <em>empty</em> point are <span class="math notranslate nohighlight">\(\{\ \ \}\)</span> as it has no coordinates, and, the vertices of a <em>null</em> point are <span class="math notranslate nohighlight">\(\{x\ y\}\)</span> where <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are both variables designating unknown coordinates. These definitions are consistent with SQL relational databases.  Unfortunately, the application of <em>null</em> used by SQL relational databases is different to that used by both mathematics for set theory, and, by most computer programming languages <a class="reference internal" href="changelog.html#whatisnull" id="id11">[6]</a>.</p>
+<p>Let’s consider the definition of <em>null</em> for set theory and computer programming using a common example.  If one has a box of apples and a box of bananas, then the intersection of the two boxes of fruit is an <em>empty</em> box. For set theory, <em>null</em> – nothing is what you have when you take away the box.</p>
+<p>Similar to set theory, for most object-oriented computer programming languages, an object that has not been instantiated is <em>null</em>.  Hence, a pointer to something that doesn’t exist is <em>null</em>. In comparison, an <em>empty</em> object is an object that has been instantiated but not populated, for example, a list with no members, or, a box with no fruit.</p>
+<p>So, from the perspective of an object-oriented computer programming language, <em>null</em> means no value and no type.  Hence, a <em>null</em> object is an object that does not exist and does not occupy space in a computer’s memory.  Indeed, SQL relational databases implement <em>null</em> as an object that doesn’t exist, so, the context difference between unknown and nothing does not have to create conflict.</p>
+<p>The underlying conflict is based on logical deduction.  It has been proved that an <em>empty</em> set is a subset of any set.  Some argue that on object that doesn’t exist can’t contain anything, so, it must be <em>empty</em> <a class="footnote-reference" href="#f3" id="id12">[4]</a>.  Hence, <em>null</em> is a subclass of <em>empty</em>.  This argument is flawed as by arguing that a <em>null</em> object is <em>empty</em> you have just created an object.  A <em>null</em> object neither contains anything nor has a container.</p>
+<p>Unfortunately, many computer programming languages and QGIS follow a convention where something must also be <em>empty</em> if it is <em>null</em>.  QGIS employs the logic that a <em>null</em> geometry is also an <em>empty</em> geometry <a class="reference internal" href="changelog.html#qgsgeometrysource2018" id="id13">[13]</a>.    The QGIS test for <em>null</em> in it’s C++ code simply asks whether the object exists (whether it points to anything) <a class="reference internal" href="changelog.html#qgsgeometrysource2018" id="id14">[13]</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>144 bool QgsGeometry::isNull() const
+145 {
+146  return !d-&gt;geometry;
+147 }
+</pre></div>
+</div>
+<p>Now, the QGIS test for <em>empty</em> in it’s C++ code performs the same test as for <em>null</em>, and, returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the test for <em>null</em> returns <code class="docutils literal notranslate"><span class="pre">True</span></code> <a class="reference internal" href="changelog.html#qgsgeometrysource2018" id="id15">[13]</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>329 bool QgsGeometry::isEmpty() const
+330 {
+331  if ( !d-&gt;geometry )
+332  {
+333  return true;
+334  }
+335
+336  return d-&gt;geometry-&gt;isEmpty();
+337 }
+</pre></div>
+</div>
+<p>Hence, a test for an <em>empty</em> geometry in QGIS will return <code class="docutils literal notranslate"><span class="pre">True</span></code> for all <em>null</em> and <em>empty</em> geometry values.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qgis.core</span> <span class="kn">import</span> <span class="n">QgsFeature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordNull</span><span class="p">,</span> <span class="n">recordEmpty</span> <span class="o">=</span> <span class="p">(</span><span class="n">QgsFeature</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordEmpty</span><span class="o">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="n">QgsGeometry</span><span class="o">.</span><span class="n">fromWkt</span><span class="p">(</span><span class="s1">&#39;LINESTRING ()&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Only recordNull has a null geometry</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordNull</span><span class="o">.</span><span class="n">geometry</span><span class="p">()</span><span class="o">.</span><span class="n">isNull</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordEmpty</span><span class="o">.</span><span class="n">geometry</span><span class="p">()</span><span class="o">.</span><span class="n">isNull</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Both recordNull and recordEmpty have empty geometries</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordNull</span><span class="o">.</span><span class="n">geometry</span><span class="p">()</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recordEmpty</span><span class="o">.</span><span class="n">geometry</span><span class="p">()</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="instantiation-of-null-geometry-values-by-qgis">
+<h3>Instantiation of null Geometry Values by QGIS<a class="headerlink" href="#instantiation-of-null-geometry-values-by-qgis" title="Permalink to this headline">¶</a></h3>
+<p>To claim a <em>null</em> geometry value has been instantiated in QGIS is a <em>faux pas</em>.  <em>null</em> represents the absence of a value, so, a record with a <em>null</em> geometry value is a record without a geometry value.  <em>null</em> infers that an object (in this case a geometry value) has not been instantiated.</p>
+</div>
+<div class="section" id="retrospective-incorporation-of-empty-and-null-values-into-gdal">
+<h3>Retrospective Incorporation of Empty and null Values Into GDAL<a class="headerlink" href="#retrospective-incorporation-of-empty-and-null-values-into-gdal" title="Permalink to this headline">¶</a></h3>
+<p>The Geospatial Data Abstraction Library (GDAL) is ubiquitous within most GIS Software to translate and process geospatial data.  Handles for <em>empty</em> geometries were not part of the original GDAL specification, with <em>empty</em> geometries being treated as <em>null</em>.   The retrospective incorporation of <em>empty</em> handles into GDAL has not been picked up by many applications that employ GDAL, and, even within GDAL there are many processing tools that don’t maintain <em>empty</em> geometries.</p>
+<p>Many of the current GDAL set operators continue to convert <em>empty</em> geometry values to <em>null</em> geometry values even when the set being operated on has successfully implemented the <em>empty</em> geometry handle on parsing to GDAL.  For example, for the intersection operation the output is <em>“a new geometry representing the intersection or NULL if there is no intersection or an error occurs”</em> <a class="reference internal" href="changelog.html#gdalintersection" id="id16">[4]</a>.  Curiously, the same GDAL geometry class has a handle to assign an <em>empty</em> geometry, or, to test for an <em>empty</em> geometry <a class="reference internal" href="changelog.html#gdalempty" id="id17">[1]</a>.  On another GDAL ticket register it is stated <em>“GML/WFS: by default does not advertise NOT NULL fields since we treat empty strings as being null for historical reasons. By setting the open option EMPTY_AS_NULL=NO, empty strings will be reported as such and NOT NULL fields might be advertised”</em> <a class="reference internal" href="changelog.html#rouault2015" id="id18">[24]</a>. It is clear that GDAL was not originally intended to distinguish between <em>null</em> and <em>empty</em>.</p>
+<p>The retrospective addition of handles for <em>empty</em> geometry values in GDAL was mimicked by QGIS.  Consequently, within QGIS there are many tools that convert <em>empty</em> values to <em>null</em> during their operation.</p>
+<table class="docutils footnote" frame="void" id="fi" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[1]</a></td><td>The QGIS types were renamed here for clarity.  The actual QGIS types are <code class="docutils literal notranslate"><span class="pre">QgsLineString</span></code>, <code class="docutils literal notranslate"><span class="pre">QgsCircularString</span></code>, <code class="docutils literal notranslate"><span class="pre">QgsCompoundCurve</span></code>, and, <code class="docutils literal notranslate"><span class="pre">QgsMultiLineString</span></code>.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[2]</a></td><td>A Shapefile’s <em>PolyLine</em> is essentially the same as a <em>Multi-Line</em> for the scope of this report.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[3]</a></td><td>a <code class="docutils literal notranslate"><span class="pre">Point</span> <span class="pre">(nan</span> <span class="pre">nan)</span></code> is also reported when an <em>empty</em> PostGis point is parsed by QGIS.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id12">[4]</a></td><td>Unable to find a high quality reference for this argument.  Several private conversations with C++ programmers reveal that this logic is common and is frequently used to test for <em>empty</em> in C++.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> The geometry type saved by PostGis and Microsoft SQL server depends on: geometry constraints within the database; the use of a <em>Geometry columns</em> lookup table; and, what geometry types already exist within the respective datasets.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[6]</a></td><td>Technically in a Shapefile the geometry sub-type is recorded for each record, but, the technical specifications state that “All non-null shapes must be of the same shape type” <a class="reference internal" href="changelog.html#shapefiledesc" id="id19">[18]</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[7]</a></td><td>SpatialLite table has a <em>Multi-Line</em> geometry data type.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Aims.html" class="btn btn-neutral float-right" title="Aim" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="background.html" class="btn btn-neutral" title="Background" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Philip Whitten
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
