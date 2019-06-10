@@ -4,9 +4,19 @@ plugin renders datasets that have: multi-part, single part, *empty*, and, *null*
 """
 # update 03/11/2018
 
-
 from qgis.core import *
 from PyQt5.QtGui import QColor
+
+# list of colours used to render layers
+colourList = [
+        [140, 81, 10],
+        [216, 179, 101],
+        [246, 232, 195],
+        [199, 234, 229],
+        [90, 180, 172],
+        [1, 102, 94]
+    ]
+
 
 def createMultiPoints(layerName='Multi-Part Points'):
     """
@@ -32,13 +42,16 @@ def createMultiPoints(layerName='Multi-Part Points'):
 
     # create dictionary of points
     geometries = {}
-    geometries['1'] = ['MULTIPOINT ((1 1),(1 2))', '1. Multi-Point (2X)']
-    geometries['2'] = ['MULTIPOINT ((2 1),(2 2),(2 3),(2 4))', '2. Multi-Point (4X)']
-    geometries['3'] = ['MULTIPOINT ((3 1))', '3. Multi-Point (1X)']
-    geometries['4'] = ['POINT (4 1)', '4. Point']
+    geometries['1'] = ['MULTIPOINT ((7 7),(8 7))', '1. Multi-Point (2X)']
+    geometries['2'] = ['MULTIPOINT ((7 5),(8 5),(9 5),(10 5))', '2. Multi-Point (4X)']
+    geometries['3'] = ['MULTIPOINT ((7 2))', '3. Multi-Point (1X)']
+    geometries['4'] = ['POINT (8 1)', '4. Point']
     geometries['5'] = [[], '5. Empty']
     geometries['6'] = [None, '6. null']
 
+    categories = []
+
+    i = 0
     for id, geom in geometries.items():
         record = QgsFeature()
         record.setAttributes([id, geom[1]])
@@ -56,7 +69,20 @@ def createMultiPoints(layerName='Multi-Part Points'):
 
         pr.addFeature(record)
 
-    layer.updateExtents()
+        pointSymbol = QgsMarkerSymbol.createSimple({
+            'setSize': '3.5'
+        })
+        pointSymbol.setColor(QColor(colourList[i][0], colourList[i][1], colourList[i][2]))
+        category = QgsRendererCategory(id, pointSymbol, geom[1])
+        categories.append(category)
+        i += 1
+
+    #setExtent() is required as updateExtent() misses the empty point.
+    layer.setExtent(QgsRectangle(0, 0, 10, 7))
+    renderer = QgsCategorizedSymbolRenderer('ID',categories)
+    layer.setRenderer(renderer)
+    layer.triggerRepaint()
+
     return layer
 
 def createMultiLines(layerName='Multi-Part Lines'):
@@ -78,22 +104,14 @@ def createMultiLines(layerName='Multi-Part Lines'):
 
     # create dictionary of lines
     geometries = {}
-    geometries['1'] = ['MULTILINESTRING ((1 6, 3 6), (1 7, 3 7))', '1. Multi-Line (2 parts)']
-    geometries['2'] = ['MULTILINESTRING ((1 3, 4 3), (1 4, 4 4), (1 5, 4 5))', '2. Multi-Line (3 parts)']
-    geometries['3'] = ['MULTILINESTRING ((1 2, 5 2))', '3. Multi-Line (1 part)']
+    geometries['1'] = ['MULTILINESTRING ((1 6, 3 6), (1 7, 3 7))', '1. Multi-Line (2 lines)']
+    geometries['2'] = ['MULTILINESTRING ((1 3, 4 3), (1 4, 4 4), (1 5, 4 5))', '2. Multi-Line (3 lines)']
+    geometries['3'] = ['MULTILINESTRING ((1 2, 5 2))', '3. Multi-Line (1 line)']
     geometries['4'] = ['LINESTRING (1 1, 6 1)', '4. Line']
     geometries['5'] = [[], '5. Empty']
     geometries['6'] = [None, '6. null']
 
     categories = []
-    colorList = [
-        [140, 81, 10],
-        [216, 179, 101],
-        [246, 232, 195],
-        [199, 234, 229],
-        [90, 180, 172],
-        [1, 102, 94]
-    ]
 
     i = 0
     for id, geom in geometries.items():
@@ -115,9 +133,9 @@ def createMultiLines(layerName='Multi-Part Lines'):
         #lineSymbol needs to be instantiated within For group, not before it.
         lineSymbol = QgsLineSymbol.createSimple({
             'capstyle': 'round',
-            'width': '3.5'
+            'width': '3',
         })
-        lineSymbol.setColor(QColor(colorList[i][0], colorList[i][1], colorList[i][2]))
+        lineSymbol.setColor(QColor(colourList[i][0], colourList[i][1], colourList[i][2]))
         category = QgsRendererCategory(id, lineSymbol, geom[1])
         categories.append(category)
         i += 1
@@ -126,18 +144,6 @@ def createMultiLines(layerName='Multi-Part Lines'):
 
     renderer = QgsCategorizedSymbolRenderer('ID',categories)
     layer.setRenderer(renderer)
-
-    text_format = QgsTextFormat()
-    label = QgsPalLayerSettings()
-    label.fieldName = 'Description'
-    label.enabled = True
-    label.setFormat(text_format)
-    #label.placement = QgsPalLayerSettings.OnLine
-    #label.OnLine = True
-    #label.Size = 10
-    labeler = QgsVectorLayerSimpleLabeling(label)
-    layer.setLabelsEnabled(True)
-    layer.setLabeling(labeler)
     layer.triggerRepaint()
 
     return layer

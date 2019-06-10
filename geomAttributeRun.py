@@ -197,6 +197,35 @@ class geomAttribute:
             QgsProject.instance().addMapLayer(createMultiLines())
             QgsProject.instance().addMapLayer(createMultiPoints())
 
+            #adding label to display - does not work as yet
+            #refer to https://gis.stackexchange.com/questions/264604/access-modify-qgis-copyright-decoration-through-python/265681
+            # Save To project
+            QgsProject.instance().writeEntry("CopyrightLabel", "/FontName", "Sans Serif");
+            QgsProject.instance().writeEntry("CopyrightLabel", "/FontSize", 9);
+            QgsProject.instance().writeEntry("CopyrightLabel", "/Label", "Geometry Attribute Table Model Data");
+            QgsProject.instance().writeEntry("CopyrightLabel", "/Color", "#FF0000");
+            QgsProject.instance().writeEntry("CopyrightLabel", "/MarginH", 0);
+            QgsProject.instance().writeEntry("CopyrightLabel", "/MarginV", 0);
+
+            QgsProject.instance().writeEntry("CopyrightLabel", "/Enabled", True);
+            QgsProject.instance().writeEntry("CopyrightLabel", "/Placement", 3);
+            QgsProject.instance().writeEntry("CopyrightLabel", "/MarginUnit", 'MM');
+
+            # Project Read
+            mQFont = QgsProject.instance().readEntry("CopyrightLabel", "/FontName");
+            mQFontsize = QgsProject.instance().readEntry("CopyrightLabel", "/FontSize");
+            mLabelQString = QgsProject.instance().readEntry("CopyrightLabel", "/Label");
+            mMarginHorizontal = QgsProject.instance().readNumEntry("CopyrightLabel", "/MarginH");
+            mMarginVertical = QgsProject.instance().readNumEntry("CopyrightLabel", "/MarginV");
+            mLabelQColor = QgsProject.instance().readEntry("CopyrightLabel", "/Color");
+            QgsApplication.instance().processEvents()
+
+            iface.mapCanvas().refresh()
+
+
+
+
+
         else:
             pass
 
